@@ -23,7 +23,6 @@
 
 #include "Math/Math.h"
 #include "Math/Vector2.h"
-#include "Utils/Allocator.h"
 
 namespace Rt2::Math
 {
@@ -63,9 +62,6 @@ namespace Rt2::Math
 
         Vector2 getSize() const
         {
-            RT_ASSERT(width >= RT_EPSILON)
-            RT_ASSERT(height >= RT_EPSILON)
-
             return Vector2(width, height);
         }
 
@@ -76,13 +72,11 @@ namespace Rt2::Math
 
         Scalar hw() const
         {
-            RT_ASSERT(width >= RT_EPSILON)
             return width * Scalar(.5);
         }
 
         Scalar hh() const
         {
-            RT_ASSERT(height >= RT_EPSILON)
             return height * Scalar(.5);
         }
 
@@ -103,7 +97,6 @@ namespace Rt2::Math
 
         Scalar getRight() const
         {
-            RT_ASSERT(width >= RT_EPSILON)
             return x + width;
         }
 
@@ -114,24 +107,17 @@ namespace Rt2::Math
 
         Scalar getBottom() const
         {
-            RT_ASSERT(height >= RT_EPSILON)
             return y + height;
         }
 
         void setSize(const Vector2& s)
         {
-            RT_ASSERT(s.x >= RT_EPSILON)
-            RT_ASSERT(s.y >= RT_EPSILON)
-
             width  = s.x;
             height = s.y;
         }
 
         void setSize(const Scalar sx, const Scalar sy)
         {
-            RT_ASSERT(sx >= RT_EPSILON)
-            RT_ASSERT(sy >= RT_EPSILON)
-
             width  = sx;
             height = sy;
         }
@@ -155,38 +141,27 @@ namespace Rt2::Math
 
         Vector2 getRightTop() const
         {
-            RT_ASSERT(width >= RT_EPSILON)
             return Vector2(x + width, y);
         }
 
         Vector2 getLeftBottom() const
         {
-            RT_ASSERT(height >= RT_EPSILON)
             return Vector2(x, y + height);
         }
 
         Vector2 getRightBottom() const
         {
-            RT_ASSERT(width >= RT_EPSILON)
-            RT_ASSERT(height >= RT_EPSILON)
-
             return Vector2(x + width, y + height);
         }
 
         Vector2 getCenter() const
         {
-            RT_ASSERT(width >= RT_EPSILON)
-            RT_ASSERT(height >= RT_EPSILON)
-
             return Vector2(x + width * Half,
                            y + height * Half);
         }
 
         void getCenter(Scalar& cx, Scalar& cy) const
         {
-            RT_ASSERT(width >= RT_EPSILON)
-            RT_ASSERT(height >= RT_EPSILON)
-
             cx = x + width * Half;
             cy = y + height * Half;
         }
@@ -213,9 +188,6 @@ namespace Rt2::Math
 
         void getCorners(Scalar& x1, Scalar& y1, Scalar& x2, Scalar& y2) const
         {
-            RT_ASSERT(width >= RT_EPSILON)
-            RT_ASSERT(height >= RT_EPSILON)
-
             x1 = x;
             y1 = y;
             x2 = x + width;
@@ -224,9 +196,6 @@ namespace Rt2::Math
 
         void setCorners(const Scalar& x1, const Scalar& y1, const Scalar& x2, const Scalar& y2)
         {
-            RT_ASSERT(EqTol(x1, x2, RT_EPSILON))
-            RT_ASSERT(EqTol(y1, y2, RT_EPSILON))
-
             x      = x1;
             y      = y1;
             width  = x2 - x1;
@@ -235,9 +204,6 @@ namespace Rt2::Math
 
         Scalar getAspect() const
         {
-            RT_ASSERT(width >= RT_EPSILON)
-            RT_ASSERT(height >= RT_EPSILON)
-
             if (RtAbs(height) > RT_EPSILON)
                 return width / height;
             return 0;
@@ -245,13 +211,11 @@ namespace Rt2::Math
 
         Scalar cx() const
         {
-            RT_ASSERT(width >= RT_EPSILON)
             return x + width * Scalar(0.5);
         }
 
         Scalar cy() const
         {
-            RT_ASSERT(height >= RT_EPSILON)
             return y + height * Scalar(0.5);
         }
 

@@ -22,7 +22,6 @@
 #pragma once
 
 #include "Math/Math.h"
-#include "Utils/Allocator.h"
 
 namespace Rt2::Math
 {
@@ -48,7 +47,6 @@ namespace Rt2::Math
 
         explicit Vector2(const Scalar* pointer)
         {
-            RT_ASSERT(pointer)
             x = pointer[0];
             y = pointer[1];
         }
@@ -95,17 +93,17 @@ namespace Rt2::Math
             return x >= v.x && y >= v.y;
         }
 
-        Vector2 operator+(Scalar v) const
+        Vector2 operator+(const Scalar v) const
         {
-            return Vector2(x + v, y + v);
+            return {x + v, y + v};
         }
 
         Vector2 operator+(const Vector2& v) const
         {
-            return Vector2(x + v.x, y + v.y);
+            return {x + v.x, y + v.y};
         }
 
-        Vector2& operator+=(Scalar v)
+        Vector2& operator+=(const Scalar v)
         {
             x += v;
             y += v;
@@ -121,17 +119,17 @@ namespace Rt2::Math
 
         friend Vector2 operator+(const Scalar r, const Vector2& l)
         {
-            return Vector2(l.x + r, l.y + r);
+            return {l.x + r, l.y + r};
         }
 
         Vector2 operator-(const Scalar v) const
         {
-            return Vector2(x - v, y - v);
+            return {x - v, y - v};
         }
 
         Vector2 operator-(const Vector2& v) const
         {
-            return Vector2(x - v.x, y - v.y);
+            return {x - v.x, y - v.y};
         }
 
         Vector2& operator-=(const Scalar v)
@@ -150,22 +148,22 @@ namespace Rt2::Math
 
         Vector2 operator-() const
         {
-            return Vector2(-x, -y);
+            return {-x, -y};
         }
 
         friend Vector2 operator-(const Scalar r, const Vector2& l)
         {
-            return Vector2(l.x - r, l.y - r);
+            return {l.x - r, l.y - r};
         }
 
         Vector2 operator*(const Scalar v) const
         {
-            return Vector2(x * v, y * v);
+            return {x * v, y * v};
         }
 
         Vector2 operator*(const Vector2& v) const
         {
-            return Vector2(x * v.x, y * v.y);
+            return {x * v.x, y * v.y};
         }
 
         Vector2& operator*=(Scalar v)
@@ -184,18 +182,18 @@ namespace Rt2::Math
 
         friend Vector2 operator*(const Scalar r, const Vector2& l)
         {
-            return Vector2(l.x * r, l.y * r);
+            return {l.x * r, l.y * r};
         }
 
         Vector2 operator/(const Scalar v) const
         {
             const Scalar n = SafeReciprocal(v);
-            return Vector2(x * n, y * n);
+            return {x * n, y * n};
         }
 
         Vector2 operator/(const Vector2& v) const
         {
-            return Vector2(x * SafeReciprocal(v.x), y * SafeReciprocal(v.y));
+            return {x * SafeReciprocal(v.x), y * SafeReciprocal(v.y)};
         }
 
         Vector2& operator/=(const Scalar v)
@@ -230,7 +228,7 @@ namespace Rt2::Math
 
         Vector2 abs() const
         {
-            return Vector2(Abs(x), Abs(y));
+            return {Abs(x), Abs(y)};
         }
 
         Scalar distance(const Vector2& v) const
@@ -245,7 +243,7 @@ namespace Rt2::Math
 
         Vector2 perpendicular() const
         {
-            return Vector2(-y, x);
+            return {-y, x};
         }
 
         bool isZero() const
@@ -255,8 +253,8 @@ namespace Rt2::Math
 
         void normalize()
         {
-            Scalar len = x * x + y * y;
-            if (len > RT_EPSILON)
+            if (Scalar len = x * x + y * y;
+                len > RT_EPSILON)
             {
                 len = RtRSqrt(len);
                 x *= len;

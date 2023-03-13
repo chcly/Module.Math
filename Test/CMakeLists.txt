@@ -6,7 +6,10 @@ set(TestTarget_SRC
     Test1.cpp
 )
 
-include_directories(. ${GTEST_INCLUDE})
+include_directories(
+    ${GTEST_INCLUDE}
+    ${Math_INCLUDE}
+)
 
 add_executable(
     ${TestTargetName}
@@ -15,6 +18,7 @@ add_executable(
 target_link_libraries(
     ${TestTargetName} 
     ${GTEST_LIBRARY}
+    ${Math_LIBRARY}
 )
 
 set_target_properties(
