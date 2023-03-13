@@ -9,6 +9,7 @@ set(TestTarget_SRC
 include_directories(
     ${GTEST_INCLUDE}
     ${Math_INCLUDE}
+    ${Utils_INCLUDE}
 )
 
 add_executable(
@@ -19,6 +20,7 @@ target_link_libraries(
     ${TestTargetName} 
     ${GTEST_LIBRARY}
     ${Math_LIBRARY}
+    ${Utils_LIBRARY}
 )
 
 set_target_properties(

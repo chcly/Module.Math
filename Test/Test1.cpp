@@ -24,6 +24,8 @@
 #include "Math/Matrix3.h"
 #include "Math/Random.h"
 #include "Math/Rectangle.h"
+#include "Utils/Console.h"
+#include "Utils/StreamMethods.h"
 #include "gtest/gtest.h"
 
 using namespace Rt2;
@@ -36,56 +38,76 @@ using namespace Math;
 #endif
 
 constexpr int Steps = 32;
+constexpr int Lps   = Steps / 4;
 
-GTEST_TEST(Math, RandRange)
+GTEST_TEST(Math, Random_range)
 {
-    initRandom();
+    Random::init();
+
     for (int i = 0; i < Steps; ++i)
     {
-        const int x = randRange(-3, 3);
-        EXPECT_LE(abs(x), 3);
-    }
-    for (int i = 0; i < Steps; ++i)
-    {
-        const int x = randRange(-256, Steps);
-        if (x < 0)
-            EXPECT_GE(x, -256);
-        else
-            EXPECT_LE(x, Steps);
+        const int r = Steps * (i + 1);
+
+        const Real v = Random::range(-r, r);
+        EXPECT_GE(v, -r);
+        EXPECT_LE(v, r);
+
+        Console::print(Hex(v), ' ');
+        if (i % Lps == Lps - 1)
+            Console::nl();
     }
 }
 
-GTEST_TEST(Math, UnitRand)
+GTEST_TEST(Math, Random_unit)
 {
-    initRandom();
+    Random::init();
     for (int i = 0; i < Steps; ++i)
     {
-        const Real x = RtAbs(RtCeil(unitRand()));
-        EXPECT_LE((int32_t)x, 1);
+        const Real x = Random::real();
+        EXPECT_LE(x, 1);
+        EXPECT_GE(x, 0);
+    }
+}
+
+GTEST_TEST(Math, Random_u8)
+{
+    Random::init();
+    for (int i = 0; i < Steps; ++i)
+    {
+        const U8 x = Random::u8();
+        EXPECT_LE(x, 255);
+        EXPECT_GE(x, 0);
+
+        Console::print(Hex(x), ' ');
+        if (i % Lps == Lps - 1)
+            Console::nl();
     }
 }
 
 GTEST_TEST(Math, Rect_001)
 {
-    Math::Rectangle r0{0, 0, 20, 20};
+    Rectangle r0{0, 0, 20, 20};
     EXPECT_REAL_EQ(r0.x, 0);
     EXPECT_REAL_EQ(r0.y, 0);
     EXPECT_REAL_EQ(r0.width, 20);
     EXPECT_REAL_EQ(r0.height, 20);
+    r0.print();
 
-    Math::Rectangle r1;
+    Rectangle r1;
     EXPECT_REAL_EQ(r1.x, 0);
     EXPECT_REAL_EQ(r1.y, 0);
     EXPECT_REAL_EQ(r1.width, Epsilon);
     EXPECT_REAL_EQ(r1.height, Epsilon);
+    r1.print();
 
     Real n[4]{0, 0, 50, 50};
 
-    const Math::Rectangle r3(n);
+    const Rectangle r3(n);
     EXPECT_REAL_EQ(r3.x, 0);
     EXPECT_REAL_EQ(r3.y, 0);
     EXPECT_REAL_EQ(r3.width, 50);
     EXPECT_REAL_EQ(r3.height, 50);
+    r3.print();
 
     r0 = r3;
     EXPECT_REAL_EQ(r3.x, 0);
@@ -99,15 +121,16 @@ GTEST_TEST(Math, Rect_001)
     (void)r0.cy();
 }
 
-GTEST_TEST(Math, Matrix3_001)
+GTEST_TEST(Math, Matrix3_identity)
 {
-    {
-        Matrix3 r0;
-        EXPECT_EQ(r0, Matrix3::Zero);
-        r0.makeIdentity();
-        EXPECT_EQ(r0, Matrix3::Identity);
-    }
+    Matrix3 r0;
+    EXPECT_EQ(r0, Matrix3::Zero);
+    r0.makeIdentity();
+    EXPECT_EQ(r0, Matrix3::Identity);
+}
 
+GTEST_TEST(Math, Matrix3_rotate90)
+{
     for (int i = 0; i < Steps; ++i)
     {
         // Looking the +Z axis on the XY plane
@@ -118,6 +141,7 @@ GTEST_TEST(Math, Matrix3_001)
 
         r0.makeIdentity();
         r0.makeRotZ(PiH);
+        r0.print();
 
         result = r0 * result;
         EXPECT_EQ(result, Vector3(0, 1, 0));
@@ -139,6 +163,7 @@ GTEST_TEST(Math, Matrix3_001)
 
         r0.makeIdentity();
         r0.makeRotY(PiH);
+        r0.print();
 
         result = r0 * result;
         EXPECT_EQ(result, Vector3(-1, 0, 0));
@@ -159,6 +184,7 @@ GTEST_TEST(Math, Matrix3_001)
 
         r0.makeIdentity();
         r0.makeRotX(PiH);
+        r0.print();
 
         result = r0 * result;
         EXPECT_EQ(result, Vector3(0, -1, 0));
@@ -180,6 +206,7 @@ GTEST_TEST(Math, Matrix3_001)
 
         r0.makeIdentity();
         r0.makeRotY(-PiH);
+        r0.print();
 
         result = r0 * result;
         EXPECT_EQ(result, Vector3(1, 0, 0));
@@ -201,7 +228,7 @@ GTEST_TEST(Math, Matrix3_001)
     }
 }
 
-GTEST_TEST(Math, Matrix3_002)
+GTEST_TEST(Math, Matrix3_transpose)
 {
     Matrix3 r0{
         (Real)'a',
@@ -216,6 +243,7 @@ GTEST_TEST(Math, Matrix3_002)
     };
 
     r0.transpose();
+    r0.print();
 
     // a, d, g, b, e, h, c, f, i
     EXPECT_EQ(r0.m[0][0], (Real)'a');
@@ -229,6 +257,7 @@ GTEST_TEST(Math, Matrix3_002)
     EXPECT_EQ(r0.m[2][2], (Real)'i');
 
     r0.transpose();
+    r0.print();
 
     // a, b, c, d, e, f, g, h, i
     EXPECT_EQ(r0.m[0][0], (Real)'a');

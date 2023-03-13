@@ -21,14 +21,19 @@
 */
 #pragma once
 
-#include <cstdint>
 #include "Math/Scalar.h"
+#include "Utils/Definitions.h"
 
 namespace Rt2::Math
 {
-    extern void    initRandom();
-    extern Real    unsignedUnitRand();
-    extern Real    unitRand();
-    extern int32_t randRange(int32_t rmi, int32_t rma);
+    class Random
+    {
+    public:
+        static void init();
+        static Real real();
+        static Real unit();
+        static U8   u8();
+        static I32  range(I32 rmi, I32 rma);
+    };
 
 }  // namespace Rt2::Math

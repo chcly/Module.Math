@@ -19,9 +19,12 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
+#include "Random.h"
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
+
+#include "Math.h"
 #include "Math/Scalar.h"
 #include "Utils/Definitions.h"
 
@@ -35,7 +38,7 @@
 
 namespace Rt2::Math
 {
-    void initRandom()
+    void Random::init()
     {
         // If seed is set to 1, the generator is reinitialized to its initial
         // value and produces the same values as before any call to
@@ -53,19 +56,25 @@ namespace Rt2::Math
 #endif
     }
 
-    Real unsignedUnitRand()
+    Real Random::real()
     {
         return Real(rand()) / Real(RAND_MAX);
     }
 
-    Real unitRand()
+    Real Random::unit()
     {
-        return Real(2.0) * unsignedUnitRand() - Real(1.0);
+        return Real(2.0) * real() - Real(1.0);
     }
 
-    int32_t randRange(const int32_t rmi, const int32_t rma)
+    U8 Random::u8()
     {
-        return int32_t((Real(rma) - Real(rmi)) * unsignedUnitRand() + Real(rmi));
+        return U8(Real(255) * real());
+    }
+    
+
+    I32 Random::range(const I32 rmi, const I32 rma)
+    {
+        return I32((Real(rma) - Real(rmi)) * real() + Real(rmi));
     }
 
 }  // namespace Rt2::Math

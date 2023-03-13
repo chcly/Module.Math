@@ -127,7 +127,6 @@ namespace Rt2::Math
         return Real(1) / value;
     }
 
-  
     inline bool equals(const Real& a,
                        const Real& b,
                        const Real  tolerance = Epsilon)
@@ -136,7 +135,6 @@ namespace Rt2::Math
             return true;
         return Abs(a - b) < tolerance;
     }
-
 
     inline bool inRange(const Real& a,
                         const Real  tolerance = Epsilon)
@@ -210,16 +208,16 @@ namespace Rt2::Math
     }
 
     constexpr Real Pi   = Real(3.1415926535897932384626433832795);
-    constexpr Real Pi4  = Real(4.0) * Pi;
-    constexpr Real Pi2  = Real(2.0) * Pi;
-    constexpr Real PiH  = Real(0.5) * Pi;        // 90
-    constexpr Real PiO3 = Real(Pi) / Real(3.0);  // 60
-    constexpr Real PiO4 = Real(Pi) / Real(4.0);  // 45
-    constexpr Real PiO6 = Real(Pi) / Real(6.0);  // 30
-    constexpr Real Dpr  = Real(180.0) / Pi;
-    constexpr Real Rpd  = Real(1.0) / Dpr;
-    constexpr Real RPi  = Real(1.0) / Pi;
-    constexpr Real RPi2 = Real(1.0) / Pi2;
+    constexpr Real Pi4  = Real(4.0) * Pi;        // 2*Pi
+    constexpr Real Pi2  = Real(2.0) * Pi;        // 2*Pi
+    constexpr Real PiH  = Real(0.5) * Pi;        // 90 degrees
+    constexpr Real PiO3 = Real(Pi) / Real(3.0);  // 60 degrees
+    constexpr Real PiO4 = Real(Pi) / Real(4.0);  // 45 degrees
+    constexpr Real PiO6 = Real(Pi) / Real(6.0);  // 30 degrees
+    constexpr Real Dpr  = Real(180.0) / Pi;      // degrees per radian
+    constexpr Real Rpd  = Real(1.0) / Dpr;       // radians per degree
+    constexpr Real RPi  = Real(1.0) / Pi;        // reciprocal of Pi
+    constexpr Real RPi2 = Real(1.0) / Pi2;       // reciprocal of 2*Pi
 
     inline Real toDegrees(const Real v)
     {
