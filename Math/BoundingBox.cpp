@@ -23,24 +23,24 @@
 
 namespace Rt2::Math
 {
-    BoundingBox::BoundingBox(const Scalar _bMin[3], const Scalar _bMax[3])
+    BoundingBox::BoundingBox(const Real mi[3], const Real ma[3])
     {
         for (int i = 0; i < 3; ++i)
         {
-            bMin[i] = _bMin[i];
-            bMax[i] = _bMax[i];
+            bMin[i] = mi[i];
+            bMax[i] = ma[i];
         }
     }
 
     BoundingBox::BoundingBox(const Vector3& extent, const Vector3& center)
     {
-        const Scalar* ep = extent.ptr();
-        const Scalar* cp = center.ptr();
+        const Real* ep = extent.ptr();
+        const Real* cp = center.ptr();
 
         for (int i = 0; i < 3; ++i)
         {
-            bMin[i] = cp[i] - ep[i] * Scalar(0.5);
-            bMax[i] = cp[i] + ep[i] * Scalar(0.5);
+            bMin[i] = cp[i] - ep[i] * Real(0.5);
+            bMax[i] = cp[i] + ep[i] * Real(0.5);
         }
     }
 
@@ -48,14 +48,14 @@ namespace Rt2::Math
     {
         for (int i = 0; i < 3; ++i)
         {
-            bMin[i] = RT_INFINITY;
-            bMax[i] = -RT_INFINITY;
+            bMin[i] = Infinity;
+            bMax[i] = -Infinity;
         }
     }
 
     void BoundingBox::compare(const Vector3& pt)
     {
-        const Scalar* ep = pt.ptr();
+        const Real* ep = pt.ptr();
         for (int i = 0; i < 3; ++i)
         {
             if (ep[i] < bMin[i])
@@ -65,7 +65,7 @@ namespace Rt2::Math
         }
     }
 
-    void BoundingBox::compare(const Scalar* pt)
+    void BoundingBox::compare(const Real* pt)
     {
         for (int i = 0; i < 3; ++i)
         {
@@ -82,7 +82,7 @@ namespace Rt2::Math
         compare(bb.bMax);
     }
 
-    void BoundingBox::scale(const Scalar& sc)
+    void BoundingBox::scale(const Real& sc)
     {
         for (int i = 0; i < 3; ++i)
         {
@@ -93,7 +93,7 @@ namespace Rt2::Math
 
     void BoundingBox::translate(const Vector3& pt)
     {
-        const Scalar* ep = pt.ptr();
+        const Real* ep = pt.ptr();
 
         for (int i = 0; i < 3; ++i)
         {
@@ -116,11 +116,11 @@ namespace Rt2::Math
         bMax[2] = ma.z;
     }
 
-    Scalar BoundingBox::signedLength() const
+    Real BoundingBox::signedLength() const
     {
         const Vector3 c = center();
 
-        Scalar sign = 1;
+        Real sign = 1;
         if (c.x < 0)
             sign *= -1;
         if (c.y < 0)
@@ -145,11 +145,11 @@ namespace Rt2::Math
 
     void BoundingBox::majorAxis(Vector3& dest, const Vector3& src)
     {
-        const Scalar m = Max3(src.x, src.y, src.z);
+        const Real m = Max3(src.x, src.y, src.z);
 
-        if (Eq(m, src.x))
+        if (eq(m, src.x))
             dest = Vector3::UnitX;
-        else if (Eq(m, src.y))
+        else if (eq(m, src.y))
             dest = Vector3::UnitY;
         else
             dest = Vector3::UnitZ;
@@ -159,25 +159,25 @@ namespace Rt2::Math
 
     bool BoundingBox::hit(const Ray& ray, const Vector2& limit) const
     {
-        const Scalar* origP = ray.origin.ptr();
-        const Scalar* dirP  = ray.direction.ptr();
+        const Real* origP = ray.origin.ptr();
+        const Real* dirP  = ray.direction.ptr();
 
-        Scalar tMin = limit.x;
-        Scalar tMax = limit.y;
+        Real tMin = limit.x;
+        Real tMax = limit.y;
 
         for (int i = 0; i < 3; ++i)
         {
-            Scalar t0 = 0, t1 = 0;
-            if (!Eq(dirP[i], 0))
+            Real t0 = 0, t1 = 0;
+            if (!eq(dirP[i], 0))
             {
-                const Scalar t2 = 1 / dirP[i];
+                const Real t2 = 1 / dirP[i];
 
                 t0 = (bMin[i] - origP[i]) * t2;
                 t1 = (bMax[i] - origP[i]) * t2;
 
-                if (t2 < Scalar(0.0))
+                if (t2 < Real(0.0))
                 {
-                    const Scalar t = t0;
+                    const Real t = t0;
 
                     t0 = t1;
                     t1 = t;
@@ -192,27 +192,27 @@ namespace Rt2::Math
         return true;
     }
 
-    bool BoundingBox::hit(Scalar& r0, Scalar& r1, const Ray& ray, const Vector2& limit) const
+    bool BoundingBox::hit(Real& r0, Real& r1, const Ray& ray, const Vector2& limit) const
     {
-        const Scalar* origP = ray.origin.ptr();
-        const Scalar* dirP  = ray.direction.ptr();
+        const Real* origP = ray.origin.ptr();
+        const Real* dirP  = ray.direction.ptr();
 
         r0 = limit.x;
         r1 = limit.y;
 
         for (int i = 0; i < 3; ++i)
         {
-            Scalar t0 = 0, t1 = 0;
-            if (!Eq(dirP[i], 0))
+            Real t0 = 0, t1 = 0;
+            if (!eq(dirP[i], 0))
             {
-                const Scalar t2 = 1 / dirP[i];
+                const Real t2 = 1 / dirP[i];
 
                 t0 = (bMin[i] - origP[i]) * t2;
                 t1 = (bMax[i] - origP[i]) * t2;
 
-                if (t2 < Scalar(0.0))
+                if (t2 < Real(0.0))
                 {
-                    const Scalar t = t0;
+                    const Real t = t0;
 
                     t0 = t1;
                     t1 = t;
@@ -229,26 +229,26 @@ namespace Rt2::Math
 
     bool BoundingBox::hit(RayHitTest& dest, const Ray& ray, const Vector2& limit) const
     {
-        const Scalar* origP = ray.origin.ptr();
-        const Scalar* dirP  = ray.direction.ptr();
+        const Real* origP = ray.origin.ptr();
+        const Real* dirP  = ray.direction.ptr();
 
-        Scalar tMin = limit.x;
-        Scalar tMax = limit.y;
+        Real tMin = limit.x;
+        Real tMax = limit.y;
 
         for (int i = 0; i < 3; ++i)
         {
-            Scalar t0 = 0, t1 = 0;
+            Real t0 = 0, t1 = 0;
 
-            if (!Eq(dirP[i], 0))
+            if (!eq(dirP[i], 0))
             {
-                const Scalar t2 = 1 / dirP[i];
+                const Real t2 = 1 / dirP[i];
 
                 t0 = (bMin[i] - origP[i]) * t2;
                 t1 = (bMax[i] - origP[i]) * t2;
 
-                if (t2 < Scalar(0.0))
+                if (t2 < Real(0.0))
                 {
-                    const Scalar t = t0;
+                    const Real t = t0;
 
                     t0 = t1;
                     t1 = t;
@@ -265,17 +265,17 @@ namespace Rt2::Math
         dest.point    = ray.at(tMin);
 
         const Vector3 p1 = dest.point - center();
-        const Vector3 p2 = extent() * Scalar(0.5);
+        const Vector3 p2 = extent() * Real(0.5);
         const Vector3 p3 = p1 / p2;
         const Vector3 p4 = p3.abs();
-        const Scalar  m3 = p4.max3();
+        const Real  m3 = p4.max3();
         dest.normal        = {0, 0, 0};
-        if (Eq(m3, p4.x))
-            dest.normal.x = Sign(p3.x);
-        else if (Eq(m3, p4.y))
-            dest.normal.y = Sign(p3.y);
+        if (eq(m3, p4.x))
+            dest.normal.x = sign(p3.x);
+        else if (eq(m3, p4.y))
+            dest.normal.y = sign(p3.y);
         else
-            dest.normal.z = Sign(p3.z);
+            dest.normal.z = sign(p3.z);
         return true;
     }
 

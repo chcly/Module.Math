@@ -35,7 +35,7 @@
 
 namespace Rt2::Math
 {
-    void RandInit()
+    void initRandom()
     {
         // If seed is set to 1, the generator is reinitialized to its initial
         // value and produces the same values as before any call to
@@ -53,19 +53,19 @@ namespace Rt2::Math
 #endif
     }
 
-    Scalar UnsignedUnitRand()
+    Real unsignedUnitRand()
     {
-        return Scalar(rand()) / Scalar(RAND_MAX);
+        return Real(rand()) / Real(RAND_MAX);
     }
 
-    Scalar UnitRand()
+    Real unitRand()
     {
-        return Scalar(2.0) * UnsignedUnitRand() - Scalar(1.0);
+        return Real(2.0) * unsignedUnitRand() - Real(1.0);
     }
 
-    int32_t RandRange(const int32_t rmi, const int32_t rma)
+    int32_t randRange(const int32_t rmi, const int32_t rma)
     {
-        return int32_t((Scalar(rma) - Scalar(rmi)) * UnsignedUnitRand() + Scalar(rmi));
+        return int32_t((Real(rma) - Real(rmi)) * unsignedUnitRand() + Real(rmi));
     }
 
 }  // namespace Rt2::Math

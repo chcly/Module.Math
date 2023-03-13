@@ -21,27 +21,33 @@
 */
 #pragma once
 
-#ifdef __cplusplus
 #include <cfloat>
 #include <cmath>
-#else
-#include <float.h>
-#include <math.h>
-#endif
-
-/* #define RT_DOUBLE */
-#define RT_EPSILON FLT_EPSILON
-#define RT_INFINITY FLT_MAX
+#define RT_USE_SCALAR_DOUBLE
 
 namespace Rt2::Math
 {
-    typedef float Scalar;
-
-    constexpr float One = 1;
-    constexpr float Half      = One/2;
-    constexpr float Forth     = One/4;
-    constexpr float Eighth    = One/8;
-    constexpr float Twelfth   = One/12;
-    constexpr float Sixteenth = One/16;
+#ifdef RT_USE_SCALAR_DOUBLE
+    using Real              = double;
+    constexpr Real Epsilon  = DBL_EPSILON;
+    constexpr Real Infinity = DBL_MAX;
+#else
+    using Real              = float;
+    constexpr Real Epsilon  = FLT_EPSILON;
+    constexpr Real Infinity = FLT_MAX;
+#endif
+    constexpr Real Zero      = Real(0.0);
+    constexpr Real One       = Real(1.0);
+    constexpr Real Half      = One / Real(2.0);
+    constexpr Real Forth     = One / Real(4.0);
+    constexpr Real Eighth    = One / Real(8.0);
+    constexpr Real Twelfth   = One / Real(12.0);
+    constexpr Real Sixteenth = One / Real(16.0);
+    constexpr Real One15     = One / Real(15.0);
+    constexpr Real One24     = One / Real(24.0);
+    constexpr Real One25     = One / Real(25.0);
+    constexpr Real One60     = One / Real(60.0);
+    constexpr Real One255    = One / Real(255.0);
+    constexpr Real One256    = One / Real(256.0);
 
 }  // namespace Rt2::Math

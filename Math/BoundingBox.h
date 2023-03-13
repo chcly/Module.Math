@@ -32,13 +32,13 @@ namespace Rt2::Math
     class BoundingBox
     {
     public:
-        Scalar bMin[3];
-        Scalar bMax[3];
+        Real bMin[3]{};
+        Real bMax[3]{};
 
     public:
         BoundingBox();
 
-        BoundingBox(const Scalar _bMin[3], const Scalar _bMax[3]);
+        BoundingBox(const Real mi[3], const Real ma[3]);
 
         BoundingBox(const Vector3& extent, const Vector3& center);
 
@@ -46,11 +46,11 @@ namespace Rt2::Math
 
         void compare(const Vector3& pt);
 
-        void compare(const Scalar* pt);
+        void compare(const Real* pt);
 
         void merge(const BoundingBox& bb);
 
-        void scale(const Scalar& sc);
+        void scale(const Real& sc);
 
         void translate(const Vector3& pt);
 
@@ -58,7 +58,7 @@ namespace Rt2::Math
 
         void setMax(const Vector3& ma);
 
-        Scalar signedLength() const;
+        Real signedLength() const;
 
         bool contains(const BoundingBox& bb) const;
 
@@ -66,7 +66,7 @@ namespace Rt2::Math
 
         bool hit(const Ray& ray, const Vector2& limit) const;
 
-        bool hit(Scalar& r0, Scalar& r1, const Ray& ray, const Vector2& limit) const;
+        bool hit(Real& r0, Real& r1, const Ray& ray, const Vector2& limit) const;
 
         bool hit(RayHitTest& dest, const Ray& ray, const Vector2& limit) const;
 
@@ -76,19 +76,19 @@ namespace Rt2::Math
 
         Vector3 extent() const;
 
-        Scalar halfLength2() const;
+        Real halfLength2() const;
 
-        Scalar halfLength() const;
+        Real halfLength() const;
 
-        Scalar max3() const;
+        Real max3() const;
 
-        Scalar min3() const;
+        Real min3() const;
 
         Vector3 center() const;
 
-        Scalar length() const;
+        Real length() const;
 
-        Scalar length2() const;
+        Real length2() const;
 
         bool less(const BoundingBox& bb) const;
     };
@@ -113,22 +113,22 @@ namespace Rt2::Math
         return Vector3(bMax[0] - bMin[0], bMax[1] - bMin[1], bMax[2] - bMin[2]);
     }
 
-    inline Scalar BoundingBox::halfLength2() const
+    inline Real BoundingBox::halfLength2() const
     {
-        return extent().length2() * Scalar(0.5);
+        return extent().length2() * Real(0.5);
     }
 
-    inline Scalar BoundingBox::halfLength() const
+    inline Real BoundingBox::halfLength() const
     {
-        return extent().length() * Scalar(0.5);
+        return extent().length() * Real(0.5);
     }
 
-    inline Scalar BoundingBox::max3() const
+    inline Real BoundingBox::max3() const
     {
         return std::max(bMax[0], std::max(bMax[1], bMax[2]));
     }
 
-    inline Scalar BoundingBox::min3() const
+    inline Real BoundingBox::min3() const
     {
         return std::min(bMin[0], std::min(bMin[1], bMin[2]));
     }
@@ -136,17 +136,17 @@ namespace Rt2::Math
     inline Vector3 BoundingBox::center() const
     {
         return Vector3(
-            Scalar(0.5) * (bMax[0] + bMin[0]),
-            Scalar(0.5) * (bMax[1] + bMin[1]),
-            Scalar(0.5) * (bMax[2] + bMin[2]));
+            Real(0.5) * (bMax[0] + bMin[0]),
+            Real(0.5) * (bMax[1] + bMin[1]),
+            Real(0.5) * (bMax[2] + bMin[2]));
     }
 
-    inline Scalar BoundingBox::length() const
+    inline Real BoundingBox::length() const
     {
         return extent().length();
     }
 
-    inline Scalar BoundingBox::length2() const
+    inline Real BoundingBox::length2() const
     {
         return extent().length();
     }

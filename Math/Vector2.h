@@ -28,7 +28,7 @@ namespace Rt2::Math
     class Vector2
     {
     public:
-        Scalar x{}, y{};
+        Real x{}, y{};
 
         static const Vector2 Unit;
         static const Vector2 UnitX;
@@ -39,24 +39,24 @@ namespace Rt2::Math
         Vector2()                 = default;
         Vector2(const Vector2& v) = default;
 
-        Vector2(const Scalar nx, const Scalar ny) :
+        Vector2(const Real nx, const Real ny) :
             x(nx),
             y(ny)
         {
         }
 
-        explicit Vector2(const Scalar* pointer)
+        explicit Vector2(const Real* pointer)
         {
             x = pointer[0];
             y = pointer[1];
         }
 
-        Scalar* ptr()
+        Real* ptr()
         {
             return &x;
         }
 
-        const Scalar* ptr() const
+        const Real* ptr() const
         {
             return &x;
         }
@@ -65,12 +65,12 @@ namespace Rt2::Math
 
         bool operator==(const Vector2& v) const
         {
-            return Eq(x, v.x) && Eq(y, v.y);
+            return eq(x, v.x) && eq(y, v.y);
         }
 
         bool operator!=(const Vector2& v) const
         {
-            return !Eq(x, v.x) && !Eq(y, v.y);
+            return !eq(x, v.x) && !eq(y, v.y);
         }
 
         bool operator<(const Vector2& v) const
@@ -93,7 +93,7 @@ namespace Rt2::Math
             return x >= v.x && y >= v.y;
         }
 
-        Vector2 operator+(const Scalar v) const
+        Vector2 operator+(const Real v) const
         {
             return {x + v, y + v};
         }
@@ -103,7 +103,7 @@ namespace Rt2::Math
             return {x + v.x, y + v.y};
         }
 
-        Vector2& operator+=(const Scalar v)
+        Vector2& operator+=(const Real v)
         {
             x += v;
             y += v;
@@ -117,12 +117,12 @@ namespace Rt2::Math
             return *this;
         }
 
-        friend Vector2 operator+(const Scalar r, const Vector2& l)
+        friend Vector2 operator+(const Real r, const Vector2& l)
         {
             return {l.x + r, l.y + r};
         }
 
-        Vector2 operator-(const Scalar v) const
+        Vector2 operator-(const Real v) const
         {
             return {x - v, y - v};
         }
@@ -132,7 +132,7 @@ namespace Rt2::Math
             return {x - v.x, y - v.y};
         }
 
-        Vector2& operator-=(const Scalar v)
+        Vector2& operator-=(const Real v)
         {
             x -= v;
             y -= v;
@@ -151,12 +151,12 @@ namespace Rt2::Math
             return {-x, -y};
         }
 
-        friend Vector2 operator-(const Scalar r, const Vector2& l)
+        friend Vector2 operator-(const Real r, const Vector2& l)
         {
             return {l.x - r, l.y - r};
         }
 
-        Vector2 operator*(const Scalar v) const
+        Vector2 operator*(const Real v) const
         {
             return {x * v, y * v};
         }
@@ -166,7 +166,7 @@ namespace Rt2::Math
             return {x * v.x, y * v.y};
         }
 
-        Vector2& operator*=(Scalar v)
+        Vector2& operator*=(Real v)
         {
             x *= v;
             y *= v;
@@ -180,25 +180,25 @@ namespace Rt2::Math
             return *this;
         }
 
-        friend Vector2 operator*(const Scalar r, const Vector2& l)
+        friend Vector2 operator*(const Real r, const Vector2& l)
         {
             return {l.x * r, l.y * r};
         }
 
-        Vector2 operator/(const Scalar v) const
+        Vector2 operator/(const Real v) const
         {
-            const Scalar n = SafeReciprocal(v);
+            const Real n = reciprocal(v);
             return {x * n, y * n};
         }
 
         Vector2 operator/(const Vector2& v) const
         {
-            return {x * SafeReciprocal(v.x), y * SafeReciprocal(v.y)};
+            return {x * reciprocal(v.x), y * reciprocal(v.y)};
         }
 
-        Vector2& operator/=(const Scalar v)
+        Vector2& operator/=(const Real v)
         {
-            const Scalar n = SafeReciprocal(v);
+            const Real n = reciprocal(v);
             x *= n;
             y *= n;
             return *this;
@@ -206,22 +206,22 @@ namespace Rt2::Math
 
         Vector2& operator/=(const Vector2& v)
         {
-            x *= SafeReciprocal(v.x);
-            y *= SafeReciprocal(v.y);
+            x *= reciprocal(v.x);
+            y *= reciprocal(v.y);
             return *this;
         }
 
-        Scalar length() const
+        Real length() const
         {
             return RtSqrt(length2());
         }
 
-        Scalar length2() const
+        Real length2() const
         {
             return dot(*this);
         }
 
-        Scalar dot(const Vector2& v) const
+        Real dot(const Vector2& v) const
         {
             return x * v.x + y * v.y;
         }
@@ -231,12 +231,12 @@ namespace Rt2::Math
             return {Abs(x), Abs(y)};
         }
 
-        Scalar distance(const Vector2& v) const
+        Real distance(const Vector2& v) const
         {
             return Vector2(x - v.x, y - v.y).length();
         }
 
-        Scalar distance2(const Vector2& v) const
+        Real distance2(const Vector2& v) const
         {
             return Vector2(x - v.x, y - v.y).length2();
         }
@@ -246,15 +246,10 @@ namespace Rt2::Math
             return {-y, x};
         }
 
-        bool isZero() const
-        {
-            return IsZero(x) && IsZero(y);
-        }
-
         void normalize()
         {
-            if (Scalar len = x * x + y * y;
-                len > RT_EPSILON)
+            if (Real len = x * x + y * y;
+                len > Epsilon)
             {
                 len = RtRSqrt(len);
                 x *= len;
@@ -269,12 +264,12 @@ namespace Rt2::Math
             return v;
         }
 
-        Scalar hx() const
+        Real hx() const
         {
             return x * Half;
         }
 
-        Scalar hy() const
+        Real hy() const
         {
             return y * Half;
         }

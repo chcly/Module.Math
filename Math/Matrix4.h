@@ -31,7 +31,7 @@ namespace Rt2::Math
     class Matrix4
     {
     public:
-        Scalar m[4][4]{};
+        Real m[4][4]{};
 
         static const Matrix4 Identity;
         static const Matrix4 Zero;
@@ -41,24 +41,24 @@ namespace Rt2::Math
 
         Matrix4(const Matrix4& v) = default;
 
-        Matrix4(Scalar m00,
-                Scalar m01,
-                Scalar m02,
-                Scalar m03,
-                Scalar m10,
-                Scalar m11,
-                Scalar m12,
-                Scalar m13,
-                Scalar m20,
-                Scalar m21,
-                Scalar m22,
-                Scalar m23,
-                Scalar m30,
-                Scalar m31,
-                Scalar m32,
-                Scalar m33);
+        Matrix4(Real m00,
+                Real m01,
+                Real m02,
+                Real m03,
+                Real m10,
+                Real m11,
+                Real m12,
+                Real m13,
+                Real m20,
+                Real m21,
+                Real m22,
+                Real m23,
+                Real m30,
+                Real m31,
+                Real m32,
+                Real m33);
 
-        explicit Matrix4(const Scalar* v);
+        explicit Matrix4(const Real* v);
 
         Matrix4 operator*(const Matrix4& lhs) const;
 
@@ -68,11 +68,11 @@ namespace Rt2::Math
 
         void setTrans(const Vector3& v);
 
-        void setTrans(Scalar x, Scalar y, Scalar z);
+        void setTrans(Real x, Real y, Real z);
 
         void setScale(const Vector3& v);
 
-        void setScale(Scalar x, Scalar y, Scalar z);
+        void setScale(Real x, Real y, Real z);
 
         Vector3 getScale() const;
 
@@ -80,7 +80,7 @@ namespace Rt2::Math
 
         void makeIdentity();
 
-        Scalar det() const;
+        Real det() const;
 
         Matrix4 inverted() const;
 

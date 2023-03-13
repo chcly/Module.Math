@@ -37,7 +37,7 @@ namespace Rt2::Math
 
         RayHitTest(const RayHitTest& rhs) = default;
 
-        Scalar  distance;
+        Real  distance;
         Vector3 point;
         Vector3 normal;
     };
@@ -61,7 +61,7 @@ namespace Rt2::Math
         {
         }
 
-        Vector3 at(const Scalar& t) const
+        Vector3 at(const Real& t) const
         {
             return {
                 origin.x + direction.x * t,
@@ -70,7 +70,7 @@ namespace Rt2::Math
             };
         }
 
-        void at(Vector3& dest, const Scalar& t) const
+        void at(Vector3& dest, const Real& t) const
         {
             dest.x = origin.x + direction.x * t;
             dest.y = origin.y + direction.y * t;

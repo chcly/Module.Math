@@ -32,14 +32,14 @@ namespace Rt2::Math
         static const Quaternion Identity;
         static const Quaternion Zero;
 
-        Scalar w{1}, x{}, y{}, z{};
+        Real w{1}, x{}, y{}, z{};
 
     public:
         Quaternion() = default;
 
         Quaternion(const Quaternion& v) = default;
 
-        Quaternion(const Scalar nw, const Scalar nx, const Scalar ny, const Scalar nz) :
+        Quaternion(const Real nw, const Real nx, const Real ny, const Real nz) :
             w(nw),
             x(nx),
             y(ny),
@@ -47,17 +47,17 @@ namespace Rt2::Math
         {
         }
 
-        Quaternion(const Scalar xRad, const Scalar yRad, const Scalar zRad)
+        Quaternion(const Real xRad, const Real yRad, const Real zRad)
         {
-            (*this).makeRotXYZ(xRad, yRad, zRad);
+            (*this).makeRotXyz(xRad, yRad, zRad);
         }
 
-        Quaternion(const Vector3& vec)
+        explicit Quaternion(const Vector3& vec)
         {
-            (*this).makeRotXYZ(vec.x, vec.y, vec.z);
+            (*this).makeRotXyz(vec.x, vec.y, vec.z);
         }
 
-        explicit Quaternion(const Scalar* p)
+        explicit Quaternion(const Real* p)
         {
             if (p != nullptr)
             {
@@ -74,7 +74,7 @@ namespace Rt2::Math
             x = y = z = 0;
         }
 
-        void makeRotXYZ(const Scalar xRad, const Scalar yRad, const Scalar zRad)
+        void makeRotXyz(const Real xRad, const Real yRad, const Real zRad)
         {
             Quaternion q0, q1, q2;
             q0.makeRotX(xRad);
@@ -85,46 +85,50 @@ namespace Rt2::Math
             this->normalize();
         }
 
-        void makeRotX(const Scalar v)
+        void makeRotX(const Real v)
         {
-            SinCos(v * Scalar(0.5), x, w);
+            angles(v * Real(0.5), x, w);
             y = z = 0;
         }
 
-        void makeRotY(const Scalar v)
+        void makeRotY(const Real v)
         {
-            SinCos(v * Scalar(0.5), y, w);
+            angles(v * Real(0.5), y, w);
             x = z = 0;
         }
 
-        void makeRotZ(const Scalar v)
+        void makeRotZ(const Real v)
         {
-            SinCos(v * Scalar(0.5), z, w);
+            angles(v * Real(0.5), z, w);
             x = y = 0;
         }
 
         Vector3 toAxis() const
         {
-            Scalar wSq = Scalar(1.0) - w * w;
-            if (wSq < RT_EPSILON)
+            Real wSq = Real(1.0) - w * w;
+            if (wSq < Epsilon)
                 return Vector3::UnitZ;
 
-            wSq = Scalar(1.0) / wSq;
-            return Vector3(x * wSq, y * wSq, z * wSq);
+            wSq = Real(1.0) / wSq;
+            return {
+                x * wSq,
+                y * wSq,
+                z * wSq,
+            };
         }
 
-        Scalar length() const
+        Real length() const
         {
-            const Scalar len = length2();
-            if (len > RT_EPSILON)
+            if (const Real len = length2();
+                len > Epsilon)
                 return RtSqrt(len);
-            return Scalar(0.0);
+            return Real(0.0);
         }
 
         void normalize()
         {
-            Scalar len = length2();
-            if (len > RT_EPSILON)
+            if (Real len = length2();
+                len > Epsilon)
             {
                 len = RtRSqrt(len);
                 w *= len;
@@ -143,12 +147,12 @@ namespace Rt2::Math
 
         Quaternion inverse() const
         {
-            return Quaternion(w, -x, -y, -z);
+            return {w, -x, -y, -z};
         }
 
         Quaternion operator-() const
         {
-            return Quaternion(w, -x, -y, -z);
+            return {w, -x, -y, -z};
         }
 
         Quaternion& invert()
@@ -159,12 +163,12 @@ namespace Rt2::Math
             return *this;
         }
 
-        Quaternion operator*(const Scalar& v) const
+        Quaternion operator*(const Real& v) const
         {
-            return Quaternion(w * v, x * v, y * v, z * v);
+            return {w * v, x * v, y * v, z * v};
         }
 
-        Quaternion& operator*=(const Scalar& v)
+        Quaternion& operator*=(const Real& v)
         {
             w *= v;
             x *= v;
@@ -184,11 +188,12 @@ namespace Rt2::Math
 
         Quaternion operator*(const Quaternion& v) const
         {
-            return Quaternion(
+            return {
                 w * v.w - x * v.x - y * v.y - z * v.z,
                 w * v.x + x * v.w + y * v.z - z * v.y,
                 w * v.y + y * v.w + z * v.x - x * v.z,
-                w * v.z + z * v.w + x * v.y - y * v.x);
+                w * v.z + z * v.w + x * v.y - y * v.x,
+            };
         }
 
         Vector3 operator*(const Vector3& v) const
@@ -197,52 +202,52 @@ namespace Rt2::Math
 
             Vector3 a = c.cross(v);
             Vector3 b = c.cross(a);
-            a *= Scalar(2) * w;
-            b *= Scalar(2);
+            a *= Real(2) * w;
+            b *= Real(2);
             return v + a + b;
         }
 
-        Quaternion operator+(const Scalar& v) const
+        Quaternion operator+(const Real& v) const
         {
-            return Quaternion(w + v, x + v, y + v, z + v);
+            return {w + v, x + v, y + v, z + v};
         }
 
         Quaternion operator+(const Quaternion& v) const
         {
-            return Quaternion(w + v.w, x + v.x, y + v.y, z + v.z);
+            return {w + v.w, x + v.x, y + v.y, z + v.z};
         }
 
-        Quaternion operator-(const Scalar& v) const
+        Quaternion operator-(const Real& v) const
         {
-            return Quaternion(w - v, x - v, y - v, z - v);
+            return {w - v, x - v, y - v, z - v};
         }
 
         Quaternion operator-(const Quaternion& v) const
         {
-            return Quaternion(w - v.w, x - v.x, y - v.y, z - v.z);
+            return {w - v.w, x - v.x, y - v.y, z - v.z};
         }
 
         bool operator==(const Quaternion& v) const
         {
-            return Eq(x, v.x) && Eq(y, v.y) && Eq(z, v.z) && Eq(w, v.w);
+            return eq(x, v.x) && eq(y, v.y) && eq(z, v.z) && eq(w, v.w);
         }
 
         bool operator!=(const Quaternion& v) const
         {
-            return NEq(x, v.x) && NEq(y, v.y) && NEq(z, v.z) && NEq(w, v.w);
+            return neq(x, v.x) && neq(y, v.y) && neq(z, v.z) && neq(w, v.w);
         }
 
-        Scalar length2() const
+        Real length2() const
         {
             return w * w + x * x + y * y + z * z;
         }
 
-        Scalar* ptr()
+        Real* ptr()
         {
             return &w;
         }
 
-        const Scalar* ptr() const
+        const Real* ptr() const
         {
             return &w;
         }

@@ -22,12 +22,13 @@
 #pragma once
 
 #include <cstdint>
-
 #include "Math/Scalar.h"
+
 namespace Rt2::Math
 {
-    extern void     RandInit();
-    extern Scalar UnsignedUnitRand();
-    extern Scalar UnitRand();
-    extern int32_t  RandRange(int32_t rmi, int32_t rma);
+    extern void    initRandom();
+    extern Real    unsignedUnitRand();
+    extern Real    unitRand();
+    extern int32_t randRange(int32_t rmi, int32_t rma);
+
 }  // namespace Rt2::Math

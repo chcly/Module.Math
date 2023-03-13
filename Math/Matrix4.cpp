@@ -30,22 +30,22 @@ namespace Rt2::Math
     const Matrix4 Matrix4::Zero     = Matrix4(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
     Matrix4::Matrix4(
-        Scalar m00,
-        Scalar m01,
-        Scalar m02,
-        Scalar m03,
-        Scalar m10,
-        Scalar m11,
-        Scalar m12,
-        Scalar m13,
-        Scalar m20,
-        Scalar m21,
-        Scalar m22,
-        Scalar m23,
-        Scalar m30,
-        Scalar m31,
-        Scalar m32,
-        Scalar m33)
+        Real m00,
+        Real m01,
+        Real m02,
+        Real m03,
+        Real m10,
+        Real m11,
+        Real m12,
+        Real m13,
+        Real m20,
+        Real m21,
+        Real m22,
+        Real m23,
+        Real m30,
+        Real m31,
+        Real m32,
+        Real m33)
     {
         m[0][0] = m00;
         m[0][1] = m01;
@@ -65,7 +65,7 @@ namespace Rt2::Math
         m[3][3] = m33;
     }
 
-    Matrix4::Matrix4(const Scalar* v)
+    Matrix4::Matrix4(const Real* v)
     {
         if (v != nullptr)
         {
@@ -177,7 +177,7 @@ namespace Rt2::Math
         m[3][3] = 1;
     }
 
-    void Matrix4::setTrans(Scalar x, Scalar y, Scalar z)
+    void Matrix4::setTrans(Real x, Real y, Real z)
     {
         m[0][3] = x;
         m[1][3] = y;
@@ -193,7 +193,7 @@ namespace Rt2::Math
         m[3][3] = 1;
     }
 
-    void Matrix4::setScale(Scalar x, Scalar y, Scalar z)
+    void Matrix4::setScale(Real x, Real y, Real z)
     {
         m[0][0] = x;
         m[1][1] = y;
@@ -290,7 +290,7 @@ namespace Rt2::Math
         m[3][3]                     = 1;
     }
 
-    Scalar Matrix4::det() const
+    Real Matrix4::det() const
     {
         return m[0][3] * m[1][2] * m[2][1] * m[3][0] - m[0][2] * m[1][3] * m[2][1] * m[3][0] - m[0][3] * m[1][1] * m[2][2] * m[3][0] + m[0][1] * m[1][3] * m[2][2] * m[3][0] +
                m[0][2] * m[1][1] * m[2][3] * m[3][0] - m[0][1] * m[1][2] * m[2][3] * m[3][0] - m[0][3] * m[1][2] * m[2][0] * m[3][1] + m[0][2] * m[1][3] * m[2][0] * m[3][1] +
@@ -304,11 +304,11 @@ namespace Rt2::Math
     {
         Matrix4 r;
 
-        Scalar d = det();
-        if (IsZero(d))
+        Real d = det();
+        if (isZero(d))
             return Identity;
 
-        d = Scalar(1.0) / d;
+        d = Real(1.0) / d;
 
         r.m[0][0] = d * (m[1][2] * m[2][3] * m[3][1] - m[1][3] * m[2][2] * m[3][1] + m[1][3] * m[2][1] * m[3][2] - m[1][1] * m[2][3] * m[3][2] - m[1][2] * m[2][1] * m[3][3] + m[1][1] * m[2][2] * m[3][3]);
         r.m[1][0] = d * (m[0][3] * m[2][2] * m[3][1] - m[0][2] * m[2][3] * m[3][1] - m[0][3] * m[2][1] * m[3][2] + m[0][1] * m[2][3] * m[3][2] + m[0][2] * m[2][1] * m[3][3] - m[0][1] * m[2][2] * m[3][3]);

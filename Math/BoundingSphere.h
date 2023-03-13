@@ -32,7 +32,7 @@ namespace Rt2::Math
     {
     public:
         Vector3 center;
-        Scalar    radius;
+        Real    radius;
 
     public:
         BoundingSphere() :
@@ -42,7 +42,7 @@ namespace Rt2::Math
         }
 
         BoundingSphere(const Vector3& newCenter,
-                       const Scalar&    newRadius);
+                       const Real&    newRadius);
 
         bool hit(RayHitTest& dest, 
             const Ray& ray, 

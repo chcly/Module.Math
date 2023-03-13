@@ -42,16 +42,16 @@ namespace Rt2::Math
     const Color Color::White = Color(1, 1, 1, 1);
     const Color Color::Black = Color(0, 0, 0, 1);
 
-    const Scalar ColorUtils::i100 = Scalar(1.0 / 100.0);
-    const Scalar ColorUtils::i255 = Scalar(1.0 / 255.0);
-    const Scalar ColorUtils::i360 = Scalar(1.0 / 360.0);
+    const Real ColorUtils::i100 = Real(1.0 / 100.0);
+    const Real ColorUtils::i255 = Real(1.0 / 255.0);
+    const Real ColorUtils::i360 = Real(1.0 / 360.0);
 
     // constants for rotating
-    constexpr Scalar Ri1 = PiO3;
-    constexpr Scalar Ri2 = 2 * PiO3;
-    constexpr Scalar Ri3 = 3 * PiO3;
-    constexpr Scalar Ri4 = 4 * PiO3;
-    constexpr Scalar Ri5 = 5 * PiO3;
+    constexpr Real Ri1 = PiO3;
+    constexpr Real Ri2 = 2 * PiO3;
+    constexpr Real Ri3 = 3 * PiO3;
+    constexpr Real Ri4 = 4 * PiO3;
+    constexpr Real Ri5 = 5 * PiO3;
 
     Color::Color(const Vector3& v) :
         r(v.x),
@@ -70,17 +70,17 @@ namespace Rt2::Math
 
     void Color::toBytes(uint8_t& vr, uint8_t& vg, uint8_t& vb, uint8_t& va) const
     {
-        vr = uint8_t(r * Scalar(255));
-        vg = uint8_t(g * Scalar(255));
-        vb = uint8_t(b * Scalar(255));
-        va = uint8_t(a * Scalar(255));
+        vr = uint8_t(r * Real(255));
+        vg = uint8_t(g * Real(255));
+        vb = uint8_t(b * Real(255));
+        va = uint8_t(a * Real(255));
     }
 
     void Color::toBytes(uint8_t& vr, uint8_t& vg, uint8_t& vb) const
     {
-        vr = uint8_t(r * Scalar(255));
-        vg = uint8_t(g * Scalar(255));
-        vb = uint8_t(b * Scalar(255));
+        vr = uint8_t(r * Real(255));
+        vg = uint8_t(g * Real(255));
+        vb = uint8_t(b * Real(255));
     }
 
     void ColorUtils::convert(uint32_t& dst, const Color& src)
@@ -97,10 +97,10 @@ namespace Rt2::Math
     {
         ColorU color;
         color.i = src;
-        dst.r   = (Scalar)color.b[Ir] * i255;
-        dst.g   = (Scalar)color.b[Ig] * i255;
-        dst.b   = (Scalar)color.b[Ib] * i255;
-        dst.a   = (Scalar)color.b[Ia] * i255;
+        dst.r   = (Real)color.b[Ir] * i255;
+        dst.g   = (Real)color.b[Ig] * i255;
+        dst.b   = (Real)color.b[Ib] * i255;
+        dst.a   = (Real)color.b[Ia] * i255;
     }
 
     void ColorUtils::convert(uint32_t& dst, const uint8_t* src)
@@ -117,20 +117,20 @@ namespace Rt2::Math
     {
         // https://en.wikipedia.org/w/index.php?title=HSL_and_HSV&oldid=941280606
 
-        const Scalar H = src.h / Scalar(60.0);
-        Scalar       c = src.v * src.s;
-        if (c > Scalar(1.0))
-            c = Scalar(1.0);
+        const Real H = src.h / Real(60.0);
+        Real       c = src.v * src.s;
+        if (c > Real(1.0))
+            c = Real(1.0);
 
-        const Scalar x = c * Abs(RtFmod(H, Scalar(2.0)));
+        const Real x = c * Abs(RtFmod(H, Real(2.0)));
 
-        Scalar m = src.v - c;
-        if (m > Scalar(1.0))
-            m = Scalar(1.0);
-        if (m < Scalar(0.0))
-            m = Scalar(0.0);
+        Real m = src.v - c;
+        if (m > Real(1.0))
+            m = Real(1.0);
+        if (m < Real(0.0))
+            m = Real(0.0);
 
-        if (H >= Scalar(0.0) && H <= Ri1)
+        if (H >= Real(0.0) && H <= Ri1)
         {
             dst.r = c;
             dst.g = x;
@@ -185,13 +185,13 @@ namespace Rt2::Math
 
     void ColorUtils::convert(Color& dst, const uint8_t* src)
     {
-        dst.r = (Scalar)src[Ir] * i255;
-        dst.g = (Scalar)src[Ig] * i255;
-        dst.b = (Scalar)src[Ib] * i255;
-        dst.a = (Scalar)src[Ia] * i255;
+        dst.r = (Real)src[Ir] * i255;
+        dst.g = (Real)src[Ig] * i255;
+        dst.b = (Real)src[Ib] * i255;
+        dst.a = (Real)src[Ia] * i255;
     }
 
-    void ColorUtils::convert(uint8_t*& dst, const Scalar& src)
+    void ColorUtils::convert(uint8_t*& dst, const Real& src)
     {
         ColorUf uf;
         uf.f    = src;
@@ -211,14 +211,14 @@ namespace Rt2::Math
         dst[Ia] = uf.b[Ia];
     }
 
-    void ColorUtils::convert(Color& dst, const Scalar& src)
+    void ColorUtils::convert(Color& dst, const Real& src)
     {
         ColorUf uf;
         uf.f = src;
-        dst.r = (Scalar)uf.b[Ir] * i255;
-        dst.g = (Scalar)uf.b[Ig] * i255;
-        dst.b = (Scalar)uf.b[Ib] * i255;
-        dst.a = (Scalar)uf.b[Ia] * i255;
+        dst.r = (Real)uf.b[Ir] * i255;
+        dst.g = (Real)uf.b[Ig] * i255;
+        dst.b = (Real)uf.b[Ib] * i255;
+        dst.a = (Real)uf.b[Ia] * i255;
     }
 
     void ColorUtils::convert(ColorHsv& dst, const Color& src)
@@ -226,16 +226,16 @@ namespace Rt2::Math
         dst.v = Max3(src.r, src.g, src.b);
         dst.a = dst.v - Min3(src.r, src.g, src.b);
 
-        if (dst.a <= Scalar(0.0))
-            dst.h = Scalar(0.0);
-        else if (Eq(src.r, dst.v))
+        if (dst.a <= Real(0.0))
+            dst.h = Real(0.0);
+        else if (eq(src.r, dst.v))
             dst.h = PiO3 * ((src.g - src.b) / dst.a);
-        else if (Eq(src.g, dst.v))
-            dst.h = PiO3 * (Scalar(2) + (src.b - src.r) / dst.a);
+        else if (eq(src.g, dst.v))
+            dst.h = PiO3 * (Real(2) + (src.b - src.r) / dst.a);
         else
-            dst.h = PiO3 * (Scalar(4) + (src.r - src.g) / dst.a);
+            dst.h = PiO3 * (Real(4) + (src.r - src.g) / dst.a);
 
-        dst.h *= DegreesPerRadian;
+        dst.h *= Dpr;
         dst.h = RtCeil(dst.h);
         dst.s = dst.v;
         if (dst.v > 0)

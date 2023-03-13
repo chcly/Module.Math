@@ -1,6 +1,3 @@
-#include <cstdio>
-#include "ThisDir.h"
-#include "gtest/gtest.h"
 /*
 -------------------------------------------------------------------------------
     Copyright (c) Charles Carley.
@@ -32,30 +29,38 @@
 using namespace Rt2;
 using namespace Math;
 
+#ifdef RT_USE_SCALAR_DOUBLE
+    #define EXPECT_REAL_EQ EXPECT_DOUBLE_EQ
+#else
+    #define EXPECT_REAL_EQ EXPECT_FLOAT_EQ
+#endif
+
+constexpr int Steps = 32;
+
 GTEST_TEST(Math, RandRange)
 {
-    RandInit();
-    for (int i = 0; i < 64; ++i)
+    initRandom();
+    for (int i = 0; i < Steps; ++i)
     {
-        const int x = RandRange(-3, 3);
+        const int x = randRange(-3, 3);
         EXPECT_LE(abs(x), 3);
     }
-    for (int i = 0; i < 64; ++i)
+    for (int i = 0; i < Steps; ++i)
     {
-        const int x = RandRange(-256, 64);
+        const int x = randRange(-256, Steps);
         if (x < 0)
             EXPECT_GE(x, -256);
         else
-            EXPECT_LE(x, 64);
+            EXPECT_LE(x, Steps);
     }
 }
 
 GTEST_TEST(Math, UnitRand)
 {
-    RandInit();
-    for (int i = 0; i < 64; ++i)
+    initRandom();
+    for (int i = 0; i < Steps; ++i)
     {
-        const Scalar x = RtAbs(RtCeil(UnitRand()));
+        const Real x = RtAbs(RtCeil(unitRand()));
         EXPECT_LE((int32_t)x, 1);
     }
 }
@@ -63,32 +68,32 @@ GTEST_TEST(Math, UnitRand)
 GTEST_TEST(Math, Rect_001)
 {
     Math::Rectangle r0{0, 0, 20, 20};
-    EXPECT_FLOAT_EQ(r0.x, 0);
-    EXPECT_FLOAT_EQ(r0.y, 0);
-    EXPECT_FLOAT_EQ(r0.width, 20);
-    EXPECT_FLOAT_EQ(r0.height, 20);
+    EXPECT_REAL_EQ(r0.x, 0);
+    EXPECT_REAL_EQ(r0.y, 0);
+    EXPECT_REAL_EQ(r0.width, 20);
+    EXPECT_REAL_EQ(r0.height, 20);
 
     Math::Rectangle r1;
-    EXPECT_FLOAT_EQ(r1.x, 0);
-    EXPECT_FLOAT_EQ(r1.y, 0);
-    EXPECT_FLOAT_EQ(r1.width, RT_EPSILON);
-    EXPECT_FLOAT_EQ(r1.height, RT_EPSILON);
+    EXPECT_REAL_EQ(r1.x, 0);
+    EXPECT_REAL_EQ(r1.y, 0);
+    EXPECT_REAL_EQ(r1.width, Epsilon);
+    EXPECT_REAL_EQ(r1.height, Epsilon);
 
-    float n[4]{0, 0, 50, 50};
+    Real n[4]{0, 0, 50, 50};
 
     const Math::Rectangle r3(n);
-    EXPECT_FLOAT_EQ(r3.x, 0);
-    EXPECT_FLOAT_EQ(r3.y, 0);
-    EXPECT_FLOAT_EQ(r3.width, 50);
-    EXPECT_FLOAT_EQ(r3.height, 50);
+    EXPECT_REAL_EQ(r3.x, 0);
+    EXPECT_REAL_EQ(r3.y, 0);
+    EXPECT_REAL_EQ(r3.width, 50);
+    EXPECT_REAL_EQ(r3.height, 50);
 
     r0 = r3;
-    EXPECT_FLOAT_EQ(r3.x, 0);
-    EXPECT_FLOAT_EQ(r3.y, 0);
-    EXPECT_FLOAT_EQ(r3.width, 50);
-    EXPECT_FLOAT_EQ(r3.height, 50);
+    EXPECT_REAL_EQ(r3.x, 0);
+    EXPECT_REAL_EQ(r3.y, 0);
+    EXPECT_REAL_EQ(r3.width, 50);
+    EXPECT_REAL_EQ(r3.height, 50);
 
-    r0.setSize(RT_EPSILON, RT_EPSILON);
+    r0.setSize(Epsilon, Epsilon);
     (void)r0.center();
     (void)r0.cx();
     (void)r0.cy();
@@ -96,12 +101,14 @@ GTEST_TEST(Math, Rect_001)
 
 GTEST_TEST(Math, Matrix3_001)
 {
-    Matrix3 r0;
-    EXPECT_EQ(r0, Matrix3::Zero);
-    r0.makeIdentity();
-    EXPECT_EQ(r0, Matrix3::Identity);
+    {
+        Matrix3 r0;
+        EXPECT_EQ(r0, Matrix3::Zero);
+        r0.makeIdentity();
+        EXPECT_EQ(r0, Matrix3::Identity);
+    }
 
-    for (int i = 0; i < 100; ++i)
+    for (int i = 0; i < Steps; ++i)
     {
         // Looking the +Z axis on the XY plane
 
@@ -122,7 +129,7 @@ GTEST_TEST(Math, Matrix3_001)
         EXPECT_EQ(result, Vector3(1, 0, 0));
     }
 
-    for (int i = 0; i < 64; ++i)
+    for (int i = 0; i < Steps; ++i)
     {
         // Looking down the +Y axis on the ZX plane
 
@@ -144,7 +151,7 @@ GTEST_TEST(Math, Matrix3_001)
     }
 
     // Looking down the +X axis on the ZY plane
-    for (int i = 0; i < 64; ++i)
+    for (int i = 0; i < Steps; ++i)
     {
         Matrix3 r0;
         Vector3 result = Vector3(0, 0, 1);
@@ -163,7 +170,7 @@ GTEST_TEST(Math, Matrix3_001)
         EXPECT_EQ(result, Vector3(0, 0, 1));
     }
 
-    for (int i = 0; i < 64; ++i)
+    for (int i = 0; i < Steps; ++i)
     {
         // Start, Looking down the +Y axis on the ZX plane
 
@@ -197,42 +204,42 @@ GTEST_TEST(Math, Matrix3_001)
 GTEST_TEST(Math, Matrix3_002)
 {
     Matrix3 r0{
-        (float)'a',
-        (float)'b',
-        (float)'c',
-        (float)'d',
-        (float)'e',
-        (float)'f',
-        (float)'g',
-        (float)'h',
-        (float)'i',
+        (Real)'a',
+        (Real)'b',
+        (Real)'c',
+        (Real)'d',
+        (Real)'e',
+        (Real)'f',
+        (Real)'g',
+        (Real)'h',
+        (Real)'i',
     };
 
     r0.transpose();
 
     // a, d, g, b, e, h, c, f, i
-    EXPECT_EQ(r0.m[0][0], (float)'a');
-    EXPECT_EQ(r0.m[0][1], (float)'d');
-    EXPECT_EQ(r0.m[0][2], (float)'g');
-    EXPECT_EQ(r0.m[1][0], (float)'b');
-    EXPECT_EQ(r0.m[1][1], (float)'e');
-    EXPECT_EQ(r0.m[1][2], (float)'h');
-    EXPECT_EQ(r0.m[2][0], (float)'c');
-    EXPECT_EQ(r0.m[2][1], (float)'f');
-    EXPECT_EQ(r0.m[2][2], (float)'i');
+    EXPECT_EQ(r0.m[0][0], (Real)'a');
+    EXPECT_EQ(r0.m[0][1], (Real)'d');
+    EXPECT_EQ(r0.m[0][2], (Real)'g');
+    EXPECT_EQ(r0.m[1][0], (Real)'b');
+    EXPECT_EQ(r0.m[1][1], (Real)'e');
+    EXPECT_EQ(r0.m[1][2], (Real)'h');
+    EXPECT_EQ(r0.m[2][0], (Real)'c');
+    EXPECT_EQ(r0.m[2][1], (Real)'f');
+    EXPECT_EQ(r0.m[2][2], (Real)'i');
 
     r0.transpose();
 
     // a, b, c, d, e, f, g, h, i
-    EXPECT_EQ(r0.m[0][0], (float)'a');
-    EXPECT_EQ(r0.m[0][1], (float)'b');
-    EXPECT_EQ(r0.m[0][2], (float)'c');
-    EXPECT_EQ(r0.m[1][0], (float)'d');
-    EXPECT_EQ(r0.m[1][1], (float)'e');
-    EXPECT_EQ(r0.m[1][2], (float)'f');
-    EXPECT_EQ(r0.m[2][0], (float)'g');
-    EXPECT_EQ(r0.m[2][1], (float)'h');
-    EXPECT_EQ(r0.m[2][2], (float)'i');
+    EXPECT_EQ(r0.m[0][0], (Real)'a');
+    EXPECT_EQ(r0.m[0][1], (Real)'b');
+    EXPECT_EQ(r0.m[0][2], (Real)'c');
+    EXPECT_EQ(r0.m[1][0], (Real)'d');
+    EXPECT_EQ(r0.m[1][1], (Real)'e');
+    EXPECT_EQ(r0.m[1][2], (Real)'f');
+    EXPECT_EQ(r0.m[2][0], (Real)'g');
+    EXPECT_EQ(r0.m[2][1], (Real)'h');
+    EXPECT_EQ(r0.m[2][2], (Real)'i');
 }
 
 GTEST_TEST(Math, Color_001)

@@ -23,176 +23,226 @@
 
 #include "Math/Scalar.h"
 
-#ifdef RT_DOUBLE
-#define RtSqrt (Rt2::Math::Scalar) sqrt
-#define RtInvSqrt (Rt2::Math::Scalar)1.0 / (Rt2::Math::Scalar)sqrt
-#define RtFloor (Rt2::Math::Scalar) floor
-#define RtCeil (Rt2::Math::Scalar) ceil
-#define RtSin (Rt2::Math::Scalar) sin
-#define RtCos (Rt2::Math::Scalar) cos
-#define RtTan (Rt2::Math::Scalar) tan
-#define RtExp (Rt2::Math::Scalar) exp
-#define RtLog (Rt2::Math::Scalar) log
-#define RtPow (Rt2::Math::Scalar) pow
-#define RtMod (Rt2::Math::Scalar) fmod
-#define RtASin (Rt2::Math::Scalar) asin
-#define RtACos (Rt2::Math::Scalar) acos
-#define RtATan (Rt2::Math::Scalar) atan
-#define RtATan2 (Rt2::Math::Scalar) atan2
-#define RtFmod (Rt2::Math::Scalar) fmod
-#define RtAbs (Rt2::Math::Scalar) abs
+#ifdef RT_USE_SCALAR_DOUBLE
+    #define RtSqrt (Rt2::Math::Real) sqrt
+    #define RtRSqrt (Rt2::Math::Real)1.0 / (Rt2::Math::Real)sqrt
+    #define RtFloor (Rt2::Math::Real) floor
+    #define RtCeil (Rt2::Math::Real) ceil
+    #define RtSin (Rt2::Math::Real) sin
+    #define RtCos (Rt2::Math::Real) cos
+    #define RtTan (Rt2::Math::Real) tan
+    #define RtExp (Rt2::Math::Real) exp
+    #define RtLog (Rt2::Math::Real) log
+    #define RtPow (Rt2::Math::Real) pow
+    #define RtMod (Rt2::Math::Real) fmod
+    #define RtASin (Rt2::Math::Real) asin
+    #define RtACos (Rt2::Math::Real) acos
+    #define RtATan (Rt2::Math::Real) atan
+    #define RtATan2 (Rt2::Math::Real) atan2
+    #define RtFmod (Rt2::Math::Real) fmod
+    #define RtAbs (Rt2::Math::Real) abs
 #else
-#define RtSqrt (Rt2::Math::Scalar) sqrtf
-#define RtRSqrt(x) (Rt2::Math::Scalar)(powf((x), -0.5f))
-#define RtFloor (Rt2::Math::Scalar) floorf
-#define RtCeil (Rt2::Math::Scalar) ceilf
-#define RtSin (Rt2::Math::Scalar) sinf
-#define RtCos (Rt2::Math::Scalar) cosf
-#define RtTan (Rt2::Math::Scalar) tanf
-#define RtExp (Rt2::Math::Scalar) expf
-#define RtLog (Rt2::Math::Scalar) logf
-#define RtPow (Rt2::Math::Scalar) powf
-#define RtMod (Rt2::Math::Scalar) fmodf
-#define RtASin (Rt2::Math::Scalar) asinf
-#define RtACos (Rt2::Math::Scalar) acosf
-#define RtATan (Rt2::Math::Scalar) atanf
-#define RtATan2 (Rt2::Math::Scalar) atan2f
-#define RtFmod (Rt2::Math::Scalar) fmodf
-#define RtAbs (Rt2::Math::Scalar) fabs
+    #define RtSqrt (Rt2::Math::Real) sqrtf
+    #define RtRSqrt(x) (Rt2::Math::Real)(powf((x), -0.5f))
+    #define RtFloor (Rt2::Math::Real) floorf
+    #define RtCeil (Rt2::Math::Real) ceilf
+    #define RtSin (Rt2::Math::Real) sinf
+    #define RtCos (Rt2::Math::Real) cosf
+    #define RtTan (Rt2::Math::Real) tanf
+    #define RtExp (Rt2::Math::Real) expf
+    #define RtLog (Rt2::Math::Real) logf
+    #define RtPow (Rt2::Math::Real) powf
+    #define RtMod (Rt2::Math::Real) fmodf
+    #define RtASin (Rt2::Math::Real) asinf
+    #define RtACos (Rt2::Math::Real) acosf
+    #define RtATan (Rt2::Math::Real) atanf
+    #define RtATan2 (Rt2::Math::Real) atan2f
+    #define RtFmod (Rt2::Math::Real) fmodf
+    #define RtAbs (Rt2::Math::Real) fabs
 #endif
 
 namespace Rt2::Math
 {
-    inline Scalar Max(const Scalar& a, const Scalar& b)
+    inline Real Max(const Real& a, const Real& b)
     {
         return a > b ? a : b;
     }
 
-    inline Scalar Min(const Scalar& a, const Scalar& b)
+    inline Real Min(const Real& a, const Real& b)
     {
         return a < b ? a : b;
     }
 
-    inline Scalar Max3(const Scalar& a, const Scalar& b, const Scalar& c)
+    inline Real Max3(const Real& a, const Real& b, const Real& c)
     {
-        const Scalar d = a > b ? a : b;
+        const Real d = a > b ? a : b;
         return c > d ? c : d;
     }
 
-    inline Scalar Min3(const Scalar& a, const Scalar& b, const Scalar& c)
+    inline Real Min3(const Real& a, const Real& b, const Real& c)
     {
-        const Scalar d = a < b ? a : b;
+        const Real d = a < b ? a : b;
         return c < d ? c : d;
     }
 
-    inline Scalar Abs(const Scalar& v)
+    inline Real Abs(const Real& v)
     {
-        return v < 0 ? -v : v;
+        return v < Real(0) ? -v : v;
     }
 
-    inline Scalar Squ(const Scalar& v)
+    inline Real Squ(const Real& v)
     {
         return v * v;
     }
 
-    inline Scalar Sign(const Scalar& v)
+    inline Real sign(const Real& value)
     {
-        return v > 0 ? Scalar(1.) : Scalar(-1.);
+        return value > 0 ? Real(1.) : Real(-1.);
     }
 
-    inline Scalar IsInf(const Scalar v)
+    inline Real isInf(const Real v)
     {
-        return Abs(v) >= RT_INFINITY;
+        return Abs(v) >= Infinity;
     }
 
-    inline Scalar IsNan(const Scalar v)
+    inline Real isNan(const Real v)
     {
         return std::isnan(v);
     }
 
-    inline Scalar DecimalPart(const Scalar v)
+    inline Real interpolate(const Real& a,
+                            const Real& b,
+                            Real        s)
+    {
+        s = Max(Min(s, Real(1.)), Real(0.));
+        return (Real(1) - s) * a + b * s;
+    }
+
+    inline Real reciprocal(const Real& value,
+                           const Real  def = Epsilon,
+                           const Real  tol = Epsilon)
+    {
+        if (Abs(value) < tol)
+            return def;
+        return Real(1) / value;
+    }
+
+  
+    inline bool equals(const Real& a,
+                       const Real& b,
+                       const Real  tolerance = Epsilon)
+    {
+        if (std::isnan(a) && std::isnan(b))
+            return true;
+        return Abs(a - b) < tolerance;
+    }
+
+
+    inline bool inRange(const Real& a,
+                        const Real  tolerance = Epsilon)
+    {
+        return a >= tolerance && a <= Real(1.) + tolerance;
+    }
+
+    inline bool isZero(const Real& a,
+                       const Real  tolerance = Epsilon)
+    {
+        return Abs(a) < tolerance;
+    }
+
+    inline bool notZero(const Real& a,
+                        const Real  tolerance = Epsilon)
+    {
+        return Abs(a) > tolerance;
+    }
+
+    inline Real makeDivBy(const Real& a, const Real& d)
+    {
+        return a - Real(RtFmod(a, d));
+    }
+
+    inline Real whole(const Real& a)
+    {
+        return RtFloor(a);
+    }
+
+    inline Real largestPow10(const Real& x)
+    {
+        return RtPow(10, RtFloor(log10(x)));
+    }
+
+    inline Real largestDigit(const Real& x)
+    {
+        const Real lp10 = largestPow10(x);
+        return lp10 * RtFloor(x / lp10);
+    }
+
+    inline Real decimal(const Real v)
     {
         return v - RtFloor(v);
     }
 
-    inline void SplitScalar(const Scalar v, Scalar& whole, Scalar& decimal)
+    inline void split(const Real v, Real& whole, Real& decimal)
     {
         whole   = RtFloor(v);
         decimal = v - whole;
     }
 
-    inline bool IsZero(const Scalar v)
+    inline bool eq(const Real x, const Real y)
     {
-        return Abs(v) < RT_EPSILON;
+        return Abs(x - y) < Epsilon;
     }
 
-    inline bool IsZero(Scalar v, Scalar tol)
-    {
-        return Abs(v) < tol;
-    }
-
-    inline Scalar SafeReciprocal(const Scalar& v)
-    {
-        if (Abs(v) > RT_EPSILON)
-            return 1.f / v;
-        return 1.f / RT_EPSILON;
-    }
-
-    inline bool Eq(Scalar x, Scalar y)
-    {
-        return Abs(x - y) < RT_EPSILON;
-    }
-
-    inline Scalar Clamp(const Scalar& v, const Scalar& vMin, const Scalar& vMax)
+    inline Real clamp(const Real& v, const Real& vMin, const Real& vMax)
     {
         return v < vMin ? vMin : v > vMax ? vMax
                                           : v;
     }
 
-    inline bool NEq(Scalar x, Scalar y)
+    inline bool neq(const Real x, const Real y)
     {
-        return !Eq(x, y);
+        return !eq(x, y);
     }
 
-    inline bool EqTol(const Scalar& x, const Scalar& y, const Scalar& tol)
+    inline bool eq(const Real& x, const Real& y, const Real& tol)
     {
         return Abs(x - y) < tol;
     }
 
-    constexpr Scalar Pi               = 3.1415926535897932384626433832795f;
-    constexpr Scalar Pi4              = Scalar(4.0) * Pi;
-    constexpr Scalar Pi2              = Scalar(2.0) * Pi;
-    constexpr Scalar PiH              = Scalar(0.5) * Pi;          // 90
-    constexpr Scalar PiO3             = Scalar(Pi) / Scalar(3.0);  // 60
-    constexpr Scalar PiO4             = Scalar(Pi) / Scalar(4.0);  // 45
-    constexpr Scalar PiO6             = Scalar(Pi) / Scalar(6.0);  // 30
-    constexpr Scalar DegreesPerRadian = Scalar(180.0) / Pi;
-    constexpr Scalar RadianPerDegree  = Scalar(1.0) / DegreesPerRadian;
-    constexpr Scalar RPi              = Scalar(1.0) / Pi;
-    constexpr Scalar RPi2             = Scalar(1.0) / Pi2;
+    constexpr Real Pi   = Real(3.1415926535897932384626433832795);
+    constexpr Real Pi4  = Real(4.0) * Pi;
+    constexpr Real Pi2  = Real(2.0) * Pi;
+    constexpr Real PiH  = Real(0.5) * Pi;        // 90
+    constexpr Real PiO3 = Real(Pi) / Real(3.0);  // 60
+    constexpr Real PiO4 = Real(Pi) / Real(4.0);  // 45
+    constexpr Real PiO6 = Real(Pi) / Real(6.0);  // 30
+    constexpr Real Dpr  = Real(180.0) / Pi;
+    constexpr Real Rpd  = Real(1.0) / Dpr;
+    constexpr Real RPi  = Real(1.0) / Pi;
+    constexpr Real RPi2 = Real(1.0) / Pi2;
 
-    inline Scalar toDegrees(Scalar v)
+    inline Real toDegrees(const Real v)
     {
-        return v * DegreesPerRadian;
+        return v * Dpr;
     }
 
-    inline Scalar toRadians(Scalar v)
+    inline Real toRadians(const Real v)
     {
-        return v * RadianPerDegree;
+        return v * Rpd;
     }
 
-    inline Scalar toMillimeters(const Scalar& deg)
+    inline Real toMillimeters(const Real& deg)
     {
-        return Scalar(18) / RtTan(deg * Pi / Scalar(360.0));
+        return Real(18) / RtTan(deg * Pi / Real(360.0));
     }
 
-    inline Scalar toFieldOfView(const Scalar& mm)
+    inline Real toFieldOfView(const Real& mm)
     {
         // https://www.desmos.com/calculator/aed6jmo0fx
-        return Scalar(360.0) * RtATan(Scalar(18) / mm) / Pi;
+        return Real(360.0) * RtATan(Real(18) / mm) / Pi;
     }
 
-    inline void SinCos(const Scalar& theta, Scalar& y, Scalar& x)
+    inline void angles(const Real& theta, Real& y, Real& x)
     {
         y = RtSin(theta);
         x = RtCos(theta);

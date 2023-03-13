@@ -49,10 +49,10 @@ namespace Rt2::Math
         }
 
 
-        bool hit(Scalar& t, const Ray& ray, const Vector2& limit) const
+        bool hit(Real& t, const Ray& ray, const Vector2& limit) const
         {
-            Scalar kn = n.x * (ray.origin.x - p0.x);
-            Scalar kd = ray.direction.x * n.x;
+            Real kn = n.x * (ray.origin.x - p0.x);
+            Real kd = ray.direction.x * n.x;
 
             kn += n.y * (ray.origin.y - p0.y);
             kd += ray.direction.y * n.y;
@@ -61,7 +61,7 @@ namespace Rt2::Math
 
             // > 0 in < 0 out == 0 on
 
-            if (!IsZero(kd))
+            if (!isZero(kd))
             {
                 t = (-kn + p0.length()) / kd;
                 if (t >= limit.x && t <= limit.y)

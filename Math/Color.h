@@ -56,9 +56,9 @@ namespace Rt2::Math
     class ColorUtils
     {
     public:
-        static const Scalar i100;
-        static const Scalar i255;
-        static const Scalar i360;
+        static const Real i100;
+        static const Real i255;
+        static const Real i360;
 
         static void convert(uint32_t& dst, const Color& src);
         static void convert(Color& dst, const uint32_t& src);
@@ -67,9 +67,9 @@ namespace Rt2::Math
         static void convert(ColorHsv& dst, const Color& src);
         static void convert(uint8_t*& dst, const Color& src);
         static void convert(Color& dst, const uint8_t* src);
-        static void convert(uint8_t*& dst, const Scalar& src);
+        static void convert(uint8_t*& dst, const Real& src);
         static void convert(uint8_t*& dst, const uint32_t& src);
-        static void convert(Color& dst, const Scalar& src);
+        static void convert(Color& dst, const Real& src);
     };
 
     class ColorHsv
@@ -77,7 +77,7 @@ namespace Rt2::Math
     public:
         // h is 0, 360;
         // s, v, a [0,1]
-        Scalar h{}, s{}, v{}, a{};
+        Real h{}, s{}, v{}, a{};
 
     public:
         ColorHsv() = default;
@@ -86,10 +86,10 @@ namespace Rt2::Math
                  const uint32_t& sv,
                  const uint32_t& vv,
                  const uint32_t& av = 100) :
-            h(Scalar(hv) * ColorUtils::i360),
-            s(Scalar(sv) * ColorUtils::i100),
-            v(Scalar(vv) * ColorUtils::i100),
-            a(Scalar(av) * ColorUtils::i100)
+            h(Real(hv) * ColorUtils::i360),
+            s(Real(sv) * ColorUtils::i100),
+            v(Real(vv) * ColorUtils::i100),
+            a(Real(av) * ColorUtils::i100)
         {
         }
 
@@ -100,27 +100,27 @@ namespace Rt2::Math
 
         void setHue(const uint32_t& hue)
         {
-            h = Scalar(hue);
+            h = Real(hue);
         }
 
         void setSaturation(const uint32_t& sat)
         {
-            s = Scalar(sat) * ColorUtils::i100;
+            s = Real(sat) * ColorUtils::i100;
         }
 
         void setValue(const uint32_t& val)
         {
-            v = Scalar(val) * ColorUtils::i100;
+            v = Real(val) * ColorUtils::i100;
         }
 
-        void saturate(const Scalar offset)
+        void saturate(const Real offset)
         {
-            s = Clamp(s + offset, Scalar(0.0), Scalar(1.0));
+            s = clamp(s + offset, Real(0.0), Real(1.0));
         }
 
-        void lighten(const Scalar offset)
+        void lighten(const Real offset)
         {
-            v = Clamp(v + offset, Scalar(0.0), Scalar(1.0));
+            v = clamp(v + offset, Real(0.0), Real(1.0));
         }
 
         void toInt(uint32_t& dH, uint32_t& dS, uint32_t& dV, uint32_t& dA) const
@@ -135,7 +135,7 @@ namespace Rt2::Math
     class Color
     {
     public:
-        Scalar r{}, g{}, b{}, a{};
+        Real r{}, g{}, b{}, a{};
 
         static const Color White;
         static const Color Black;
@@ -145,7 +145,7 @@ namespace Rt2::Math
         Color(const Color& o) = default;
         explicit Color(const Vector3& v);
 
-        Color(const Scalar rv, const Scalar gv, const Scalar bv, const Scalar av = Scalar(1.0)) :
+        Color(const Real rv, const Real gv, const Real bv, const Real av = Real(1.0)) :
             r(rv),
             g(gv),
             b(bv),
@@ -165,7 +165,7 @@ namespace Rt2::Math
             return i;
         }
 
-        void set(const Scalar rv, const Scalar gv, const Scalar bv, const Scalar av = Scalar(1.0))
+        void set(const Real rv, const Real gv, const Real bv, const Real av = Real(1.0))
         {
             r = rv;
             g = gv;
@@ -173,7 +173,7 @@ namespace Rt2::Math
             a = av;
         }
 
-        void setMonochrome(const Scalar value, const Scalar alpha = Scalar(1.0))
+        void setMonochrome(const Real value, const Real alpha = Real(1.0))
         {
             r = value;
             g = value;
@@ -183,10 +183,10 @@ namespace Rt2::Math
 
         void setUb(const uint8_t rByte, const uint8_t gByte, const uint8_t bByte, const uint8_t aByte = 255)
         {
-            r = Scalar(rByte) * ColorUtils::i255;
-            g = Scalar(gByte) * ColorUtils::i255;
-            b = Scalar(bByte) * ColorUtils::i255;
-            a = Scalar(aByte) * ColorUtils::i255;
+            r = Real(rByte) * ColorUtils::i255;
+            g = Real(gByte) * ColorUtils::i255;
+            b = Real(bByte) * ColorUtils::i255;
+            a = Real(aByte) * ColorUtils::i255;
         }
 
         explicit Color(const ColorHsv& hsv)
@@ -198,7 +198,7 @@ namespace Rt2::Math
         {
             ColorHsv hsv;
             ColorUtils::convert(hsv, *this);
-            hsv.h = Scalar(h);
+            hsv.h = Real(h);
             ColorUtils::convert(*this, hsv);
         }
 
@@ -206,7 +206,7 @@ namespace Rt2::Math
         {
             ColorHsv hsv;
             ColorUtils::convert(hsv, *this);
-            hsv.s = Scalar(s) * ColorUtils::i100;
+            hsv.s = Real(s) * ColorUtils::i100;
             ColorUtils::convert(*this, hsv);
         }
 
@@ -214,11 +214,11 @@ namespace Rt2::Math
         {
             ColorHsv hsv;
             ColorUtils::convert(hsv, *this);
-            hsv.v = Scalar(v) * ColorUtils::i100;
+            hsv.v = Real(v) * ColorUtils::i100;
             ColorUtils::convert(*this, hsv);
         }
 
-        void saturate(Scalar fac)
+        void saturate(Real fac)
         {
             ColorHsv hsv;
             ColorUtils::convert(hsv, *this);
@@ -226,7 +226,7 @@ namespace Rt2::Math
             ColorUtils::convert(*this, hsv);
         }
 
-        void lighten(Scalar fac)
+        void lighten(Real fac)
         {
             ColorHsv hsv;
             ColorUtils::convert(hsv, *this);
@@ -248,22 +248,22 @@ namespace Rt2::Math
 
         void limit()
         {
-            r = Clamp(r, 0, 1);
-            g = Clamp(g, 0, 1);
-            b = Clamp(b, 0, 1);
-            a = Clamp(a, 0, 1);
+            r = clamp(r, 0, 1);
+            g = clamp(g, 0, 1);
+            b = clamp(b, 0, 1);
+            a = clamp(a, 0, 1);
         }
 
         void limit(Color& d) const
         {
-            const Scalar* srcPtr = ptr();
-            Scalar*       dstPtr = d.ptr();
+            const Real* srcPtr = ptr();
+            Real*       dstPtr = d.ptr();
 
             for (int i = 0; i < 4; ++i)
             {
-                if (srcPtr[i] < Scalar(0))
+                if (srcPtr[i] < Real(0))
                     dstPtr[i] = 0;
-                else if (srcPtr[i] > Scalar(1))
+                else if (srcPtr[i] > Real(1))
                     dstPtr[i] = 1;
                 else
                     dstPtr[i] = srcPtr[i];
@@ -280,13 +280,13 @@ namespace Rt2::Math
         Color limit() const
         {
             return Color(
-                Clamp(r, 0, 1),
-                Clamp(g, 0, 1),
-                Clamp(b, 0, 1),
-                Clamp(a, 0, 1));
+                clamp(r, 0, 1),
+                clamp(g, 0, 1),
+                clamp(b, 0, 1),
+                clamp(a, 0, 1));
         }
 
-        Color operator+(const Scalar offset) const
+        Color operator+(const Real offset) const
         {
             return Color(r + offset, g + offset, b + offset, a);
         }
@@ -296,7 +296,7 @@ namespace Rt2::Math
             return Color(r + col.r, g + col.g, b + col.b, a);
         }
 
-        Color& operator+=(Scalar val)
+        Color& operator+=(Real val)
         {
             r += val;
             g += val;
@@ -314,12 +314,12 @@ namespace Rt2::Math
             return *this;
         }
 
-        friend Color operator+(const Scalar rc, const Color& l)
+        friend Color operator+(const Real rc, const Color& l)
         {
             return l + rc;
         }
 
-        Color operator-(const Scalar value) const
+        Color operator-(const Real value) const
         {
             return Color(r - value, g - value, b - value, a);
         }
@@ -329,7 +329,7 @@ namespace Rt2::Math
             return Color(r - col.r, g - col.g, b - col.b, a);
         }
 
-        Color& operator-=(const Scalar value)
+        Color& operator-=(const Real value)
         {
             r -= value;
             g -= value;
@@ -347,12 +347,12 @@ namespace Rt2::Math
             return *this;
         }
 
-        friend Color operator-(const Scalar rc, const Color& l)
+        friend Color operator-(const Real rc, const Color& l)
         {
             return l - rc;
         }
 
-        Color operator*(const Scalar factor) const
+        Color operator*(const Real factor) const
         {
             return Color(r * factor, g * factor, b * factor, a);
         }
@@ -362,7 +362,7 @@ namespace Rt2::Math
             return Color(r * v.r, g * v.g, b * v.b, a);
         }
 
-        Color& operator*=(const Scalar factor)
+        Color& operator*=(const Real factor)
         {
             r *= factor;
             g *= factor;
@@ -380,14 +380,14 @@ namespace Rt2::Math
             return *this;
         }
 
-        friend Color operator*(Scalar rc, const Color& l)
+        friend Color operator*(Real rc, const Color& l)
         {
             return l * rc;
         }
 
-        Color operator/(Scalar v) const
+        Color operator/(Real v) const
         {
-            if (IsZero(v))
+            if (isZero(v))
                 v = 1;
 
             return Color(r / v, g / v, b / v, a);
@@ -398,7 +398,7 @@ namespace Rt2::Math
             return Color(r / v.r, g / v.g, b / v.b, a);
         }
 
-        Color& operator/=(Scalar v)
+        Color& operator/=(Real v)
         {
             r /= v;
             g /= v;
@@ -414,19 +414,19 @@ namespace Rt2::Math
             return *this;
         }
 
-        friend Color operator/(Scalar rc, const Color& l)
+        friend Color operator/(Real rc, const Color& l)
         {
             return l / rc;
         }
 
         Color& operator=(const Color& o) = default;
 
-        Scalar* ptr()
+        Real* ptr()
         {
             return &r;
         }
 
-        const Scalar* ptr() const
+        const Real* ptr() const
         {
             return &r;
         }
@@ -437,9 +437,9 @@ namespace Rt2::Math
 
         void print() const;
 
-        Color& mix(const Color& rhs, const Scalar t)
+        Color& mix(const Color& rhs, const Real t)
         {
-            const Scalar iT = 1 - t;
+            const Real iT = 1 - t;
 
             r = iT * r + t * rhs.r;
             g = iT * g + t * rhs.g;

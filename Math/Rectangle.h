@@ -29,83 +29,83 @@ namespace Rt2::Math
     class Rectangle
     {
     public:
-        Scalar x{}, y{};
-        Scalar width{RT_EPSILON}, height{RT_EPSILON};
+        Real x{}, y{};
+        Real width{Epsilon}, height{Epsilon};
 
     public:
         Rectangle() = default;
 
-        Rectangle(const Scalar xco,
-                  const Scalar yco,
-                  const Scalar widthValue,
-                  const Scalar heightValue) :
+        Rectangle(const Real xco,
+                  const Real yco,
+                  const Real widthValue,
+                  const Real heightValue) :
             x(xco),
             y(yco),
-            width(Max(widthValue, RT_EPSILON)),
-            height(Max(heightValue, RT_EPSILON))
+            width(Max(widthValue, Epsilon)),
+            height(Max(heightValue, Epsilon))
         {
         }
 
-        explicit Rectangle(const Scalar* pointer)
+        explicit Rectangle(const Real* pointer)
         {
             if (pointer != nullptr)
             {
                 x = pointer[0];
                 y = pointer[1];
 
-                width  = Max(pointer[2], RT_EPSILON);
-                height = Max(pointer[3], RT_EPSILON);
+                width  = Max(pointer[2], Epsilon);
+                height = Max(pointer[3], Epsilon);
             }
         }
 
         Rectangle& operator=(const Rectangle& o) = default;
 
-        Vector2 getSize() const
+        Vector2 size() const
         {
-            return Vector2(width, height);
+            return {width, height};
         }
 
-        Vector2 getPosition() const
+        Vector2 position() const
         {
-            return Vector2(x, y);
+            return {x, y};
         }
 
-        Scalar hw() const
+        Real hw() const
         {
-            return width * Scalar(.5);
+            return width * Real(.5);
         }
 
-        Scalar hh() const
+        Real hh() const
         {
-            return height * Scalar(.5);
+            return height * Real(.5);
         }
 
-        Scalar getWidth() const
+        Real w() const
         {
             return width;
         }
 
-        Scalar getHeight() const
+        Real h() const
         {
             return height;
         }
 
-        Scalar getLeft() const
+        Real left() const
         {
             return x;
         }
 
-        Scalar getRight() const
+        Real right() const
         {
             return x + width;
         }
 
-        Scalar getTop() const
+        Real top() const
         {
             return y;
         }
 
-        Scalar getBottom() const
+        Real bottom() const
         {
             return y + height;
         }
@@ -116,7 +116,7 @@ namespace Rt2::Math
             height = s.y;
         }
 
-        void setSize(const Scalar sx, const Scalar sy)
+        void setSize(const Real sx, const Real sy)
         {
             width  = sx;
             height = sy;
@@ -128,50 +128,44 @@ namespace Rt2::Math
             y = p.y;
         }
 
-        void setPosition(Scalar px, Scalar py)
+        void setPosition(const Real px, const Real py)
         {
             x = px;
             y = py;
         }
 
-        Vector2 getLeftTop() const
+        Vector2 leftTop() const
         {
-            return Vector2(x, y);
+            return {x, y};
         }
 
-        Vector2 getRightTop() const
+        Vector2 rightTop() const
         {
-            return Vector2(x + width, y);
+            return {x + width, y};
         }
 
-        Vector2 getLeftBottom() const
+        Vector2 leftBottom() const
         {
-            return Vector2(x, y + height);
+            return {x, y + height};
         }
 
-        Vector2 getRightBottom() const
+        Vector2 rightBottom() const
         {
-            return Vector2(x + width, y + height);
+            return {x + width, y + height};
         }
 
-        Vector2 getCenter() const
-        {
-            return Vector2(x + width * Half,
-                           y + height * Half);
-        }
-
-        void getCenter(Scalar& cx, Scalar& cy) const
+        void center(Real& cx, Real& cy) const
         {
             cx = x + width * Half;
             cy = y + height * Half;
         }
 
-        void getCorners(Vector2& lt, Vector2& rt, Vector2& lb, Vector2& rb) const
+        void corners(Vector2& lt, Vector2& rt, Vector2& lb, Vector2& rb) const
         {
-            lt = getLeftTop();
-            rt = getRightTop();
-            lb = getLeftBottom();
-            rb = getRightBottom();
+            lt = leftTop();
+            rt = rightTop();
+            lb = leftBottom();
+            rb = rightBottom();
         }
 
         void offset(const Vector2& v)
@@ -180,13 +174,13 @@ namespace Rt2::Math
             y += v.y;
         }
 
-        void offset(Scalar vx, Scalar vy)
+        void offset(const Real vx, const Real vy)
         {
             x += vx;
             y += vy;
         }
 
-        void getCorners(Scalar& x1, Scalar& y1, Scalar& x2, Scalar& y2) const
+        void corners(Real& x1, Real& y1, Real& x2, Real& y2) const
         {
             x1 = x;
             y1 = y;
@@ -194,7 +188,7 @@ namespace Rt2::Math
             y2 = y + height;
         }
 
-        void setCorners(const Scalar& x1, const Scalar& y1, const Scalar& x2, const Scalar& y2)
+        void setCorners(const Real& x1, const Real& y1, const Real& x2, const Real& y2)
         {
             x      = x1;
             y      = y1;
@@ -202,39 +196,42 @@ namespace Rt2::Math
             height = y2 - y1;
         }
 
-        Scalar getAspect() const
+        Real getAspect() const
         {
-            if (RtAbs(height) > RT_EPSILON)
+            if (RtAbs(height) > Epsilon)
                 return width / height;
             return 0;
         }
 
-        Scalar cx() const
+        Real cx() const
         {
-            return x + width * Scalar(0.5);
+            return x + width * Real(0.5);
         }
 
-        Scalar cy() const
+        Real cy() const
         {
-            return y + height * Scalar(0.5);
+            return y + height * Real(0.5);
         }
 
         Vector2 center() const
         {
-            return Vector2(cx(), cy());
+            return {
+                cx(),
+                cy(),
+            };
         }
 
         bool operator==(const Rectangle& rhs) const
         {
-            return Eq(x, rhs.x) &&
-                   Eq(y, rhs.y) &&
-                   Eq(width, rhs.width) &&
-                   Eq(height, rhs.height);
+            return eq(x, rhs.x) &&
+                   eq(y, rhs.y) &&
+                   eq(width, rhs.width) &&
+                   eq(height, rhs.height);
         }
 
         bool operator!=(const Rectangle& rhs) const
         {
-            return !(Eq(x, rhs.x) && Eq(y, rhs.y) && Eq(width, rhs.width) && Eq(height, rhs.height));
+            return !(eq(x, rhs.x) && eq(y, rhs.y) && eq(width, rhs.width) && eq(height, rhs.height));
         }
 
         void print() const;

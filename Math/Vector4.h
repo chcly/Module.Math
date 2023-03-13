@@ -28,7 +28,7 @@ namespace Rt2::Math
     class Vector4
     {
     public:
-        Scalar x{}, y{}, z{}, w{};
+        Real x{}, y{}, z{}, w{};
 
         static const Vector4 Unit;
         static const Vector4 Zero;
@@ -37,10 +37,10 @@ namespace Rt2::Math
         Vector4()                 = default;
         Vector4(const Vector4& v) = default;
 
-        Vector4(const Scalar& nx,
-                const Scalar& ny,
-                const Scalar& nz,
-                const Scalar& nw) :
+        Vector4(const Real& nx,
+                const Real& ny,
+                const Real& nz,
+                const Real& nw) :
             x(nx),
             y(ny),
             z(nz),
@@ -48,7 +48,7 @@ namespace Rt2::Math
         {
         }
 
-        explicit Vector4(const Scalar* p)
+        explicit Vector4(const Real* p)
         {
             if (p != nullptr)
             {
@@ -59,12 +59,12 @@ namespace Rt2::Math
             }
         }
 
-        Scalar* ptr()
+        Real* ptr()
         {
             return &x;
         }
 
-        const Scalar* ptr() const
+        const Real* ptr() const
         {
             return &x;
         }
@@ -78,12 +78,12 @@ namespace Rt2::Math
 
     inline bool Vector4::operator==(const Vector4& v) const
     {
-        return Eq(x, v.x) && Eq(y, v.y) && Eq(z, v.z) && Eq(w, v.w);
+        return eq(x, v.x) && eq(y, v.y) && eq(z, v.z) && eq(w, v.w);
     }
 
     inline bool Vector4::operator!=(const Vector4& v) const
     {
-        return !Eq(x, v.x) && !Eq(y, v.y) && !Eq(z, v.z) && !Eq(w, v.w);
+        return !eq(x, v.x) && !eq(y, v.y) && !eq(z, v.z) && !eq(w, v.w);
     }
 
 }  // namespace Rt2::Math

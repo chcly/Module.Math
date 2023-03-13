@@ -23,7 +23,7 @@
 
 namespace Rt2::Math
 {
-    BoundingSphere::BoundingSphere(const Vector3& newCenter, const Scalar& newRadius) :
+    BoundingSphere::BoundingSphere(const Vector3& newCenter, const Real& newRadius) :
         center(newCenter),
         radius(newRadius)
     {
@@ -31,34 +31,34 @@ namespace Rt2::Math
 
     bool BoundingSphere::hit(RayHitTest& dest, const Ray& ray, const Vector2& limit) const
     {
-        const Scalar vec[3] = {
+        const Real vec[3] = {
             ray.origin.x - center.x,
             ray.origin.y - center.y,
             ray.origin.z - center.z,
         };
 
-        const Scalar a =
+        const Real a =
             ray.direction.x * ray.direction.x +
             ray.direction.y * ray.direction.y +
             ray.direction.z * ray.direction.z;
 
-        const Scalar b =
+        const Real b =
             vec[0] * ray.direction.x +
             vec[1] * ray.direction.y +
             vec[2] * ray.direction.z;
 
-        const Scalar r = radius * radius;
-        const Scalar c =
+        const Real r = radius * radius;
+        const Real c =
             vec[0] * vec[0] - r +
             vec[1] * vec[1] - r +
             vec[2] * vec[2] - r;
 
-        Scalar d = b * b - a * c;
+        Real d = b * b - a * c;
         if (d > 0)
         {
             d = RtSqrt(d);
 
-            Scalar x = (-b - d) / a;
+            Real x = (-b - d) / a;
             if (x >= limit.x && x <= limit.y)
             {
                 dest.distance = x;
@@ -83,33 +83,33 @@ namespace Rt2::Math
 
     bool BoundingSphere::hit(const Ray& ray, const Vector2& limit) const
     {
-        const Scalar vec[3] = {
+        const Real vec[3] = {
             ray.origin.x - center.x,
             ray.origin.y - center.y,
             ray.origin.z - center.z,
         };
-        const Scalar a =
+        const Real a =
             ray.direction.x * ray.direction.x +
             ray.direction.y * ray.direction.y +
             ray.direction.z * ray.direction.z;
 
-        const Scalar b =
+        const Real b =
             vec[0] * ray.direction.x +
             vec[1] * ray.direction.y +
             vec[2] * ray.direction.z;
-        const Scalar r = radius * radius;
+        const Real r = radius * radius;
 
-        const Scalar c =
+        const Real c =
             vec[0] * vec[0] - r +
             vec[1] * vec[1] - r +
             vec[2] * vec[2] - r;
 
-        Scalar d = b * b - a * c;
+        Real d = b * b - a * c;
         if (d > 0)
         {
             d = RtSqrt(d);
 
-            Scalar x = (-b - d) / a;
+            Real x = (-b - d) / a;
             if (x >= limit.x && x <= limit.y)
                 return true;
 

@@ -51,28 +51,28 @@ namespace Rt2::Math
         static const Matrix3 Identity;
         static const Matrix3 Zero;
 
-        Scalar m[3][3]{};
+        Real m[3][3]{};
 
     public:
         Matrix3() = default;
         Matrix3(const Matrix3&) = default;
 
-        explicit Matrix3(const Scalar* v);
+        explicit Matrix3(const Real* v);
 
         explicit Matrix3(const Matrix4& m4)
         {
             this->fromMat4(m4);
         }
 
-        Matrix3(Scalar m00,
-                Scalar m01,
-                Scalar m02,
-                Scalar m10,
-                Scalar m11,
-                Scalar m12,
-                Scalar m20,
-                Scalar m21,
-                Scalar m22);
+        Matrix3(Real m00,
+                Real m01,
+                Real m02,
+                Real m10,
+                Real m11,
+                Real m12,
+                Real m20,
+                Real m21,
+                Real m22);
 
         Matrix3 operator*(const Matrix3& lhs) const;
         Vector3 operator*(const Vector3& v) const;
@@ -93,18 +93,18 @@ namespace Rt2::Math
 
         void makeIdentity();
 
-        void fromAngles(Scalar pitch, Scalar yaw, Scalar roll);
+        void fromAngles(Real pitch, Real yaw, Real roll);
         void fromAngles(const Vector3& dRot);
 
         void fromQuaternion(const Quaternion& q);
 
         void fromMat4(const Matrix4& mat4By4);
 
-        void makeRotX(Scalar theta);
+        void makeRotX(Real theta);
 
-        void makeRotY(Scalar theta);
+        void makeRotY(Real theta);
 
-        void makeRotZ(Scalar theta);
+        void makeRotZ(Real theta);
 
         void print() const;
     };
