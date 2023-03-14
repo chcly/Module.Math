@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/BoundingBox.h"
+#include "Math/Box3d.h"
 
 namespace Rt2::Math
 {
-    BoundingBox::BoundingBox(const Real mi[3], const Real ma[3])
+    Box3d::Box3d(const Real mi[3], const Real ma[3])
     {
         for (int i = 0; i < 3; ++i)
         {
@@ -32,7 +32,7 @@ namespace Rt2::Math
         }
     }
 
-    BoundingBox::BoundingBox(const Vector3& extent, const Vector3& center)
+    Box3d::Box3d(const Vec3& extent, const Vec3& center)
     {
         const Real* ep = extent.ptr();
         const Real* cp = center.ptr();
@@ -44,7 +44,7 @@ namespace Rt2::Math
         }
     }
 
-    void BoundingBox::clear()
+    void Box3d::clear()
     {
         for (int i = 0; i < 3; ++i)
         {
@@ -53,7 +53,7 @@ namespace Rt2::Math
         }
     }
 
-    void BoundingBox::compare(const Vector3& pt)
+    void Box3d::compare(const Vec3& pt)
     {
         const Real* ep = pt.ptr();
         for (int i = 0; i < 3; ++i)
@@ -65,7 +65,7 @@ namespace Rt2::Math
         }
     }
 
-    void BoundingBox::compare(const Real* pt)
+    void Box3d::compare(const Real* pt)
     {
         for (int i = 0; i < 3; ++i)
         {
@@ -76,13 +76,13 @@ namespace Rt2::Math
         }
     }
 
-    void BoundingBox::merge(const BoundingBox& bb)
+    void Box3d::merge(const Box3d& bb)
     {
         compare(bb.bMin);
         compare(bb.bMax);
     }
 
-    void BoundingBox::scale(const Real& sc)
+    void Box3d::scale(const Real& sc)
     {
         for (int i = 0; i < 3; ++i)
         {
@@ -91,7 +91,7 @@ namespace Rt2::Math
         }
     }
 
-    void BoundingBox::translate(const Vector3& pt)
+    void Box3d::translate(const Vec3& pt)
     {
         const Real* ep = pt.ptr();
 
@@ -102,23 +102,23 @@ namespace Rt2::Math
         }
     }
 
-    void BoundingBox::setMin(const Vector3& mi)
+    void Box3d::setMin(const Vec3& mi)
     {
         bMin[0] = mi.x;
         bMin[1] = mi.y;
         bMin[2] = mi.z;
     }
 
-    void BoundingBox::setMax(const Vector3& ma)
+    void Box3d::setMax(const Vec3& ma)
     {
         bMax[0] = ma.x;
         bMax[1] = ma.y;
         bMax[2] = ma.z;
     }
 
-    Real BoundingBox::signedLength() const
+    Real Box3d::signedLength() const
     {
-        const Vector3 c = center();
+        const Vec3 c = center();
 
         Real sign = 1;
         if (c.x < 0)
@@ -130,12 +130,12 @@ namespace Rt2::Math
         return sign * c.length();
     }
 
-    bool BoundingBox::contains(const BoundingBox& bb) const
+    bool Box3d::contains(const Box3d& bb) const
     {
-        const Vector3 tmi = min();
-        const Vector3 tma = max();
-        const Vector3 bmi = bb.min();
-        const Vector3 bma = bb.max();
+        const Vec3 tmi = min();
+        const Vec3 tma = max();
+        const Vec3 bmi = bb.min();
+        const Vec3 bma = bb.max();
 
         bool res = bmi.x >= tmi.x && bmi.y >= tmi.y && bmi.x >= tmi.z;
         if (res)
@@ -143,21 +143,21 @@ namespace Rt2::Math
         return res;
     }
 
-    void BoundingBox::majorAxis(Vector3& dest, const Vector3& src)
+    void Box3d::majorAxis(Vec3& dest, const Vec3& src)
     {
         const Real m = Max3(src.x, src.y, src.z);
 
         if (eq(m, src.x))
-            dest = Vector3::UnitX;
+            dest = Vec3::UnitX;
         else if (eq(m, src.y))
-            dest = Vector3::UnitY;
+            dest = Vec3::UnitY;
         else
-            dest = Vector3::UnitZ;
+            dest = Vec3::UnitZ;
         if (m < 0)
             dest *= -1;
     }
 
-    bool BoundingBox::hit(const Ray& ray, const Vector2& limit) const
+    bool Box3d::hit(const Ray& ray, const Vec2& limit) const
     {
         const Real* origP = ray.origin.ptr();
         const Real* dirP  = ray.direction.ptr();
@@ -192,7 +192,7 @@ namespace Rt2::Math
         return true;
     }
 
-    bool BoundingBox::hit(Real& r0, Real& r1, const Ray& ray, const Vector2& limit) const
+    bool Box3d::hit(Real& r0, Real& r1, const Ray& ray, const Vec2& limit) const
     {
         const Real* origP = ray.origin.ptr();
         const Real* dirP  = ray.direction.ptr();
@@ -227,7 +227,7 @@ namespace Rt2::Math
         return true;
     }
 
-    bool BoundingBox::hit(RayHitTest& dest, const Ray& ray, const Vector2& limit) const
+    bool Box3d::hit(RayHitTest& dest, const Ray& ray, const Vec2& limit) const
     {
         const Real* origP = ray.origin.ptr();
         const Real* dirP  = ray.direction.ptr();
@@ -264,10 +264,10 @@ namespace Rt2::Math
         dest.distance = tMin;
         dest.point    = ray.at(tMin);
 
-        const Vector3 p1 = dest.point - center();
-        const Vector3 p2 = extent() * Real(0.5);
-        const Vector3 p3 = p1 / p2;
-        const Vector3 p4 = p3.abs();
+        const Vec3 p1 = dest.point - center();
+        const Vec3 p2 = extent() * Real(0.5);
+        const Vec3 p3 = p1 / p2;
+        const Vec3 p4 = p3.abs();
         const Real  m3 = p4.max3();
         dest.normal        = {0, 0, 0};
         if (eq(m3, p4.x))

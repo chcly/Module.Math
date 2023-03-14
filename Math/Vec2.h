@@ -25,27 +25,27 @@
 
 namespace Rt2::Math
 {
-    class Vector2
+    class Vec2
     {
     public:
         Real x{}, y{};
 
-        static const Vector2 Unit;
-        static const Vector2 UnitX;
-        static const Vector2 UnitY;
-        static const Vector2 Zero;
+        static const Vec2 Unit;
+        static const Vec2 UnitX;
+        static const Vec2 UnitY;
+        static const Vec2 Zero;
 
     public:
-        Vector2()                 = default;
-        Vector2(const Vector2& v) = default;
+        Vec2()                 = default;
+        Vec2(const Vec2& v) = default;
 
-        Vector2(const Real nx, const Real ny) :
+        Vec2(const Real nx, const Real ny) :
             x(nx),
             y(ny)
         {
         }
 
-        explicit Vector2(const Real* pointer)
+        explicit Vec2(const Real* pointer)
         {
             x = pointer[0];
             y = pointer[1];
@@ -61,142 +61,142 @@ namespace Rt2::Math
             return &x;
         }
 
-        Vector2& operator=(const Vector2& v) = default;
+        Vec2& operator=(const Vec2& v) = default;
 
-        bool operator==(const Vector2& v) const
+        bool operator==(const Vec2& v) const
         {
             return eq(x, v.x) && eq(y, v.y);
         }
 
-        bool operator!=(const Vector2& v) const
+        bool operator!=(const Vec2& v) const
         {
             return !eq(x, v.x) && !eq(y, v.y);
         }
 
-        bool operator<(const Vector2& v) const
+        bool operator<(const Vec2& v) const
         {
             return x < v.x && y < v.y;
         }
 
-        bool operator>(const Vector2& v) const
+        bool operator>(const Vec2& v) const
         {
             return x > v.x && y > v.y;
         }
 
-        bool operator<=(const Vector2& v) const
+        bool operator<=(const Vec2& v) const
         {
             return x <= v.x && y <= v.y;
         }
 
-        bool operator>=(const Vector2& v) const
+        bool operator>=(const Vec2& v) const
         {
             return x >= v.x && y >= v.y;
         }
 
-        Vector2 operator+(const Real v) const
+        Vec2 operator+(const Real v) const
         {
             return {x + v, y + v};
         }
 
-        Vector2 operator+(const Vector2& v) const
+        Vec2 operator+(const Vec2& v) const
         {
             return {x + v.x, y + v.y};
         }
 
-        Vector2& operator+=(const Real v)
+        Vec2& operator+=(const Real v)
         {
             x += v;
             y += v;
             return *this;
         }
 
-        Vector2& operator+=(const Vector2& v)
+        Vec2& operator+=(const Vec2& v)
         {
             x += v.x;
             y += v.y;
             return *this;
         }
 
-        friend Vector2 operator+(const Real r, const Vector2& l)
+        friend Vec2 operator+(const Real r, const Vec2& l)
         {
             return {l.x + r, l.y + r};
         }
 
-        Vector2 operator-(const Real v) const
+        Vec2 operator-(const Real v) const
         {
             return {x - v, y - v};
         }
 
-        Vector2 operator-(const Vector2& v) const
+        Vec2 operator-(const Vec2& v) const
         {
             return {x - v.x, y - v.y};
         }
 
-        Vector2& operator-=(const Real v)
+        Vec2& operator-=(const Real v)
         {
             x -= v;
             y -= v;
             return *this;
         }
 
-        Vector2& operator-=(const Vector2& v)
+        Vec2& operator-=(const Vec2& v)
         {
             x -= v.x;
             y -= v.y;
             return *this;
         }
 
-        Vector2 operator-() const
+        Vec2 operator-() const
         {
             return {-x, -y};
         }
 
-        friend Vector2 operator-(const Real r, const Vector2& l)
+        friend Vec2 operator-(const Real r, const Vec2& l)
         {
             return {l.x - r, l.y - r};
         }
 
-        Vector2 operator*(const Real v) const
+        Vec2 operator*(const Real v) const
         {
             return {x * v, y * v};
         }
 
-        Vector2 operator*(const Vector2& v) const
+        Vec2 operator*(const Vec2& v) const
         {
             return {x * v.x, y * v.y};
         }
 
-        Vector2& operator*=(Real v)
+        Vec2& operator*=(Real v)
         {
             x *= v;
             y *= v;
             return *this;
         }
 
-        Vector2& operator*=(const Vector2& v)
+        Vec2& operator*=(const Vec2& v)
         {
             x *= v.x;
             y *= v.y;
             return *this;
         }
 
-        friend Vector2 operator*(const Real r, const Vector2& l)
+        friend Vec2 operator*(const Real r, const Vec2& l)
         {
             return {l.x * r, l.y * r};
         }
 
-        Vector2 operator/(const Real v) const
+        Vec2 operator/(const Real v) const
         {
             const Real n = reciprocal(v);
             return {x * n, y * n};
         }
 
-        Vector2 operator/(const Vector2& v) const
+        Vec2 operator/(const Vec2& v) const
         {
             return {x * reciprocal(v.x), y * reciprocal(v.y)};
         }
 
-        Vector2& operator/=(const Real v)
+        Vec2& operator/=(const Real v)
         {
             const Real n = reciprocal(v);
             x *= n;
@@ -204,7 +204,7 @@ namespace Rt2::Math
             return *this;
         }
 
-        Vector2& operator/=(const Vector2& v)
+        Vec2& operator/=(const Vec2& v)
         {
             x *= reciprocal(v.x);
             y *= reciprocal(v.y);
@@ -221,27 +221,27 @@ namespace Rt2::Math
             return dot(*this);
         }
 
-        Real dot(const Vector2& v) const
+        Real dot(const Vec2& v) const
         {
             return x * v.x + y * v.y;
         }
 
-        Vector2 abs() const
+        Vec2 abs() const
         {
             return {Abs(x), Abs(y)};
         }
 
-        Real distance(const Vector2& v) const
+        Real distance(const Vec2& v) const
         {
-            return Vector2(x - v.x, y - v.y).length();
+            return Vec2(x - v.x, y - v.y).length();
         }
 
-        Real distance2(const Vector2& v) const
+        Real distance2(const Vec2& v) const
         {
-            return Vector2(x - v.x, y - v.y).length2();
+            return Vec2(x - v.x, y - v.y).length2();
         }
 
-        Vector2 perpendicular() const
+        Vec2 perpendicular() const
         {
             return {-y, x};
         }
@@ -257,9 +257,9 @@ namespace Rt2::Math
             }
         }
 
-        Vector2 normalized() const
+        Vec2 normalized() const
         {
-            Vector2 v(x, y);
+            Vec2 v(x, y);
             v.normalize();
             return v;
         }

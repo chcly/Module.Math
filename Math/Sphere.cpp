@@ -19,17 +19,17 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/BoundingSphere.h"
+#include "Math/Sphere.h"
 
 namespace Rt2::Math
 {
-    BoundingSphere::BoundingSphere(const Vector3& newCenter, const Real& newRadius) :
+    Sphere::Sphere(const Vec3& newCenter, const Real& newRadius) :
         center(newCenter),
         radius(newRadius)
     {
     }
 
-    bool BoundingSphere::hit(RayHitTest& dest, const Ray& ray, const Vector2& limit) const
+    bool Sphere::hit(RayHitTest& dest, const Ray& ray, const Vec2& limit) const
     {
         const Real vec[3] = {
             ray.origin.x - center.x,
@@ -81,7 +81,7 @@ namespace Rt2::Math
         return false;
     }
 
-    bool BoundingSphere::hit(const Ray& ray, const Vector2& limit) const
+    bool Sphere::hit(const Ray& ray, const Vec2& limit) const
     {
         const Real vec[3] = {
             ray.origin.x - center.x,

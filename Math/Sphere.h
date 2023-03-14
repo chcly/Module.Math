@@ -19,28 +19,36 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
+#pragma once
 
-#include "Math/Vector3.h"
-#include <cstdio>
-#include "Math/Color.h"
+#include "Math/Math.h"
+#include "Math/Ray.h"
+#include "Math/Vec2.h"
+#include "Math/Vec3.h"
 
 namespace Rt2::Math
 {
-    const Vector3 Vector3::Unit  = Vector3(1, 1, 1);
-    const Vector3 Vector3::UnitX = Vector3(1, 0, 0);
-    const Vector3 Vector3::UnitY = Vector3(0, 1, 0);
-    const Vector3 Vector3::UnitZ = Vector3(0, 0, 1);
-    const Vector3 Vector3::Zero  = Vector3(0, 0, 0);
-
-    void Vector3::print() const
+    class Sphere
     {
-        printf("[%3.3f, %3.3f, %3.3f]\n", (double)x, (double)y, (double)z);
-    }
+    public:
+        Vec3 center;
+        Real    radius;
 
-    Vector3::Vector3(const Color& col) :
-        x(col.r),
-        y(col.g),
-        z(col.b)
-    {
-    }
+    public:
+        Sphere() :
+            center{0, 0, 0},
+            radius(0)
+        {
+        }
+
+        Sphere(const Vec3& newCenter,
+                       const Real&    newRadius);
+
+        bool hit(RayHitTest& dest, 
+            const Ray& ray, 
+            const Vec2& limit) const;
+
+        bool hit(const Ray& ray, const Vec2& limit) const;
+    };
+
 }  // namespace Rt2::Math

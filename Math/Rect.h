@@ -22,20 +22,20 @@
 #pragma once
 
 #include "Math/Math.h"
-#include "Math/Vector2.h"
+#include "Math/Vec2.h"
 
 namespace Rt2::Math
 {
-    class Rectangle
+    class Rect
     {
     public:
         Real x{}, y{};
         Real width{Epsilon}, height{Epsilon};
 
     public:
-        Rectangle() = default;
+        Rect() = default;
 
-        Rectangle(const Real xco,
+        Rect(const Real xco,
                   const Real yco,
                   const Real widthValue,
                   const Real heightValue) :
@@ -46,7 +46,7 @@ namespace Rt2::Math
         {
         }
 
-        explicit Rectangle(const Real* pointer)
+        explicit Rect(const Real* pointer)
         {
             if (pointer != nullptr)
             {
@@ -58,14 +58,14 @@ namespace Rt2::Math
             }
         }
 
-        Rectangle& operator=(const Rectangle& o) = default;
+        Rect& operator=(const Rect& o) = default;
 
-        Vector2 size() const
+        Vec2 size() const
         {
             return {width, height};
         }
 
-        Vector2 position() const
+        Vec2 position() const
         {
             return {x, y};
         }
@@ -110,7 +110,7 @@ namespace Rt2::Math
             return y + height;
         }
 
-        void setSize(const Vector2& s)
+        void setSize(const Vec2& s)
         {
             width  = s.x;
             height = s.y;
@@ -122,7 +122,7 @@ namespace Rt2::Math
             height = sy;
         }
 
-        void setPosition(const Vector2& p)
+        void setPosition(const Vec2& p)
         {
             x = p.x;
             y = p.y;
@@ -134,22 +134,22 @@ namespace Rt2::Math
             y = py;
         }
 
-        Vector2 leftTop() const
+        Vec2 leftTop() const
         {
             return {x, y};
         }
 
-        Vector2 rightTop() const
+        Vec2 rightTop() const
         {
             return {x + width, y};
         }
 
-        Vector2 leftBottom() const
+        Vec2 leftBottom() const
         {
             return {x, y + height};
         }
 
-        Vector2 rightBottom() const
+        Vec2 rightBottom() const
         {
             return {x + width, y + height};
         }
@@ -160,7 +160,7 @@ namespace Rt2::Math
             cy = y + height * Half;
         }
 
-        void corners(Vector2& lt, Vector2& rt, Vector2& lb, Vector2& rb) const
+        void corners(Vec2& lt, Vec2& rt, Vec2& lb, Vec2& rb) const
         {
             lt = leftTop();
             rt = rightTop();
@@ -168,7 +168,7 @@ namespace Rt2::Math
             rb = rightBottom();
         }
 
-        void offset(const Vector2& v)
+        void offset(const Vec2& v)
         {
             x += v.x;
             y += v.y;
@@ -213,7 +213,7 @@ namespace Rt2::Math
             return y + height * Real(0.5);
         }
 
-        Vector2 center() const
+        Vec2 center() const
         {
             return {
                 cx(),
@@ -221,7 +221,7 @@ namespace Rt2::Math
             };
         }
 
-        bool operator==(const Rectangle& rhs) const
+        bool operator==(const Rect& rhs) const
         {
             return eq(x, rhs.x) &&
                    eq(y, rhs.y) &&
@@ -229,7 +229,7 @@ namespace Rt2::Math
                    eq(height, rhs.height);
         }
 
-        bool operator!=(const Rectangle& rhs) const
+        bool operator!=(const Rect& rhs) const
         {
             return !(eq(x, rhs.x) && eq(y, rhs.y) && eq(width, rhs.width) && eq(height, rhs.height));
         }

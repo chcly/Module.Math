@@ -21,8 +21,8 @@
 */
 #pragma once
 
-#include "Math/Rectangle.h"
-#include "Math/Vector2.h"
+#include "Math/Rect.h"
+#include "Math/Vec2.h"
 namespace Rt2::Math
 {
     /// <summary>
@@ -31,21 +31,21 @@ namespace Rt2::Math
     class ScreenTransform
     {
     private:
-        Vector2   m_origin;         // (0,0) of the coordinate system
-        Vector2   m_center;         // offset from viewport center
-        Rectangle m_viewport;       // fixed bounds of the viewport ([x] [x] [L] [L])
-        Vector2   m_extent;         // storage to compute the change in m_viewport.getSize()
+        Vec2   m_origin;         // (0,0) of the coordinate system
+        Vec2   m_center;         // offset from viewport center
+        Rect m_viewport;       // fixed bounds of the viewport ([x] [x] [L] [L])
+        Vec2   m_extent;         // storage to compute the change in m_viewport.getSize()
         Real    m_zoom;           // computed viewport change
         Real    m_scale;          // the current amount to scale the viewport by
-        Vector2   m_scaleLimit;     // the range of the scale function
-        Vector2   m_initialOrigin;  // the 'home' origin
+        Vec2   m_scaleLimit;     // the range of the scale function
+        Vec2   m_initialOrigin;  // the 'home' origin
 
     public:
         ScreenTransform() :
             m_zoom(1),
             m_scale(1)
         {
-            m_scaleLimit = Vector2::Unit;
+            m_scaleLimit = Vec2::Unit;
         }
 
         void zoom(const Real factor, bool negate)
@@ -169,39 +169,39 @@ namespace Rt2::Math
             return xCpy;
         }
 
-        void pointToScreen(Vector2& pt) const
+        void pointToScreen(Vec2& pt) const
         {
             xToScreen(pt.x);
             yToScreen(pt.y);
         }
 
-        void pointToView(Vector2& pt) const
+        void pointToView(Vec2& pt) const
         {
             xToView(pt.x);
             yToView(pt.y);
         }
 
-        Vector2 getOffset() const
+        Vec2 getOffset() const
         {
-            return Vector2(xOffs(), yOffs());
+            return Vec2(xOffs(), yOffs());
         }
 
-        inline const Vector2& getOrigin() const
+        inline const Vec2& getOrigin() const
         {
             return m_origin;
         }
 
-        inline const Vector2& getExtent() const
+        inline const Vec2& getExtent() const
         {
             return m_extent;
         }
 
-        inline const Vector2& getCenter() const
+        inline const Vec2& getCenter() const
         {
             return m_center;
         }
 
-        inline const Rectangle& getViewport() const
+        inline const Rect& getViewport() const
         {
             return m_viewport;
         }
@@ -248,7 +248,7 @@ namespace Rt2::Math
             m_initialOrigin.y = oY;
         }
 
-        void setViewport(const Rectangle& vp)
+        void setViewport(const Rect& vp)
         {
             m_viewport = vp;
         }
@@ -266,7 +266,7 @@ namespace Rt2::Math
 
         bool isInViewport(const Real& x1, const Real& y1, const Real& x2, const Real& y2) const
         {
-            Rectangle r1, r2;
+            Rect r1, r2;
             r1.setSize(m_viewport.width, m_viewport.height);
             r2.setCorners(x1, y1, x2, y2);
             return r1.contains(r2);

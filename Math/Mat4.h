@@ -21,27 +21,27 @@
 */
 #pragma once
 
-#include "Math/Vector3.h"
+#include "Math/Vec3.h"
 
 namespace Rt2::Math
 {
-    class Matrix3;
-    class Quaternion;
+    class Mat3;
+    class Quat;
 
-    class Matrix4
+    class Mat4
     {
     public:
         Real m[4][4]{};
 
-        static const Matrix4 Identity;
-        static const Matrix4 Zero;
+        static const Mat4 Identity;
+        static const Mat4 Zero;
 
     public:
-        Matrix4() = default;
+        Mat4() = default;
 
-        Matrix4(const Matrix4& v) = default;
+        Mat4(const Mat4& v) = default;
 
-        Matrix4(Real m00,
+        Mat4(Real m00,
                 Real m01,
                 Real m02,
                 Real m03,
@@ -58,43 +58,43 @@ namespace Rt2::Math
                 Real m32,
                 Real m33);
 
-        explicit Matrix4(const Real* v);
+        explicit Mat4(const Real* v);
 
-        Matrix4 operator*(const Matrix4& lhs) const;
+        Mat4 operator*(const Mat4& lhs) const;
 
-        Matrix4& transpose();
+        Mat4& transpose();
 
-        Matrix4 transposed() const;
+        Mat4 transposed() const;
 
-        void setTrans(const Vector3& v);
+        void setTrans(const Vec3& v);
 
         void setTrans(Real x, Real y, Real z);
 
-        void setScale(const Vector3& v);
+        void setScale(const Vec3& v);
 
         void setScale(Real x, Real y, Real z);
 
-        Vector3 getScale() const;
+        Vec3 getScale() const;
 
-        Vector3 getTrans() const;
+        Vec3 getTrans() const;
 
         void makeIdentity();
 
         Real det() const;
 
-        Matrix4 inverted() const;
+        Mat4 inverted() const;
 
-        void mulAssign(const Matrix4& lhs, const Matrix4& rhs);
+        void mulAssign(const Mat4& lhs, const Mat4& rhs);
 
-        void makeTransform(const Vector3& loc, const Vector3& scale, const Quaternion& rot);
+        void makeTransform(const Vec3& loc, const Vec3& scale, const Quat& rot);
 
-        void makeTransform(const Vector3& loc, const Vector3& scale, const Matrix3& rot);
+        void makeTransform(const Vec3& loc, const Vec3& scale, const Mat3& rot);
 
-        void makeInverseTransform(const Vector3& loc, const Vector3& scale, const Quaternion& rot);
+        void makeInverseTransform(const Vec3& loc, const Vec3& scale, const Quat& rot);
 
-        void makeInverseTransform(const Vector3& loc, const Vector3& scale, const Matrix3& rot);
+        void makeInverseTransform(const Vec3& loc, const Vec3& scale, const Mat3& rot);
 
-        static void merge(Matrix4& d, const Matrix4& lhs, const Matrix4& rhs);
+        static void merge(Mat4& d, const Mat4& lhs, const Mat4& rhs);
 
         void print() const;
     };

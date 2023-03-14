@@ -26,7 +26,7 @@
 
 namespace Rt2::Math
 {
-    class Vector3;
+    class Vec3;
 
     class ColorHsv;
     class Color;
@@ -143,7 +143,7 @@ namespace Rt2::Math
     public:
         Color()               = default;
         Color(const Color& o) = default;
-        explicit Color(const Vector3& v);
+        explicit Color(const Vec3& v);
 
         Color(const Real rv, const Real gv, const Real bv, const Real av = Real(1.0)) :
             r(rv),

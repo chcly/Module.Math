@@ -19,36 +19,14 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#pragma once
-
-#include "Math/Math.h"
-#include "Math/Ray.h"
-#include "Math/Vector2.h"
-#include "Math/Vector3.h"
+#include "Math/Rect.h"
+#include <cstdio>
 
 namespace Rt2::Math
 {
-    class BoundingSphere
+    void Rect::print() const
     {
-    public:
-        Vector3 center;
-        Real    radius;
-
-    public:
-        BoundingSphere() :
-            center{0, 0, 0},
-            radius(0)
-        {
-        }
-
-        BoundingSphere(const Vector3& newCenter,
-                       const Real&    newRadius);
-
-        bool hit(RayHitTest& dest, 
-            const Ray& ray, 
-            const Vector2& limit) const;
-
-        bool hit(const Ray& ray, const Vector2& limit) const;
-    };
+        printf("[%3.3f, %3.3f, %3.3f, %3.3f]\n", (Real)x, (Real)y, (Real)width, (Real)height);
+    }
 
 }  // namespace Rt2::Math

@@ -19,15 +19,62 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/Quaternion.h"
+#include "Rand.h"
+#include <cstdint>
 #include <cstdio>
+#include <cstdlib>
+
+#include "Math.h"
+#include "Math/Scalar.h"
+#include "Utils/Definitions.h"
+
+#if _WIN32
+#include <Windows.h>
+#include <limits>
+#else
+#include <sys/time.h>
+#endif
+#undef max
+
 namespace Rt2::Math
 {
-    const Quaternion Quaternion::Identity = Quaternion(1, 0, 0, 0);
-    const Quaternion Quaternion::Zero     = Quaternion(0, 0, 0, 0);
-
-    void Quaternion::print() const
+    void Rand::init()
     {
-        printf("[%3.3f, %3.3f, %3.3f, %3.3f]\n", (double)w, (double)x, (double)y, (double)z);
+        // If seed is set to 1, the generator is reinitialized to its initial
+        // value and produces the same values as before any call to
+#if _WIN32
+        const uint64_t t64 = (ULONGLONG) GetTickCount64();
+        uint32_t seed = t64 % Npos32;
+        if (seed == 1)
+            seed++;
+
+        srand(seed);
+#else
+        struct timeval now;
+        gettimeofday(&now, nullptr);
+        srand((now.tv_sec) / 1000);
+#endif
     }
+
+    Real Rand::real()
+    {
+        return Real(rand()) / Real(RAND_MAX);
+    }
+
+    Real Rand::unit()
+    {
+        return Real(2.0) * real() - Real(1.0);
+    }
+
+    U8 Rand::u8()
+    {
+        return U8(Real(255) * real());
+    }
+    
+
+    I32 Rand::range(const I32 rmi, const I32 rma)
+    {
+        return I32((Real(rma) - Real(rmi)) * real() + Real(rmi));
+    }
+
 }  // namespace Rt2::Math

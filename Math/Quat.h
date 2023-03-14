@@ -22,24 +22,24 @@
 #pragma once
 
 #include "Math/Math.h"
-#include "Math/Vector3.h"
+#include "Math/Vec3.h"
 
 namespace Rt2::Math
 {
-    class Quaternion
+    class Quat
     {
     public:
-        static const Quaternion Identity;
-        static const Quaternion Zero;
+        static const Quat Identity;
+        static const Quat Zero;
 
         Real w{1}, x{}, y{}, z{};
 
     public:
-        Quaternion() = default;
+        Quat() = default;
 
-        Quaternion(const Quaternion& v) = default;
+        Quat(const Quat& v) = default;
 
-        Quaternion(const Real nw, const Real nx, const Real ny, const Real nz) :
+        Quat(const Real nw, const Real nx, const Real ny, const Real nz) :
             w(nw),
             x(nx),
             y(ny),
@@ -47,17 +47,17 @@ namespace Rt2::Math
         {
         }
 
-        Quaternion(const Real xRad, const Real yRad, const Real zRad)
+        Quat(const Real xRad, const Real yRad, const Real zRad)
         {
             (*this).makeRotXyz(xRad, yRad, zRad);
         }
 
-        explicit Quaternion(const Vector3& vec)
+        explicit Quat(const Vec3& vec)
         {
             (*this).makeRotXyz(vec.x, vec.y, vec.z);
         }
 
-        explicit Quaternion(const Real* p)
+        explicit Quat(const Real* p)
         {
             if (p != nullptr)
             {
@@ -76,7 +76,7 @@ namespace Rt2::Math
 
         void makeRotXyz(const Real xRad, const Real yRad, const Real zRad)
         {
-            Quaternion q0, q1, q2;
+            Quat q0, q1, q2;
             q0.makeRotX(xRad);
             q1.makeRotY(yRad);
             q2.makeRotZ(zRad);
@@ -103,11 +103,11 @@ namespace Rt2::Math
             x = y = 0;
         }
 
-        Vector3 toAxis() const
+        Vec3 toAxis() const
         {
             Real wSq = Real(1.0) - w * w;
             if (wSq < Epsilon)
-                return Vector3::UnitZ;
+                return Vec3::UnitZ;
 
             wSq = Real(1.0) / wSq;
             return {
@@ -138,24 +138,24 @@ namespace Rt2::Math
             }
         }
 
-        Quaternion normalized() const
+        Quat normalized() const
         {
-            Quaternion q(w, x, y, z);
+            Quat q(w, x, y, z);
             q.normalize();
             return q;
         }
 
-        Quaternion inverse() const
+        Quat inverse() const
         {
             return {w, -x, -y, -z};
         }
 
-        Quaternion operator-() const
+        Quat operator-() const
         {
             return {w, -x, -y, -z};
         }
 
-        Quaternion& invert()
+        Quat& invert()
         {
             x = -x;
             y = -y;
@@ -163,12 +163,12 @@ namespace Rt2::Math
             return *this;
         }
 
-        Quaternion operator*(const Real& v) const
+        Quat operator*(const Real& v) const
         {
             return {w * v, x * v, y * v, z * v};
         }
 
-        Quaternion& operator*=(const Real& v)
+        Quat& operator*=(const Real& v)
         {
             w *= v;
             x *= v;
@@ -177,7 +177,7 @@ namespace Rt2::Math
             return *this;
         }
 
-        Quaternion& operator*=(const Quaternion& v)
+        Quat& operator*=(const Quat& v)
         {
             w = w * v.w - x * v.x - y * v.y - z * v.z;
             x = w * v.x + x * v.w + y * v.z - z * v.y;
@@ -186,7 +186,7 @@ namespace Rt2::Math
             return *this;
         }
 
-        Quaternion operator*(const Quaternion& v) const
+        Quat operator*(const Quat& v) const
         {
             return {
                 w * v.w - x * v.x - y * v.y - z * v.z,
@@ -196,43 +196,43 @@ namespace Rt2::Math
             };
         }
 
-        Vector3 operator*(const Vector3& v) const
+        Vec3 operator*(const Vec3& v) const
         {
-            const Vector3 c(x, y, z);
+            const Vec3 c(x, y, z);
 
-            Vector3 a = c.cross(v);
-            Vector3 b = c.cross(a);
+            Vec3 a = c.cross(v);
+            Vec3 b = c.cross(a);
             a *= Real(2) * w;
             b *= Real(2);
             return v + a + b;
         }
 
-        Quaternion operator+(const Real& v) const
+        Quat operator+(const Real& v) const
         {
             return {w + v, x + v, y + v, z + v};
         }
 
-        Quaternion operator+(const Quaternion& v) const
+        Quat operator+(const Quat& v) const
         {
             return {w + v.w, x + v.x, y + v.y, z + v.z};
         }
 
-        Quaternion operator-(const Real& v) const
+        Quat operator-(const Real& v) const
         {
             return {w - v, x - v, y - v, z - v};
         }
 
-        Quaternion operator-(const Quaternion& v) const
+        Quat operator-(const Quat& v) const
         {
             return {w - v.w, x - v.x, y - v.y, z - v.z};
         }
 
-        bool operator==(const Quaternion& v) const
+        bool operator==(const Quat& v) const
         {
             return eq(x, v.x) && eq(y, v.y) && eq(z, v.z) && eq(w, v.w);
         }
 
-        bool operator!=(const Quaternion& v) const
+        bool operator!=(const Quat& v) const
         {
             return neq(x, v.x) && neq(y, v.y) && neq(z, v.z) && neq(w, v.w);
         }

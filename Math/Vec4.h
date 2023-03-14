@@ -25,19 +25,19 @@
 
 namespace Rt2::Math
 {
-    class Vector4
+    class Vec4
     {
     public:
         Real x{}, y{}, z{}, w{};
 
-        static const Vector4 Unit;
-        static const Vector4 Zero;
+        static const Vec4 Unit;
+        static const Vec4 Zero;
 
     public:
-        Vector4()                 = default;
-        Vector4(const Vector4& v) = default;
+        Vec4()                 = default;
+        Vec4(const Vec4& v) = default;
 
-        Vector4(const Real& nx,
+        Vec4(const Real& nx,
                 const Real& ny,
                 const Real& nz,
                 const Real& nw) :
@@ -48,7 +48,7 @@ namespace Rt2::Math
         {
         }
 
-        explicit Vector4(const Real* p)
+        explicit Vec4(const Real* p)
         {
             if (p != nullptr)
             {
@@ -69,19 +69,19 @@ namespace Rt2::Math
             return &x;
         }
 
-        inline bool operator==(const Vector4& v) const;
+        inline bool operator==(const Vec4& v) const;
 
-        inline bool operator!=(const Vector4& v) const;
+        inline bool operator!=(const Vec4& v) const;
 
         void print() const;
     };
 
-    inline bool Vector4::operator==(const Vector4& v) const
+    inline bool Vec4::operator==(const Vec4& v) const
     {
         return eq(x, v.x) && eq(y, v.y) && eq(z, v.z) && eq(w, v.w);
     }
 
-    inline bool Vector4::operator!=(const Vector4& v) const
+    inline bool Vec4::operator!=(const Vec4& v) const
     {
         return !eq(x, v.x) && !eq(y, v.y) && !eq(z, v.z) && !eq(w, v.w);
     }

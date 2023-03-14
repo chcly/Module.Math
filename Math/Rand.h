@@ -19,18 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/Vector2.h"
-#include <cstdio>
+#pragma once
+
+#include "Math/Scalar.h"
+#include "Utils/Definitions.h"
 
 namespace Rt2::Math
 {
-    const Vector2 Vector2::Unit  = Vector2(1, 1);
-    const Vector2 Vector2::UnitX = Vector2(1, 0);
-    const Vector2 Vector2::UnitY = Vector2(0, 1);
-    const Vector2 Vector2::Zero  = Vector2(0, 0);
-
-    void Vector2::print() const
+    class Rand
     {
-        printf("[%3.3f, %3.3f]\n", (double)x, (double)y);
-    }
+    public:
+        static void init();
+        static Real real();
+        static Real unit();
+        static U8   u8();
+        static I32  range(I32 rmi, I32 rma);
+    };
+
 }  // namespace Rt2::Math

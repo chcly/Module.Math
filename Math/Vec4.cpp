@@ -19,14 +19,21 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/Rectangle.h"
+#include "Math/Vec4.h"
 #include <cstdio>
 
 namespace Rt2::Math
 {
-    void Rectangle::print() const
+    const Vec4 Vec4::Unit = Vec4(1, 1, 1, 1);
+    const Vec4 Vec4::Zero = Vec4(0, 0, 0, 0);
+
+    void Vec4::print() const
     {
-        printf("[%3.3f, %3.3f, %3.3f, %3.3f]\n", (double)x, (double)y, (double)width, (double)height);
+        printf("[%3.3f, %3.3f, %3.3f, %3.3f]\n",
+               (double)x,
+               (double)y,
+               (double)z,
+               (double)w);
     }
 
 }  // namespace Rt2::Math

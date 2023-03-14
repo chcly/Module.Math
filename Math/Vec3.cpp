@@ -19,21 +19,28 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/Vector4.h"
+
+#include "Math/Vec3.h"
 #include <cstdio>
+#include "Math/Color.h"
 
 namespace Rt2::Math
 {
-    const Vector4 Vector4::Unit = Vector4(1, 1, 1, 1);
-    const Vector4 Vector4::Zero = Vector4(0, 0, 0, 0);
+    const Vec3 Vec3::Unit  = Vec3(1, 1, 1);
+    const Vec3 Vec3::UnitX = Vec3(1, 0, 0);
+    const Vec3 Vec3::UnitY = Vec3(0, 1, 0);
+    const Vec3 Vec3::UnitZ = Vec3(0, 0, 1);
+    const Vec3 Vec3::Zero  = Vec3(0, 0, 0);
 
-    void Vector4::print() const
+    void Vec3::print() const
     {
-        printf("[%3.3f, %3.3f, %3.3f, %3.3f]\n",
-               (double)x,
-               (double)y,
-               (double)z,
-               (double)w);
+        printf("[%3.3f, %3.3f, %3.3f]\n", (double)x, (double)y, (double)z);
     }
 
+    Vec3::Vec3(const Color& col) :
+        x(col.r),
+        y(col.g),
+        z(col.b)
+    {
+    }
 }  // namespace Rt2::Math

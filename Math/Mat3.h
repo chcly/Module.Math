@@ -21,12 +21,12 @@
 */
 #pragma once
 #include "Math/Math.h"
-#include "Math/Vector3.h"
+#include "Math/Vec3.h"
 
 namespace Rt2::Math
 {
-    class Quaternion;
-    class Matrix4;
+    class Quat;
+    class Mat4;
 
     /**
      *     [1, 0, 0]
@@ -45,26 +45,26 @@ namespace Rt2::Math
      * Rz = [sin,  cos, 0]
      *      [0,     0,  1]
      */
-    class Matrix3
+    class Mat3
     {
     public:
-        static const Matrix3 Identity;
-        static const Matrix3 Zero;
+        static const Mat3 Identity;
+        static const Mat3 Zero;
 
         Real m[3][3]{};
 
     public:
-        Matrix3() = default;
-        Matrix3(const Matrix3&) = default;
+        Mat3() = default;
+        Mat3(const Mat3&) = default;
 
-        explicit Matrix3(const Real* v);
+        explicit Mat3(const Real* v);
 
-        explicit Matrix3(const Matrix4& m4)
+        explicit Mat3(const Mat4& m4)
         {
             this->fromMat4(m4);
         }
 
-        Matrix3(Real m00,
+        Mat3(Real m00,
                 Real m01,
                 Real m02,
                 Real m10,
@@ -74,10 +74,10 @@ namespace Rt2::Math
                 Real m21,
                 Real m22);
 
-        Matrix3 operator*(const Matrix3& lhs) const;
-        Vector3 operator*(const Vector3& v) const;
+        Mat3 operator*(const Mat3& lhs) const;
+        Vec3 operator*(const Vec3& v) const;
 
-        bool operator==(const Matrix3& rhs) const;
+        bool operator==(const Mat3& rhs) const;
 
 
         void transpose()
@@ -85,20 +85,21 @@ namespace Rt2::Math
             *this = transposed();
         }
 
-        Matrix3 transposed() const;
+        Mat3 transposed() const;
 
-        Vector3 row(int idx) const;
+        Vec3 row(int idx) const;
 
-        Vector3 col(int idx) const;
+        Vec3 col(int idx) const;
 
         void makeIdentity();
 
         void fromAngles(Real pitch, Real yaw, Real roll);
-        void fromAngles(const Vector3& dRot);
 
-        void fromQuaternion(const Quaternion& q);
+        void fromAngles(const Vec3& dRot);
 
-        void fromMat4(const Matrix4& mat4By4);
+        void fromQuaternion(const Quat& q);
+
+        void fromMat4(const Mat4& mat4By4);
 
         void makeRotX(Real theta);
 

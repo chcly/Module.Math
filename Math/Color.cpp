@@ -22,7 +22,7 @@
 #include "Math/Color.h"
 #include <cstdint>
 #include <cstdio>
-#include "Math/Vector3.h"
+#include "Math/Vec3.h"
 #include "Utils/Definitions.h"
 
 namespace Rt2::Math
@@ -53,7 +53,7 @@ namespace Rt2::Math
     constexpr Real Ri4 = 4 * PiO3;
     constexpr Real Ri5 = 5 * PiO3;
 
-    Color::Color(const Vector3& v) :
+    Color::Color(const Vec3& v) :
         r(v.x),
         g(v.y),
         b(v.z),

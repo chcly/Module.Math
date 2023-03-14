@@ -24,57 +24,57 @@
 #include <algorithm>
 #include "Math/Math.h"
 #include "Math/Ray.h"
-#include "Math/Vector3.h"
-#include "Math/Vector2.h"
+#include "Math/Vec3.h"
+#include "Math/Vec2.h"
 
 namespace Rt2::Math
 {
-    class BoundingBox
+    class Box3d
     {
     public:
         Real bMin[3]{};
         Real bMax[3]{};
 
     public:
-        BoundingBox();
+        Box3d();
 
-        BoundingBox(const Real mi[3], const Real ma[3]);
+        Box3d(const Real mi[3], const Real ma[3]);
 
-        BoundingBox(const Vector3& extent, const Vector3& center);
+        Box3d(const Vec3& extent, const Vec3& center);
 
         void clear();
 
-        void compare(const Vector3& pt);
+        void compare(const Vec3& pt);
 
         void compare(const Real* pt);
 
-        void merge(const BoundingBox& bb);
+        void merge(const Box3d& bb);
 
         void scale(const Real& sc);
 
-        void translate(const Vector3& pt);
+        void translate(const Vec3& pt);
 
-        void setMin(const Vector3& mi);
+        void setMin(const Vec3& mi);
 
-        void setMax(const Vector3& ma);
+        void setMax(const Vec3& ma);
 
         Real signedLength() const;
 
-        bool contains(const BoundingBox& bb) const;
+        bool contains(const Box3d& bb) const;
 
-        static void majorAxis(Vector3& dest, const Vector3& src);
+        static void majorAxis(Vec3& dest, const Vec3& src);
 
-        bool hit(const Ray& ray, const Vector2& limit) const;
+        bool hit(const Ray& ray, const Vec2& limit) const;
 
-        bool hit(Real& r0, Real& r1, const Ray& ray, const Vector2& limit) const;
+        bool hit(Real& r0, Real& r1, const Ray& ray, const Vec2& limit) const;
 
-        bool hit(RayHitTest& dest, const Ray& ray, const Vector2& limit) const;
+        bool hit(RayHitTest& dest, const Ray& ray, const Vec2& limit) const;
 
-        Vector3 min() const;
+        Vec3 min() const;
 
-        Vector3 max() const;
+        Vec3 max() const;
 
-        Vector3 extent() const;
+        Vec3 extent() const;
 
         Real halfLength2() const;
 
@@ -84,74 +84,74 @@ namespace Rt2::Math
 
         Real min3() const;
 
-        Vector3 center() const;
+        Vec3 center() const;
 
         Real length() const;
 
         Real length2() const;
 
-        bool less(const BoundingBox& bb) const;
+        bool less(const Box3d& bb) const;
     };
 
-    inline BoundingBox::BoundingBox()
+    inline Box3d::Box3d()
     {
         clear();
     }
 
-    inline Vector3 BoundingBox::min() const
+    inline Vec3 Box3d::min() const
     {
-        return Vector3(bMin[0], bMin[1], bMin[2]);
+        return Vec3(bMin[0], bMin[1], bMin[2]);
     }
 
-    inline Vector3 BoundingBox::max() const
+    inline Vec3 Box3d::max() const
     {
-        return Vector3(bMax[0], bMax[1], bMax[2]);
+        return Vec3(bMax[0], bMax[1], bMax[2]);
     }
 
-    inline Vector3 BoundingBox::extent() const
+    inline Vec3 Box3d::extent() const
     {
-        return Vector3(bMax[0] - bMin[0], bMax[1] - bMin[1], bMax[2] - bMin[2]);
+        return Vec3(bMax[0] - bMin[0], bMax[1] - bMin[1], bMax[2] - bMin[2]);
     }
 
-    inline Real BoundingBox::halfLength2() const
+    inline Real Box3d::halfLength2() const
     {
         return extent().length2() * Real(0.5);
     }
 
-    inline Real BoundingBox::halfLength() const
+    inline Real Box3d::halfLength() const
     {
         return extent().length() * Real(0.5);
     }
 
-    inline Real BoundingBox::max3() const
+    inline Real Box3d::max3() const
     {
         return std::max(bMax[0], std::max(bMax[1], bMax[2]));
     }
 
-    inline Real BoundingBox::min3() const
+    inline Real Box3d::min3() const
     {
         return std::min(bMin[0], std::min(bMin[1], bMin[2]));
     }
 
-    inline Vector3 BoundingBox::center() const
+    inline Vec3 Box3d::center() const
     {
-        return Vector3(
+        return Vec3(
             Real(0.5) * (bMax[0] + bMin[0]),
             Real(0.5) * (bMax[1] + bMin[1]),
             Real(0.5) * (bMax[2] + bMin[2]));
     }
 
-    inline Real BoundingBox::length() const
+    inline Real Box3d::length() const
     {
         return extent().length();
     }
 
-    inline Real BoundingBox::length2() const
+    inline Real Box3d::length2() const
     {
         return extent().length();
     }
 
-    inline bool BoundingBox::less(const BoundingBox& bb) const
+    inline bool Box3d::less(const Box3d& bb) const
     {
         return signedLength() < bb.signedLength();
     }

@@ -27,30 +27,30 @@ namespace Rt2::Math
 {
     class Color;
 
-    class Vector3
+    class Vec3
     {
     public:
         Real x{}, y{}, z{};
 
-        static const Vector3 Unit;
-        static const Vector3 UnitX;
-        static const Vector3 UnitY;
-        static const Vector3 UnitZ;
-        static const Vector3 Zero;
+        static const Vec3 Unit;
+        static const Vec3 UnitX;
+        static const Vec3 UnitY;
+        static const Vec3 UnitZ;
+        static const Vec3 Zero;
 
     public:
-        Vector3() = default;
+        Vec3() = default;
 
-        explicit Vector3(const Color& col);
+        explicit Vec3(const Color& col);
 
-        Vector3(const Real nx, const Real ny, const Real nz) :
+        Vec3(const Real nx, const Real ny, const Real nz) :
             x(nx),
             y(ny),
             z(nz)
         {
         }
 
-        explicit Vector3(const float* pointer)
+        explicit Vec3(const float* pointer)
         {
             if (pointer)
             {
@@ -62,7 +62,7 @@ namespace Rt2::Math
                 x = y = z = 0;
         }
 
-        explicit Vector3(const double* p)
+        explicit Vec3(const double* p)
         {
             if (p)
             {
@@ -74,7 +74,7 @@ namespace Rt2::Math
                 x = y = z = 0;
         }
 
-        Vector3(const Vector3& v) = default;
+        Vec3(const Vec3& v) = default;
 
         Real* ptr()
         {
@@ -86,27 +86,27 @@ namespace Rt2::Math
             return &x;
         }
 
-        bool operator==(const Vector3& v) const
+        bool operator==(const Vec3& v) const
         {
             return eq(x, v.x) && eq(y, v.y) && eq(z, v.z);
         }
 
-        bool operator!=(const Vector3& v) const
+        bool operator!=(const Vec3& v) const
         {
             return !eq(x, v.x) && !eq(y, v.y) && !eq(z, v.z);
         }
 
-        Vector3 operator+(const Real v) const
+        Vec3 operator+(const Real v) const
         {
             return {x + v, y + v, z + v};
         }
 
-        Vector3 operator+(const Vector3& v) const
+        Vec3 operator+(const Vec3& v) const
         {
             return {x + v.x, y + v.y, z + v.z};
         }
 
-        Vector3& operator+=(const Real v)
+        Vec3& operator+=(const Real v)
         {
             x += v;
             y += v;
@@ -114,7 +114,7 @@ namespace Rt2::Math
             return *this;
         }
 
-        Vector3& operator+=(const Vector3& v)
+        Vec3& operator+=(const Vec3& v)
         {
             x += v.x;
             y += v.y;
@@ -122,14 +122,14 @@ namespace Rt2::Math
             return *this;
         }
 
-        Vector3 majorAxis() const
+        Vec3 majorAxis() const
         {
-            Vector3 result;
+            Vec3 result;
             majorAxis(result, *this);
             return result;
         }
 
-        Vector3 abs() const
+        Vec3 abs() const
         {
             return {
                 Abs(x),
@@ -138,17 +138,17 @@ namespace Rt2::Math
             };
         }
 
-        Vector3 operator-(const Real v) const
+        Vec3 operator-(const Real v) const
         {
             return {x - v, y - v, z - v};
         }
 
-        Vector3 operator-(const Vector3& v) const
+        Vec3 operator-(const Vec3& v) const
         {
             return {x - v.x, y - v.y, z - v.z};
         }
 
-        Vector3& operator-=(const Real v)
+        Vec3& operator-=(const Real v)
         {
             x -= v;
             y -= v;
@@ -156,7 +156,7 @@ namespace Rt2::Math
             return *this;
         }
 
-        Vector3& operator-=(const Vector3& v)
+        Vec3& operator-=(const Vec3& v)
         {
             x -= v.x;
             y -= v.y;
@@ -164,22 +164,22 @@ namespace Rt2::Math
             return *this;
         }
 
-        Vector3 operator-() const
+        Vec3 operator-() const
         {
             return {-x, -y, -z};
         }
 
-        Vector3 operator*(const Real v) const
+        Vec3 operator*(const Real v) const
         {
             return {x * v, y * v, z * v};
         }
 
-        Vector3 operator*(const Vector3& v) const
+        Vec3 operator*(const Vec3& v) const
         {
             return {x * v.x, y * v.y, z * v.z};
         }
 
-        Vector3& operator*=(const Real v)
+        Vec3& operator*=(const Real v)
         {
             x *= v;
             y *= v;
@@ -187,7 +187,7 @@ namespace Rt2::Math
             return *this;
         }
 
-        Vector3& operator*=(const Vector3& v)
+        Vec3& operator*=(const Vec3& v)
         {
             x *= v.x;
             y *= v.y;
@@ -195,13 +195,13 @@ namespace Rt2::Math
             return *this;
         }
 
-        Vector3 operator/(const Real v) const
+        Vec3 operator/(const Real v) const
         {
             const Real n = reciprocal(v);
             return {x * n, y * n, z * n};
         }
 
-        Vector3 operator/(const Vector3& v) const
+        Vec3 operator/(const Vec3& v) const
         {
             return {
                 x * reciprocal(v.x),
@@ -210,7 +210,7 @@ namespace Rt2::Math
             };
         }
 
-        Vector3& operator/=(const Real v)
+        Vec3& operator/=(const Real v)
         {
             const Real n = reciprocal(v);
             x *= n;
@@ -219,7 +219,7 @@ namespace Rt2::Math
             return *this;
         }
 
-        Vector3& operator/=(const Vector3& v)
+        Vec3& operator/=(const Vec3& v)
         {
             x *= reciprocal(v.x);
             y *= reciprocal(v.y);
@@ -237,22 +237,22 @@ namespace Rt2::Math
             return x * x + y * y + z * z;
         }
 
-        Real dot(const Vector3& v) const
+        Real dot(const Vec3& v) const
         {
             return x * v.x + y * v.y + z * v.z;
         }
 
-        Real distance(const Vector3& v) const
+        Real distance(const Vec3& v) const
         {
-            return Vector3(x - v.x, y - v.y, z - v.z).length();
+            return Vec3(x - v.x, y - v.y, z - v.z).length();
         }
 
-        Real distance2(const Vector3& v) const
+        Real distance2(const Vec3& v) const
         {
-            return Vector3(x - v.x, y - v.y, z - v.z).length2();
+            return Vec3(x - v.x, y - v.y, z - v.z).length2();
         }
 
-        Vector3 cross(const Vector3& v) const
+        Vec3 cross(const Vec3& v) const
         {
             return {
                 y * v.z - z * v.y,
@@ -277,7 +277,7 @@ namespace Rt2::Math
             }
         }
 
-        Vector3 normalized() const
+        Vec3 normalized() const
         {
             if (const Real sl = length2();
                 sl > Epsilon)
@@ -289,7 +289,7 @@ namespace Rt2::Math
             return Zero;
         }
 
-        static void majorAxis(Vector3& dest, const Vector3& src)
+        static void majorAxis(Vec3& dest, const Vec3& src)
         {
             if (const Real m = Max3(src.x, src.y, src.z);
                 eq(m, src.x))
@@ -303,22 +303,22 @@ namespace Rt2::Math
         void print() const;
     };
 
-    inline Vector3 operator-(const Real r, const Vector3& l)
+    inline Vec3 operator-(const Real r, const Vec3& l)
     {
         return {l.x - r, l.y - r, l.z - r};
     }
 
-    inline Vector3 operator+(const Real r, const Vector3& l)
+    inline Vec3 operator+(const Real r, const Vec3& l)
     {
         return {l.x + r, l.y + r, l.z + r};
     }
 
-    inline Vector3 operator/(const Real r, const Vector3& l)
+    inline Vec3 operator/(const Real r, const Vec3& l)
     {
         return {l.x / r, l.y / r, l.z / r};
     }
 
-    inline Vector3 operator*(const Real r, const Vector3& l)
+    inline Vec3 operator*(const Real r, const Vec3& l)
     {
         return {l.x * r, l.y * r, l.z * r};
     }

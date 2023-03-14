@@ -22,7 +22,7 @@
 #pragma once
 
 #include "Math/Math.h"
-#include "Math/Vector3.h"
+#include "Math/Vec3.h"
 
 namespace Rt2::Math
 {
@@ -38,8 +38,8 @@ namespace Rt2::Math
         RayHitTest(const RayHitTest& rhs) = default;
 
         Real  distance;
-        Vector3 point;
-        Vector3 normal;
+        Vec3 point;
+        Vec3 normal;
     };
 
 
@@ -49,19 +49,19 @@ namespace Rt2::Math
     class Ray
     {
     public:
-        Vector3 origin;
-        Vector3 direction;
+        Vec3 origin;
+        Vec3 direction;
 
     public:
         Ray() = default;
 
-        Ray(const Vector3& vOrig, const Vector3& vDir) :
+        Ray(const Vec3& vOrig, const Vec3& vDir) :
             origin(vOrig),
             direction(vDir)
         {
         }
 
-        Vector3 at(const Real& t) const
+        Vec3 at(const Real& t) const
         {
             return {
                 origin.x + direction.x * t,
@@ -70,7 +70,7 @@ namespace Rt2::Math
             };
         }
 
-        void at(Vector3& dest, const Real& t) const
+        void at(Vec3& dest, const Real& t) const
         {
             dest.x = origin.x + direction.x * t;
             dest.y = origin.y + direction.y * t;

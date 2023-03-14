@@ -23,8 +23,8 @@
 
 #include "Math/Math.h"
 #include "Math/Ray.h"
-#include "Math/Vector2.h"
-#include "Math/Vector3.h"
+#include "Math/Vec2.h"
+#include "Math/Vec3.h"
 namespace Rt2::Math
 {
     /// <summary>
@@ -35,21 +35,21 @@ namespace Rt2::Math
     class Plane
     {
     public:
-        Vector3 p0;
-        Vector3 n;
+        Vec3 p0;
+        Vec3 n;
 
     public:
         Plane()                 = default;
         Plane(const Plane& n) = default;
 
-        explicit Plane(const Vector3& point, const Vector3& normal) :
+        explicit Plane(const Vec3& point, const Vec3& normal) :
             p0(point),
             n(normal)
         {
         }
 
 
-        bool hit(Real& t, const Ray& ray, const Vector2& limit) const
+        bool hit(Real& t, const Ray& ray, const Vec2& limit) const
         {
             Real kn = n.x * (ray.origin.x - p0.x);
             Real kd = ray.direction.x * n.x;
@@ -70,7 +70,7 @@ namespace Rt2::Math
             return false;
         }
 
-        bool hit(RayHitTest& ht, const Ray& ray, const Vector2& limit) const
+        bool hit(RayHitTest& ht, const Ray& ray, const Vec2& limit) const
         {
             if (hit(ht.distance, ray, limit))
             {

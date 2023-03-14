@@ -19,11 +19,11 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/BoundingBox.h"
+#include "Math/Box3d.h"
 #include "Math/Color.h"
-#include "Math/Matrix3.h"
-#include "Math/Random.h"
-#include "Math/Rectangle.h"
+#include "Math/Mat3.h"
+#include "Math/Rand.h"
+#include "Math/Rect.h"
 #include "Utils/Console.h"
 #include "Utils/StreamMethods.h"
 #include "gtest/gtest.h"
@@ -42,13 +42,13 @@ constexpr int Lps   = Steps / 4;
 
 GTEST_TEST(Math, Random_range)
 {
-    Random::init();
+    Rand::init();
 
     for (int i = 0; i < Steps; ++i)
     {
         const int r = Steps * (i + 1);
 
-        const Real v = Random::range(-r, r);
+        const Real v = Rand::range(-r, r);
         EXPECT_GE(v, -r);
         EXPECT_LE(v, r);
 
@@ -60,10 +60,10 @@ GTEST_TEST(Math, Random_range)
 
 GTEST_TEST(Math, Random_unit)
 {
-    Random::init();
+    Rand::init();
     for (int i = 0; i < Steps; ++i)
     {
-        const Real x = Random::real();
+        const Real x = Rand::real();
         EXPECT_LE(x, 1);
         EXPECT_GE(x, 0);
     }
@@ -71,10 +71,10 @@ GTEST_TEST(Math, Random_unit)
 
 GTEST_TEST(Math, Random_u8)
 {
-    Random::init();
+    Rand::init();
     for (int i = 0; i < Steps; ++i)
     {
-        const U8 x = Random::u8();
+        const U8 x = Rand::u8();
         EXPECT_LE(x, 255);
         EXPECT_GE(x, 0);
 
@@ -86,14 +86,14 @@ GTEST_TEST(Math, Random_u8)
 
 GTEST_TEST(Math, Rect_001)
 {
-    Rectangle r0{0, 0, 20, 20};
+    Rect r0{0, 0, 20, 20};
     EXPECT_REAL_EQ(r0.x, 0);
     EXPECT_REAL_EQ(r0.y, 0);
     EXPECT_REAL_EQ(r0.width, 20);
     EXPECT_REAL_EQ(r0.height, 20);
     r0.print();
 
-    Rectangle r1;
+    Rect r1;
     EXPECT_REAL_EQ(r1.x, 0);
     EXPECT_REAL_EQ(r1.y, 0);
     EXPECT_REAL_EQ(r1.width, Epsilon);
@@ -102,7 +102,7 @@ GTEST_TEST(Math, Rect_001)
 
     Real n[4]{0, 0, 50, 50};
 
-    const Rectangle r3(n);
+    const Rect r3(n);
     EXPECT_REAL_EQ(r3.x, 0);
     EXPECT_REAL_EQ(r3.y, 0);
     EXPECT_REAL_EQ(r3.width, 50);
@@ -123,10 +123,10 @@ GTEST_TEST(Math, Rect_001)
 
 GTEST_TEST(Math, Matrix3_identity)
 {
-    Matrix3 r0;
-    EXPECT_EQ(r0, Matrix3::Zero);
+    Mat3 r0;
+    EXPECT_EQ(r0, Mat3::Zero);
     r0.makeIdentity();
-    EXPECT_EQ(r0, Matrix3::Identity);
+    EXPECT_EQ(r0, Mat3::Identity);
 }
 
 GTEST_TEST(Math, Matrix3_rotate90)
@@ -135,102 +135,102 @@ GTEST_TEST(Math, Matrix3_rotate90)
     {
         // Looking the +Z axis on the XY plane
 
-        Matrix3 r0;
-        Vector3 result = Vector3(1, 0, 0);
-        EXPECT_EQ(result, Vector3(1, 0, 0));
+        Mat3 r0;
+        Vec3 result = Vec3(1, 0, 0);
+        EXPECT_EQ(result, Vec3(1, 0, 0));
 
         r0.makeIdentity();
         r0.makeRotZ(PiH);
         r0.print();
 
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(0, 1, 0));
+        EXPECT_EQ(result, Vec3(0, 1, 0));
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(-1, 0, 0));
+        EXPECT_EQ(result, Vec3(-1, 0, 0));
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(0, -1, 0));
+        EXPECT_EQ(result, Vec3(0, -1, 0));
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(1, 0, 0));
+        EXPECT_EQ(result, Vec3(1, 0, 0));
     }
 
     for (int i = 0; i < Steps; ++i)
     {
         // Looking down the +Y axis on the ZX plane
 
-        Matrix3 r0;
-        Vector3 result = Vector3(0, 0, 1);
-        EXPECT_EQ(result, Vector3(0, 0, 1));
+        Mat3 r0;
+        Vec3 result = Vec3(0, 0, 1);
+        EXPECT_EQ(result, Vec3(0, 0, 1));
 
         r0.makeIdentity();
         r0.makeRotY(PiH);
         r0.print();
 
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(-1, 0, 0));
+        EXPECT_EQ(result, Vec3(-1, 0, 0));
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(0, 0, -1));
+        EXPECT_EQ(result, Vec3(0, 0, -1));
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(1, 0, 0));
+        EXPECT_EQ(result, Vec3(1, 0, 0));
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(0, 0, 1));
+        EXPECT_EQ(result, Vec3(0, 0, 1));
     }
 
     // Looking down the +X axis on the ZY plane
     for (int i = 0; i < Steps; ++i)
     {
-        Matrix3 r0;
-        Vector3 result = Vector3(0, 0, 1);
-        EXPECT_EQ(result, Vector3(0, 0, 1));
+        Mat3 r0;
+        Vec3 result = Vec3(0, 0, 1);
+        EXPECT_EQ(result, Vec3(0, 0, 1));
 
         r0.makeIdentity();
         r0.makeRotX(PiH);
         r0.print();
 
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(0, -1, 0));
+        EXPECT_EQ(result, Vec3(0, -1, 0));
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(0, 0, -1));
+        EXPECT_EQ(result, Vec3(0, 0, -1));
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(0, 1, 0));
+        EXPECT_EQ(result, Vec3(0, 1, 0));
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(0, 0, 1));
+        EXPECT_EQ(result, Vec3(0, 0, 1));
     }
 
     for (int i = 0; i < Steps; ++i)
     {
         // Start, Looking down the +Y axis on the ZX plane
 
-        Matrix3 r0;
-        Vector3 result = Vector3(0, 0, 1);
-        EXPECT_EQ(result, Vector3(0, 0, 1));
+        Mat3 r0;
+        Vec3 result = Vec3(0, 0, 1);
+        EXPECT_EQ(result, Vec3(0, 0, 1));
 
         r0.makeIdentity();
         r0.makeRotY(-PiH);
         r0.print();
 
         result = r0 * result;
-        EXPECT_EQ(result, Vector3(1, 0, 0));
+        EXPECT_EQ(result, Vec3(1, 0, 0));
 
         // Looking down the +Z axis on the YX plane
-        Matrix3 r1;
+        Mat3 r1;
         r1.makeRotZ(PiH);
 
         result = r1 * result;
-        EXPECT_EQ(result, Vector3(0, 1, 0));
+        EXPECT_EQ(result, Vec3(0, 1, 0));
 
         // Looking down the +X axis on the ZY plane
 
-        Matrix3 r2;
+        Mat3 r2;
         r2.makeRotX(-PiH);
 
         result = r2 * result;
-        EXPECT_EQ(result, Vector3(0, 0, -1));
+        EXPECT_EQ(result, Vec3(0, 0, -1));
     }
 }
 
 GTEST_TEST(Math, Matrix3_transpose)
 {
-    Matrix3 r0{
+    Mat3 r0{
         (Real)'a',
         (Real)'b',
         (Real)'c',
@@ -269,6 +269,12 @@ GTEST_TEST(Math, Matrix3_transpose)
     EXPECT_EQ(r0.m[2][0], (Real)'g');
     EXPECT_EQ(r0.m[2][1], (Real)'h');
     EXPECT_EQ(r0.m[2][2], (Real)'i');
+}
+
+
+GTEST_TEST(Math, Vector2_001)
+{
+    Math::Vec2 v2;
 }
 
 GTEST_TEST(Math, Color_001)

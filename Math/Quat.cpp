@@ -19,21 +19,17 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#pragma once
+#include "Math/Quat.h"
+#include <cstdio>
 
-#include "Math/Scalar.h"
-#include "Utils/Definitions.h"
 
 namespace Rt2::Math
 {
-    class Random
-    {
-    public:
-        static void init();
-        static Real real();
-        static Real unit();
-        static U8   u8();
-        static I32  range(I32 rmi, I32 rma);
-    };
+    const Quat Quat::Identity = Quat(1, 0, 0, 0);
+    const Quat Quat::Zero     = Quat(0, 0, 0, 0);
 
+    void Quat::print() const
+    {
+        printf("[%3.3f, %3.3f, %3.3f, %3.3f]\n", (Real)w, (Real)x, (Real)y, (Real)z);
+    }
 }  // namespace Rt2::Math

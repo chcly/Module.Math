@@ -19,17 +19,17 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/Matrix3.h"
+#include "Math/Mat3.h"
 #include <cstdio>
-#include "Matrix4.h"
-#include "Quaternion.h"
+#include "Mat4.h"
+#include "Quat.h"
 
 namespace Rt2::Math
 {
-    const Matrix3 Matrix3::Identity = Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
-    const Matrix3 Matrix3::Zero     = Matrix3(0, 0, 0, 0, 0, 0, 0, 0, 0);
+    const Mat3 Mat3::Identity = Mat3(1, 0, 0, 0, 1, 0, 0, 0, 1);
+    const Mat3 Mat3::Zero     = Mat3(0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-    Matrix3::Matrix3(const Real m00,
+    Mat3::Mat3(const Real m00,
                      const Real m01,
                      const Real m02,
                      const Real m10,
@@ -50,7 +50,7 @@ namespace Rt2::Math
         m[2][2] = m22;
     }
 
-    Matrix3::Matrix3(const Real* v)
+    Mat3::Mat3(const Real* v)
     {
         if (v != nullptr)
         {
@@ -66,7 +66,7 @@ namespace Rt2::Math
         }
     }
 
-    Matrix3 Matrix3::operator*(const Matrix3& lhs) const
+    Mat3 Mat3::operator*(const Mat3& lhs) const
     {
         return {
             m[0][0] * lhs.m[0][0] + m[0][1] * lhs.m[1][0] + m[0][2] * lhs.m[2][0],
@@ -83,9 +83,9 @@ namespace Rt2::Math
         };
     }
 
-    Vector3 Matrix3::operator*(const Vector3& v) const
+    Vec3 Mat3::operator*(const Vec3& v) const
     {
-        Vector3 r{
+        Vec3 r{
             m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z,
             m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z,
             m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z,
@@ -100,7 +100,7 @@ namespace Rt2::Math
         return r;
     }
 
-    bool Matrix3::operator==(const Matrix3& rhs) const
+    bool Mat3::operator==(const Mat3& rhs) const
     {
         for (int i = 0; i < 3; i++)
         {
@@ -113,7 +113,7 @@ namespace Rt2::Math
         return true;
     }
 
-    Matrix3 Matrix3::transposed() const
+    Mat3 Mat3::transposed() const
     {
         return {
             m[0][0],
@@ -128,21 +128,21 @@ namespace Rt2::Math
         };
     }
 
-    Vector3 Matrix3::row(const int idx) const
+    Vec3 Mat3::row(const int idx) const
     {
         if (idx < 3 && idx >= 0)
             return {m[0][idx], m[1][idx], m[2][idx]};
-        return Vector3::Zero;
+        return Vec3::Zero;
     }
 
-    Vector3 Matrix3::col(const int idx) const
+    Vec3 Mat3::col(const int idx) const
     {
         if (idx < 3 && idx >= 0)
             return {m[idx][0], m[idx][1], m[idx][2]};
-        return Vector3::Zero;
+        return Vec3::Zero;
     }
 
-    void Matrix3::makeIdentity()
+    void Mat3::makeIdentity()
     {
         m[0][0] = 1;
         m[0][1] = 0;
@@ -155,7 +155,7 @@ namespace Rt2::Math
         m[2][2] = 1;
     }
 
-    void Matrix3::fromAngles(const Real pitch, const Real yaw, const Real roll)
+    void Mat3::fromAngles(const Real pitch, const Real yaw, const Real roll)
     {
         Real s0, c0, s1, c1, s2, c2;
         angles(pitch, s0, c0);
@@ -176,7 +176,12 @@ namespace Rt2::Math
         m[2][2] = -s1 * s2S0 + c1 * c0;
     }
 
-    void Matrix3::fromQuaternion(const Quaternion& q)
+    void Mat3::fromAngles(const Vec3& dRot)
+    {
+        fromAngles(dRot.x, dRot.y, dRot.z);
+    }
+
+    void Mat3::fromQuaternion(const Quat& q)
     {
         const Real qx2 = q.x * q.x;
         const Real qy2 = q.y * q.y;
@@ -203,7 +208,7 @@ namespace Rt2::Math
         m[2][2] = Real(1.0) - Real(2.0) * (qx2 + qy2);
     }
 
-    void Matrix3::fromMat4(const Matrix4& mat4By4)
+    void Mat3::fromMat4(const Mat4& mat4By4)
     {
         m[0][0] = mat4By4.m[0][0];
         m[0][1] = mat4By4.m[0][1];
@@ -218,7 +223,7 @@ namespace Rt2::Math
         m[2][2] = mat4By4.m[2][2];
     }
 
-    void Matrix3::makeRotZ(const Real theta)
+    void Mat3::makeRotZ(const Real theta)
     {
         Real s, c;
         angles(theta, s, c);
@@ -230,7 +235,7 @@ namespace Rt2::Math
         m[1][0] = s;
     }
 
-    void Matrix3::makeRotY(const Real theta)
+    void Mat3::makeRotY(const Real theta)
     {
         Real s, c;
         angles(theta, s, c);
@@ -241,7 +246,7 @@ namespace Rt2::Math
         m[2][0]           = s;
     }
 
-    void Matrix3::makeRotX(const Real theta)
+    void Mat3::makeRotX(const Real theta)
     {
         Real s, c;
         angles(theta, s, c);
@@ -252,7 +257,7 @@ namespace Rt2::Math
         m[2][1]           = s;
     }
 
-    void Matrix3::print() const
+    void Mat3::print() const
     {
         printf("[ %3.3f, %3.3f, %3.3f ]\n", (double)m[0][0], (double)m[0][1], (double)m[0][2]);
         printf("[ %3.3f, %3.3f, %3.3f ]\n", (double)m[1][0], (double)m[1][1], (double)m[1][2]);
