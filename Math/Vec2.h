@@ -31,12 +31,11 @@ namespace Rt2::Math
         Real x{}, y{};
 
         static const Vec2 Unit;
-        static const Vec2 UnitX;
-        static const Vec2 UnitY;
         static const Vec2 Zero;
 
     public:
-        Vec2()                 = default;
+        Vec2()              = default;
+
         Vec2(const Vec2& v) = default;
 
         Vec2(const Real nx, const Real ny) :

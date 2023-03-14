@@ -23,6 +23,7 @@
 
 #include <cstdint>
 #include "Math/Math.h"
+#include "Utils/Definitions.h"
 
 namespace Rt2::Math
 {
@@ -38,8 +39,8 @@ namespace Rt2::Math
         {
         }
 
-        uint8_t  b[4];
-        uint32_t i;
+        U8  b[4];
+        U32 i;
     };
 
     union ColorUf
@@ -49,8 +50,8 @@ namespace Rt2::Math
         {
         }
 
-        uint8_t b[4];
-        float   f;
+        U8    b[4];
+        float f;
     };
 
     class ColorUtils
@@ -60,15 +61,15 @@ namespace Rt2::Math
         static const Real i255;
         static const Real i360;
 
-        static void convert(uint32_t& dst, const Color& src);
-        static void convert(Color& dst, const uint32_t& src);
-        static void convert(uint32_t& dst, const uint8_t* src);
+        static void convert(U32& dst, const Color& src);
+        static void convert(Color& dst, const U32& src);
+        static void convert(U32& dst, const U8* src);
         static void convert(Color& dst, const ColorHsv& src);
         static void convert(ColorHsv& dst, const Color& src);
-        static void convert(uint8_t*& dst, const Color& src);
-        static void convert(Color& dst, const uint8_t* src);
-        static void convert(uint8_t*& dst, const Real& src);
-        static void convert(uint8_t*& dst, const uint32_t& src);
+        static void convert(U8*& dst, const Color& src);
+        static void convert(Color& dst, const U8* src);
+        static void convert(U8*& dst, const Real& src);
+        static void convert(U8*& dst, const U32& src);
         static void convert(Color& dst, const Real& src);
     };
 
@@ -82,10 +83,10 @@ namespace Rt2::Math
     public:
         ColorHsv() = default;
 
-        ColorHsv(const uint32_t& hv,
-                 const uint32_t& sv,
-                 const uint32_t& vv,
-                 const uint32_t& av = 100) :
+        ColorHsv(const U32& hv,
+                 const U32& sv,
+                 const U32& vv,
+                 const U32& av = 100) :
             h(Real(hv) * ColorUtils::i360),
             s(Real(sv) * ColorUtils::i100),
             v(Real(vv) * ColorUtils::i100),
@@ -98,17 +99,17 @@ namespace Rt2::Math
             ColorUtils::convert(*this, rgb);
         }
 
-        void setHue(const uint32_t& hue)
+        void setHue(const U32& hue)
         {
             h = Real(hue);
         }
 
-        void setSaturation(const uint32_t& sat)
+        void setSaturation(const U32& sat)
         {
             s = Real(sat) * ColorUtils::i100;
         }
 
-        void setValue(const uint32_t& val)
+        void setValue(const U32& val)
         {
             v = Real(val) * ColorUtils::i100;
         }
@@ -123,12 +124,12 @@ namespace Rt2::Math
             v = clamp(v + offset, Real(0.0), Real(1.0));
         }
 
-        void toInt(uint32_t& dH, uint32_t& dS, uint32_t& dV, uint32_t& dA) const
+        void toInt(U32& dH, U32& dS, U32& dV, U32& dA) const
         {
-            dH = uint32_t(h);
-            dS = uint32_t(s * 100);
-            dV = uint32_t(v * 100);
-            dA = uint32_t(a * 100);
+            dH = U32(h);
+            dS = U32(s * 100);
+            dV = U32(v * 100);
+            dA = U32(a * 100);
         }
     };
 
@@ -145,7 +146,10 @@ namespace Rt2::Math
         Color(const Color& o) = default;
         explicit Color(const Vec3& v);
 
-        Color(const Real rv, const Real gv, const Real bv, const Real av = Real(1.0)) :
+        Color(const Real rv,
+              const Real gv,
+              const Real bv,
+              const Real av = Real(1.0)) :
             r(rv),
             g(gv),
             b(bv),
@@ -153,19 +157,22 @@ namespace Rt2::Math
         {
         }
 
-        explicit Color(const uint32_t& color)
+        explicit Color(const U32& color)
         {
             ColorUtils::convert(*this, color);
         }
 
-        explicit operator uint32_t() const
+        explicit operator U32() const
         {
-            uint32_t i;
+            U32 i;
             ColorUtils::convert(i, *this);
             return i;
         }
 
-        void set(const Real rv, const Real gv, const Real bv, const Real av = Real(1.0))
+        void set(const Real rv,
+                 const Real gv,
+                 const Real bv,
+                 const Real av = Real(1.0))
         {
             r = rv;
             g = gv;
@@ -173,7 +180,8 @@ namespace Rt2::Math
             a = av;
         }
 
-        void setMonochrome(const Real value, const Real alpha = Real(1.0))
+        void setMonochrome(const Real value,
+                           const Real alpha = Real(1.0))
         {
             r = value;
             g = value;
@@ -181,7 +189,10 @@ namespace Rt2::Math
             a = alpha;
         }
 
-        void setUb(const uint8_t rByte, const uint8_t gByte, const uint8_t bByte, const uint8_t aByte = 255)
+        void setUb(const U8 rByte,
+                   const U8 gByte,
+                   const U8 bByte,
+                   const U8 aByte = 255)
         {
             r = Real(rByte) * ColorUtils::i255;
             g = Real(gByte) * ColorUtils::i255;
@@ -194,7 +205,7 @@ namespace Rt2::Math
             ColorUtils::convert(*this, hsv);
         }
 
-        void setHue(const uint32_t& h)
+        void setHue(const U32& h)
         {
             ColorHsv hsv;
             ColorUtils::convert(hsv, *this);
@@ -202,7 +213,7 @@ namespace Rt2::Math
             ColorUtils::convert(*this, hsv);
         }
 
-        void setSaturation(const uint32_t& s)
+        void setSaturation(const U32& s)
         {
             ColorHsv hsv;
             ColorUtils::convert(hsv, *this);
@@ -210,7 +221,7 @@ namespace Rt2::Math
             ColorUtils::convert(*this, hsv);
         }
 
-        void setValue(const uint32_t& v)
+        void setValue(const U32& v)
         {
             ColorHsv hsv;
             ColorUtils::convert(hsv, *this);
@@ -218,7 +229,7 @@ namespace Rt2::Math
             ColorUtils::convert(*this, hsv);
         }
 
-        void saturate(Real fac)
+        void saturate(const Real fac)
         {
             ColorHsv hsv;
             ColorUtils::convert(hsv, *this);
@@ -226,7 +237,7 @@ namespace Rt2::Math
             ColorUtils::convert(*this, hsv);
         }
 
-        void lighten(Real fac)
+        void lighten(const Real fac)
         {
             ColorHsv hsv;
             ColorUtils::convert(hsv, *this);
@@ -234,14 +245,14 @@ namespace Rt2::Math
             ColorUtils::convert(*this, hsv);
         }
 
-        uint32_t toInt() const
+        U32 toInt() const
         {
-            uint32_t i;
+            U32 i;
             ColorUtils::convert(i, *this);
             return i;
         }
 
-        void toInt(uint32_t& dest) const
+        void toInt(U32& dest) const
         {
             ColorUtils::convert(dest, *this);
         }
@@ -279,24 +290,25 @@ namespace Rt2::Math
 
         Color limit() const
         {
-            return Color(
+            return {
                 clamp(r, 0, 1),
                 clamp(g, 0, 1),
                 clamp(b, 0, 1),
-                clamp(a, 0, 1));
+                clamp(a, 0, 1),
+            };
         }
 
         Color operator+(const Real offset) const
         {
-            return Color(r + offset, g + offset, b + offset, a);
+            return {r + offset, g + offset, b + offset, a};
         }
 
         Color operator+(const Color& col) const
         {
-            return Color(r + col.r, g + col.g, b + col.b, a);
+            return {r + col.r, g + col.g, b + col.b, a};
         }
 
-        Color& operator+=(Real val)
+        Color& operator+=(const Real val)
         {
             r += val;
             g += val;
@@ -321,12 +333,22 @@ namespace Rt2::Math
 
         Color operator-(const Real value) const
         {
-            return Color(r - value, g - value, b - value, a);
+            return {
+                r - value,
+                g - value,
+                b - value,
+                a,
+            };
         }
 
         Color operator-(const Color& col) const
         {
-            return Color(r - col.r, g - col.g, b - col.b, a);
+            return {
+                r - col.r,
+                g - col.g,
+                b - col.b,
+                a,
+            };
         }
 
         Color& operator-=(const Real value)
@@ -354,12 +376,22 @@ namespace Rt2::Math
 
         Color operator*(const Real factor) const
         {
-            return Color(r * factor, g * factor, b * factor, a);
+            return {
+                r * factor,
+                g * factor,
+                b * factor,
+                a,
+            };
         }
 
         Color operator*(const Color& v) const
         {
-            return Color(r * v.r, g * v.g, b * v.b, a);
+            return {
+                r * v.r,
+                g * v.g,
+                b * v.b,
+                a,
+            };
         }
 
         Color& operator*=(const Real factor)
@@ -380,7 +412,7 @@ namespace Rt2::Math
             return *this;
         }
 
-        friend Color operator*(Real rc, const Color& l)
+        friend Color operator*(const Real rc, const Color& l)
         {
             return l * rc;
         }
@@ -390,20 +422,17 @@ namespace Rt2::Math
             if (isZero(v))
                 v = 1;
 
-            return Color(r / v, g / v, b / v, a);
+            return {r / v, g / v, b / v, a};
         }
 
         Color operator/(const Color& v) const
         {
-            return Color(r / v.r, g / v.g, b / v.b, a);
+            return {r / v.r, g / v.g, b / v.b, a};
         }
 
-        Color& operator/=(Real v)
+        Color& operator/=(const Real v)
         {
-            r /= v;
-            g /= v;
-            b /= v;
-            return *this;
+            return operator*=(reciprocal(v));
         }
 
         Color& operator/=(const Color& v)
@@ -414,7 +443,7 @@ namespace Rt2::Math
             return *this;
         }
 
-        friend Color operator/(Real rc, const Color& l)
+        friend Color operator/(const Real rc, const Color& l)
         {
             return l / rc;
         }
@@ -431,9 +460,9 @@ namespace Rt2::Math
             return &r;
         }
 
-        void toBytes(uint8_t& vr, uint8_t& vg, uint8_t& vb, uint8_t& va) const;
+        void toBytes(U8& vr, U8& vg, U8& vb, U8& va) const;
 
-        void toBytes(uint8_t& vr, uint8_t& vg, uint8_t& vb) const;
+        void toBytes(U8& vr, U8& vg, U8& vb) const;
 
         void print() const;
 

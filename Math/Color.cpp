@@ -28,15 +28,15 @@
 namespace Rt2::Math
 {
 #if RT_ENDIAN == RT_ENDIAN_BIG
-    constexpr uint8_t Ir = 0;
-    constexpr uint8_t Ig = 1;
-    constexpr uint8_t Ib = 2;
-    constexpr uint8_t Ia = 3;
+    constexpr U8 Ir = 0;
+    constexpr U8 Ig = 1;
+    constexpr U8 Ib = 2;
+    constexpr U8 Ia = 3;
 #else
-    constexpr uint8_t Ir = 3;
-    constexpr uint8_t Ig = 2;
-    constexpr uint8_t Ib = 1;
-    constexpr uint8_t Ia = 0;
+    constexpr U8 Ir = 3;
+    constexpr U8 Ig = 2;
+    constexpr U8 Ib = 1;
+    constexpr U8 Ia = 0;
 #endif
 
     const Color Color::White = Color(1, 1, 1, 1);
@@ -63,24 +63,24 @@ namespace Rt2::Math
 
     void Color::print() const
     {
-        uint8_t vr, vg, vb, va;
+        U8 vr, vg, vb, va;
         toBytes(vr, vg, vb, va);
         printf("#%02X%02X%02X%02X\n", vr, vg, vb, va);
     }
 
-    void Color::toBytes(uint8_t& vr, uint8_t& vg, uint8_t& vb, uint8_t& va) const
+    void Color::toBytes(U8& vr, U8& vg, U8& vb, U8& va) const
     {
-        vr = uint8_t(r * Real(255));
-        vg = uint8_t(g * Real(255));
-        vb = uint8_t(b * Real(255));
-        va = uint8_t(a * Real(255));
+        vr = U8(r * Real(255));
+        vg = U8(g * Real(255));
+        vb = U8(b * Real(255));
+        va = U8(a * Real(255));
     }
 
-    void Color::toBytes(uint8_t& vr, uint8_t& vg, uint8_t& vb) const
+    void Color::toBytes(U8& vr, U8& vg, U8& vb) const
     {
-        vr = uint8_t(r * Real(255));
-        vg = uint8_t(g * Real(255));
-        vb = uint8_t(b * Real(255));
+        vr = U8(r * Real(255));
+        vg = U8(g * Real(255));
+        vb = U8(b * Real(255));
     }
 
     void ColorUtils::convert(uint32_t& dst, const Color& src)
@@ -103,7 +103,7 @@ namespace Rt2::Math
         dst.a   = (Real)color.b[Ia] * i255;
     }
 
-    void ColorUtils::convert(uint32_t& dst, const uint8_t* src)
+    void ColorUtils::convert(uint32_t& dst, const U8* src)
     {
         ColorU color{};
         color.b[Ir] = src[Ir];
@@ -117,44 +117,37 @@ namespace Rt2::Math
     {
         // https://en.wikipedia.org/w/index.php?title=HSL_and_HSV&oldid=941280606
 
-        const Real H = src.h / Real(60.0);
-        Real       c = src.v * src.s;
-        if (c > Real(1.0))
-            c = Real(1.0);
+        const Real h = src.h / Real(60.0);
+        const Real c = Max(src.v * src.s, One);
 
-        const Real x = c * Abs(RtFmod(H, Real(2.0)));
+        const Real x = c * Abs(RtFmod(h, Real(2.0)));
+        const Real m = clamp(src.v - c, Zero, One);
 
-        Real m = src.v - c;
-        if (m > Real(1.0))
-            m = Real(1.0);
-        if (m < Real(0.0))
-            m = Real(0.0);
-
-        if (H >= Real(0.0) && H <= Ri1)
+        if (h >= Real(0.0) && h <= Ri1)
         {
             dst.r = c;
             dst.g = x;
             dst.b = 0;
         }
-        else if (H >= Ri1 && H <= Ri2)
+        else if (h >= Ri1 && h <= Ri2)
         {
             dst.r = x;
             dst.g = c;
             dst.b = 0;
         }
-        else if (H >= Ri2 && H <= Ri3)
+        else if (h >= Ri2 && h <= Ri3)
         {
             dst.r = 0;
             dst.g = c;
             dst.b = x;
         }
-        else if (H >= Ri3 && H <= Ri4)
+        else if (h >= Ri3 && h <= Ri4)
         {
             dst.r = 0;
             dst.g = x;
             dst.b = c;
         }
-        else if (H >= Ri4 && H <= Ri5)
+        else if (h >= Ri4 && h <= Ri5)
         {
             dst.r = x;
             dst.g = 0;
@@ -175,15 +168,15 @@ namespace Rt2::Math
         dst.a = src.a;
     }
 
-    void ColorUtils::convert(uint8_t*& dst, const Color& src)
+    void ColorUtils::convert(U8*& dst, const Color& src)
     {
-        dst[Ir] = (unsigned char)(src.r * 255.99f);
-        dst[Ig] = (unsigned char)(src.g * 255.99f);
-        dst[Ib] = (unsigned char)(src.b * 255.99f);
-        dst[Ia] = (unsigned char)(src.a * 255.99f);
+        dst[Ir] = (U8)(src.r * Real(255.));
+        dst[Ig] = (U8)(src.g * Real(255.));
+        dst[Ib] = (U8)(src.b * Real(255.));
+        dst[Ia] = (U8)(src.a * Real(255.));
     }
 
-    void ColorUtils::convert(Color& dst, const uint8_t* src)
+    void ColorUtils::convert(Color& dst, const U8* src)
     {
         dst.r = (Real)src[Ir] * i255;
         dst.g = (Real)src[Ig] * i255;
@@ -191,7 +184,7 @@ namespace Rt2::Math
         dst.a = (Real)src[Ia] * i255;
     }
 
-    void ColorUtils::convert(uint8_t*& dst, const Real& src)
+    void ColorUtils::convert(U8*& dst, const Real& src)
     {
         ColorUf uf;
         uf.f    = src;
@@ -201,7 +194,7 @@ namespace Rt2::Math
         dst[Ia] = uf.b[Ia];
     }
 
-    void ColorUtils::convert(uint8_t*& dst, const uint32_t& src)
+    void ColorUtils::convert(U8*& dst, const uint32_t& src)
     {
         ColorU uf;
         uf.i    = src;
@@ -214,7 +207,7 @@ namespace Rt2::Math
     void ColorUtils::convert(Color& dst, const Real& src)
     {
         ColorUf uf;
-        uf.f = src;
+        uf.f  = float(src);
         dst.r = (Real)uf.b[Ir] * i255;
         dst.g = (Real)uf.b[Ig] * i255;
         dst.b = (Real)uf.b[Ib] * i255;
@@ -226,8 +219,8 @@ namespace Rt2::Math
         dst.v = Max3(src.r, src.g, src.b);
         dst.a = dst.v - Min3(src.r, src.g, src.b);
 
-        if (dst.a <= Real(0.0))
-            dst.h = Real(0.0);
+        if (dst.a <= Zero)
+            dst.h = Zero;
         else if (eq(src.r, dst.v))
             dst.h = PiO3 * ((src.g - src.b) / dst.a);
         else if (eq(src.g, dst.v))

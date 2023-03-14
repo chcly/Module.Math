@@ -24,10 +24,8 @@
 
 namespace Rt2::Math
 {
-    const Vec2 Vec2::Unit  = Vec2(1, 1);
-    const Vec2 Vec2::UnitX = Vec2(1, 0);
-    const Vec2 Vec2::UnitY = Vec2(0, 1);
-    const Vec2 Vec2::Zero  = Vec2(0, 0);
+    const Vec2 Vec2::Unit = Vec2(1, 1);
+    const Vec2 Vec2::Zero = Vec2(0, 0);
 
     void Vec2::print() const
     {

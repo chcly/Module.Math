@@ -271,10 +271,17 @@ GTEST_TEST(Math, Matrix3_transpose)
     EXPECT_EQ(r0.m[2][2], (Real)'i');
 }
 
-
 GTEST_TEST(Math, Vector2_001)
 {
-    Math::Vec2 v2;
+    Vec2 v2;
+    EXPECT_REAL_EQ(v2.x, 0);
+    EXPECT_REAL_EQ(v2.y, 0);
+    v2 = Vec2::Zero;
+    EXPECT_REAL_EQ(v2.x, 0);
+    EXPECT_REAL_EQ(v2.y, 0);
+    v2 = Vec2::Unit;
+    EXPECT_REAL_EQ(v2.x, 1);
+    EXPECT_REAL_EQ(v2.y, 1);
 }
 
 GTEST_TEST(Math, Color_001)
