@@ -21,11 +21,20 @@
 */
 
 #include "Math/Vec3.h"
-#include <cstdio>
 #include "Math/Color.h"
+#include "Math/Print.h"
+#include "Utils/Console.h"
 
 namespace Rt2::Math
 {
+
+    Vec3::Vec3(const Color& col) :
+        x(col.r),
+        y(col.g),
+        z(col.b)
+    {
+    }
+
     const Vec3 Vec3::Unit  = Vec3(1, 1, 1);
     const Vec3 Vec3::UnitX = Vec3(1, 0, 0);
     const Vec3 Vec3::UnitY = Vec3(0, 1, 0);
@@ -34,13 +43,6 @@ namespace Rt2::Math
 
     void Vec3::print() const
     {
-        printf("[%3.3f, %3.3f, %3.3f]\n", (double)x, (double)y, (double)z);
-    }
-
-    Vec3::Vec3(const Color& col) :
-        x(col.r),
-        y(col.g),
-        z(col.b)
-    {
+        Console::println(SetR({x, y, z}));
     }
 }  // namespace Rt2::Math

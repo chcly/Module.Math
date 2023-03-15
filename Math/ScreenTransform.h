@@ -60,7 +60,7 @@ namespace Rt2::Math
             if (m_scale > 0)
             {
                 m_extent = m_viewport.size() + m_scale;
-                m_zoom   = m_extent.x / m_viewport.width;
+                m_zoom   = m_extent.x / m_viewport.w;
                 if (m_zoom < 1)
                     m_zoom = 1;
             }
@@ -72,7 +72,7 @@ namespace Rt2::Math
             m_scale += factor * m_zoom * (negate ? Real(-1) : Real(1));
 
             m_extent = m_viewport.size() + m_scale;
-            m_zoom   = m_extent.x / m_viewport.width;
+            m_zoom   = m_extent.x / m_viewport.w;
             if (eq(m_zoom, 0, RT_EPSILON))
                 m_zoom = RT_EPSILON;
         }
@@ -95,8 +95,8 @@ namespace Rt2::Math
             m_origin = m_initialOrigin;
             m_extent = m_viewport.size();
             m_center = m_extent / 2;
-            if (m_viewport.width > 0)
-                m_zoom = m_extent.x / m_viewport.width;
+            if (m_viewport.w > 0)
+                m_zoom = m_extent.x / m_viewport.w;
             else
                 m_zoom = 1;
         }
@@ -228,12 +228,12 @@ namespace Rt2::Math
 
         inline const Real& viewportWidth() const
         {
-            return m_viewport.width;
+            return m_viewport.w;
         }
 
         inline const Real& viewportHeight() const
         {
-            return m_viewport.height;
+            return m_viewport.h;
         }
 
         void setScaleLimit(const Real& lMin, const Real& lMax)
@@ -260,14 +260,14 @@ namespace Rt2::Math
         {
             m_viewport.x      = x;
             m_viewport.y      = y;
-            m_viewport.width  = width;
-            m_viewport.height = height;
+            m_viewport.w  = width;
+            m_viewport.h = height;
         }
 
         bool isInViewport(const Real& x1, const Real& y1, const Real& x2, const Real& y2) const
         {
             Rect r1, r2;
-            r1.setSize(m_viewport.width, m_viewport.height);
+            r1.setSize(m_viewport.w, m_viewport.h);
             r2.setCorners(x1, y1, x2, y2);
             return r1.contains(r2);
         }

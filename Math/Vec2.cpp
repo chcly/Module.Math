@@ -21,6 +21,9 @@
 */
 #include "Math/Vec2.h"
 #include <cstdio>
+#include "Utils/StreamConverters/Set.h"
+#include "Math/Print.h"
+
 
 namespace Rt2::Math
 {
@@ -29,6 +32,6 @@ namespace Rt2::Math
 
     void Vec2::print() const
     {
-        printf("[%3.3f, %3.3f]\n", (double)x, (double)y);
+        Console::println(SetR({x, y}));
     }
 }  // namespace Rt2::Math

@@ -22,7 +22,9 @@
 #include "Math/Mat3.h"
 #include <cstdio>
 #include "Mat4.h"
+#include "Print.h"
 #include "Quat.h"
+#include "Utils/Console.h"
 
 namespace Rt2::Math
 {
@@ -259,8 +261,8 @@ namespace Rt2::Math
 
     void Mat3::print() const
     {
-        printf("[ %3.3f, %3.3f, %3.3f ]\n", (double)m[0][0], (double)m[0][1], (double)m[0][2]);
-        printf("[ %3.3f, %3.3f, %3.3f ]\n", (double)m[1][0], (double)m[1][1], (double)m[1][2]);
-        printf("[ %3.3f, %3.3f, %3.3f ]\n", (double)m[2][0], (double)m[2][1], (double)m[2][2]);
+        Console::println(SetR({m[0][0], m[0][1], m[0][2]}));
+        Console::println(SetR({m[1][0], m[1][1], m[1][2]}));
+        Console::println(SetR({m[2][0], m[2][1], m[2][2]}));
     }
 }  // namespace Rt2::Math

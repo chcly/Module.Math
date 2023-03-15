@@ -23,7 +23,7 @@
 
 #include "Math/Scalar.h"
 
-#ifdef RT_USE_SCALAR_DOUBLE
+#ifdef Math_USE_DOUBLE
     #define RtSqrt (Rt2::Math::Real) sqrt
     #define RtRSqrt (Rt2::Math::Real)1.0 / (Rt2::Math::Real)sqrt
     #define RtFloor (Rt2::Math::Real) floor

@@ -20,7 +20,8 @@
 -------------------------------------------------------------------------------
 */
 #include "Math/Vec4.h"
-#include <cstdio>
+#include "Math/Print.h"
+#include "Utils/Console.h"
 
 namespace Rt2::Math
 {
@@ -29,11 +30,7 @@ namespace Rt2::Math
 
     void Vec4::print() const
     {
-        printf("[%3.3f, %3.3f, %3.3f, %3.3f]\n",
-               (double)x,
-               (double)y,
-               (double)z,
-               (double)w);
+        Console::println(SetR({x, y, z, w}));
     }
 
 }  // namespace Rt2::Math

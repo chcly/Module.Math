@@ -19,17 +19,42 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/Rect.h"
-#include <cstdio>
+#pragma once
 
-#include "Print.h"
-#include "Utils/Console.h"
+#include "Math/Scalar.h"
+#include "Utils/StreamConverters/Float.h"
+#include "Utils/StreamConverters/Set.h"
 
 namespace Rt2::Math
 {
-    void Rect::print() const
-    {
-        Console::println(SetR({x, y, w, h}));
-    }
+    constexpr uint8_t OpenBracket      = '[';
+    constexpr uint8_t CloseBracket     = ']';
+    constexpr uint8_t BracketSeparator = ',';
+
+#ifdef Math_USE_DOUBLE
+    constexpr size_t RealPrecision = DBL_DIG;  // Not accurate. This is just to limit default printing.
+    constexpr size_t RealWidth     = 2 * RealPrecision;
+
+    using SetR = TPrintSet<
+        double,
+        OpenBracket,
+        BracketSeparator,
+        CloseBracket,
+        RealPrecision,
+        RealWidth,
+        0>;
+#else
+    constexpr size_t RealPrecision = FLT_DIG;  // Not accurate. This is just to limit default printing.
+    constexpr size_t RealWidth     = 2 * RealPrecision;
+
+    using SetR = TPrintSet<
+        float,
+        OpenBracket,
+        BracketSeparator,
+        CloseBracket,
+        RealPrecision,
+        RealWidth,
+        1>;
+#endif
 
 }  // namespace Rt2::Math

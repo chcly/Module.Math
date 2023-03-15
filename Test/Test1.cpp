@@ -31,7 +31,7 @@
 using namespace Rt2;
 using namespace Math;
 
-#ifdef RT_USE_SCALAR_DOUBLE
+#ifdef Math_USE_DOUBLE
     #define EXPECT_REAL_EQ EXPECT_DOUBLE_EQ
 #else
     #define EXPECT_REAL_EQ EXPECT_FLOAT_EQ
@@ -89,15 +89,15 @@ GTEST_TEST(Math, Rect_001)
     Rect r0{0, 0, 20, 20};
     EXPECT_REAL_EQ(r0.x, 0);
     EXPECT_REAL_EQ(r0.y, 0);
-    EXPECT_REAL_EQ(r0.width, 20);
-    EXPECT_REAL_EQ(r0.height, 20);
+    EXPECT_REAL_EQ(r0.w, 20);
+    EXPECT_REAL_EQ(r0.h, 20);
     r0.print();
 
     Rect r1;
     EXPECT_REAL_EQ(r1.x, 0);
     EXPECT_REAL_EQ(r1.y, 0);
-    EXPECT_REAL_EQ(r1.width, Epsilon);
-    EXPECT_REAL_EQ(r1.height, Epsilon);
+    EXPECT_REAL_EQ(r1.w, Epsilon);
+    EXPECT_REAL_EQ(r1.h, Epsilon);
     r1.print();
 
     Real n[4]{0, 0, 50, 50};
@@ -105,15 +105,15 @@ GTEST_TEST(Math, Rect_001)
     const Rect r3(n);
     EXPECT_REAL_EQ(r3.x, 0);
     EXPECT_REAL_EQ(r3.y, 0);
-    EXPECT_REAL_EQ(r3.width, 50);
-    EXPECT_REAL_EQ(r3.height, 50);
+    EXPECT_REAL_EQ(r3.w, 50);
+    EXPECT_REAL_EQ(r3.h, 50);
     r3.print();
 
     r0 = r3;
     EXPECT_REAL_EQ(r3.x, 0);
     EXPECT_REAL_EQ(r3.y, 0);
-    EXPECT_REAL_EQ(r3.width, 50);
-    EXPECT_REAL_EQ(r3.height, 50);
+    EXPECT_REAL_EQ(r3.w, 50);
+    EXPECT_REAL_EQ(r3.h, 50);
 
     r0.setSize(Epsilon, Epsilon);
     (void)r0.center();
@@ -283,6 +283,26 @@ GTEST_TEST(Math, Vector2_001)
     EXPECT_REAL_EQ(v2.x, 1);
     EXPECT_REAL_EQ(v2.y, 1);
 }
+
+
+GTEST_TEST(Math, Vector2_002)
+{
+    const Vec2 v1(Pi, Pi4);
+    v1.print();
+    const Vec2 v2(FLT_MAX, Pi4);
+    v2.print();
+}
+
+GTEST_TEST(Math, Vector2_003)
+{
+    Vec2 v1(Pi, Pi4);
+    v1.normalize();
+    EXPECT_LE(v1.x, 1);
+    EXPECT_LE(v1.y, 1);
+    v1.print();
+
+}
+
 
 GTEST_TEST(Math, Color_001)
 {

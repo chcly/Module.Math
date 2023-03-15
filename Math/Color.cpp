@@ -187,7 +187,7 @@ namespace Rt2::Math
     void ColorUtils::convert(U8*& dst, const Real& src)
     {
         ColorUf uf;
-        uf.f    = src;
+        uf.f    = (float)src;
         dst[Ir] = uf.b[Ir];
         dst[Ig] = uf.b[Ig];
         dst[Ib] = uf.b[Ib];

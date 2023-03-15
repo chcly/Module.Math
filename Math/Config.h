@@ -19,17 +19,7 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/Rect.h"
-#include <cstdio>
+#pragma once
 
-#include "Print.h"
-#include "Utils/Console.h"
+#define Math_USE_DOUBLE 1
 
-namespace Rt2::Math
-{
-    void Rect::print() const
-    {
-        Console::println(SetR({x, y, w, h}));
-    }
-
-}  // namespace Rt2::Math

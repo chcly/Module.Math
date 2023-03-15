@@ -30,19 +30,19 @@ namespace Rt2::Math
     {
     public:
         Real x{}, y{};
-        Real width{Epsilon}, height{Epsilon};
+        Real w{Epsilon}, h{Epsilon};
 
     public:
         Rect() = default;
 
         Rect(const Real xco,
-                  const Real yco,
-                  const Real widthValue,
-                  const Real heightValue) :
+             const Real yco,
+             const Real widthValue,
+             const Real heightValue) :
             x(xco),
             y(yco),
-            width(Max(widthValue, Epsilon)),
-            height(Max(heightValue, Epsilon))
+            w(Max(widthValue, Epsilon)),
+            h(Max(heightValue, Epsilon))
         {
         }
 
@@ -53,8 +53,8 @@ namespace Rt2::Math
                 x = pointer[0];
                 y = pointer[1];
 
-                width  = Max(pointer[2], Epsilon);
-                height = Max(pointer[3], Epsilon);
+                w = Max(pointer[2], Epsilon);
+                h = Max(pointer[3], Epsilon);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Rt2::Math
 
         Vec2 size() const
         {
-            return {width, height};
+            return {w, h};
         }
 
         Vec2 position() const
@@ -72,22 +72,22 @@ namespace Rt2::Math
 
         Real hw() const
         {
-            return width * Real(.5);
+            return w * Real(.5);
         }
 
         Real hh() const
         {
-            return height * Real(.5);
+            return h * Real(.5);
         }
 
-        Real w() const
+        Real width() const
         {
-            return width;
+            return this->w;
         }
 
-        Real h() const
+        Real height() const
         {
-            return height;
+            return h;
         }
 
         Real left() const
@@ -97,7 +97,7 @@ namespace Rt2::Math
 
         Real right() const
         {
-            return x + width;
+            return x + w;
         }
 
         Real top() const
@@ -107,19 +107,19 @@ namespace Rt2::Math
 
         Real bottom() const
         {
-            return y + height;
+            return y + h;
         }
 
         void setSize(const Vec2& s)
         {
-            width  = s.x;
-            height = s.y;
+            w = s.x;
+            h = s.y;
         }
 
         void setSize(const Real sx, const Real sy)
         {
-            width  = sx;
-            height = sy;
+            w = sx;
+            h = sy;
         }
 
         void setPosition(const Vec2& p)
@@ -141,23 +141,23 @@ namespace Rt2::Math
 
         Vec2 rightTop() const
         {
-            return {x + width, y};
+            return {x + w, y};
         }
 
         Vec2 leftBottom() const
         {
-            return {x, y + height};
+            return {x, y + h};
         }
 
         Vec2 rightBottom() const
         {
-            return {x + width, y + height};
+            return {x + w, y + h};
         }
 
         void center(Real& cx, Real& cy) const
         {
-            cx = x + width * Half;
-            cy = y + height * Half;
+            cx = x + w * Half;
+            cy = y + h * Half;
         }
 
         void corners(Vec2& lt, Vec2& rt, Vec2& lb, Vec2& rb) const
@@ -184,33 +184,33 @@ namespace Rt2::Math
         {
             x1 = x;
             y1 = y;
-            x2 = x + width;
-            y2 = y + height;
+            x2 = x + w;
+            y2 = y + h;
         }
 
         void setCorners(const Real& x1, const Real& y1, const Real& x2, const Real& y2)
         {
-            x      = x1;
-            y      = y1;
-            width  = x2 - x1;
-            height = y2 - y1;
+            x = x1;
+            y = y1;
+            w = x2 - x1;
+            h = y2 - y1;
         }
 
         Real getAspect() const
         {
-            if (RtAbs(height) > Epsilon)
-                return width / height;
+            if (RtAbs(h) > Epsilon)
+                return w / h;
             return 0;
         }
 
         Real cx() const
         {
-            return x + width * Real(0.5);
+            return x + w * Real(0.5);
         }
 
         Real cy() const
         {
-            return y + height * Real(0.5);
+            return y + h * Real(0.5);
         }
 
         Vec2 center() const
@@ -225,13 +225,13 @@ namespace Rt2::Math
         {
             return eq(x, rhs.x) &&
                    eq(y, rhs.y) &&
-                   eq(width, rhs.width) &&
-                   eq(height, rhs.height);
+                   eq(w, rhs.w) &&
+                   eq(h, rhs.h);
         }
 
         bool operator!=(const Rect& rhs) const
         {
-            return !(eq(x, rhs.x) && eq(y, rhs.y) && eq(width, rhs.width) && eq(height, rhs.height));
+            return !(eq(x, rhs.x) && eq(y, rhs.y) && eq(w, rhs.w) && eq(h, rhs.h));
         }
 
         void print() const;

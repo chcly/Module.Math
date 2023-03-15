@@ -23,11 +23,11 @@
 
 #include <cfloat>
 #include <cmath>
-#define RT_USE_SCALAR_DOUBLE
+#include "Math/Config.h"
 
 namespace Rt2::Math
 {
-#ifdef RT_USE_SCALAR_DOUBLE
+#ifdef Math_USE_DOUBLE
     using Real              = double;
     constexpr Real Epsilon  = DBL_EPSILON;
     constexpr Real Infinity = DBL_MAX;
