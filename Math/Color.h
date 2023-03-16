@@ -265,19 +265,19 @@ namespace Rt2::Math
             a = clamp(a, 0, 1);
         }
 
-        void limit(Color& d) const
+        void limit(Color& dest) const
         {
-            const Real* srcPtr = ptr();
-            Real*       dstPtr = d.ptr();
+            const Real* s = ptr();
+            Real*       d = dest.ptr();
 
             for (int i = 0; i < 4; ++i)
             {
-                if (srcPtr[i] < Real(0))
-                    dstPtr[i] = 0;
-                else if (srcPtr[i] > Real(1))
-                    dstPtr[i] = 1;
+                if (s[i] < Real(0))
+                    d[i] = 0;
+                else if (s[i] > Real(1))
+                    d[i] = 1;
                 else
-                    dstPtr[i] = srcPtr[i];
+                    d[i] = s[i];
             }
         }
 
@@ -420,8 +420,7 @@ namespace Rt2::Math
         Color operator/(Real v) const
         {
             if (isZero(v))
-                v = 1;
-
+                v = Epsilon;
             return {r / v, g / v, b / v, a};
         }
 
@@ -450,15 +449,9 @@ namespace Rt2::Math
 
         Color& operator=(const Color& o) = default;
 
-        Real* ptr()
-        {
-            return &r;
-        }
+        Real* ptr();
 
-        const Real* ptr() const
-        {
-            return &r;
-        }
+        const Real* ptr() const;
 
         void toBytes(U8& vr, U8& vg, U8& vb, U8& va) const;
 
@@ -468,14 +461,23 @@ namespace Rt2::Math
 
         Color& mix(const Color& rhs, const Real t)
         {
-            const Real iT = 1 - t;
+            const Real iT = One - t;
 
             r = iT * r + t * rhs.r;
             g = iT * g + t * rhs.g;
             b = iT * b + t * rhs.b;
-
             return *this;
         }
     };
+
+    inline Real* Color::ptr()
+    {
+        return &r;
+    }
+
+    inline const Real* Color::ptr() const
+    {
+        return &r;
+    }
 
 }  // namespace Rt2::Math

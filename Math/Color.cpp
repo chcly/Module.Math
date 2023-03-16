@@ -68,6 +68,7 @@ namespace Rt2::Math
         printf("#%02X%02X%02X%02X\n", vr, vg, vb, va);
     }
 
+    
     void Color::toBytes(U8& vr, U8& vg, U8& vb, U8& va) const
     {
         vr = U8(r * Real(255));
