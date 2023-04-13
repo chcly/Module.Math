@@ -32,8 +32,8 @@ namespace Rt2::Math
     constexpr uint8_t BracketSeparator = ',';
 
 #ifdef Math_USE_DOUBLE
-    constexpr size_t RealPrecision = DBL_DIG;  // Not accurate. This is just to limit default printing.
-    constexpr size_t RealWidth     = 2 * RealPrecision;
+    constexpr size_t RealPrecision = 0;  // Not accurate. This is just to limit default printing.
+    constexpr size_t RealWidth     = 2 * DBL_DIG;
 
     using SetR = TPrintSet<
         double,

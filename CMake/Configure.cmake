@@ -32,6 +32,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 option(Math_BUILD_TEST          "Build the unit test program." ON)
 option(Math_AUTO_RUN_TEST       "Automatically run the test program." ON)
 option(Math_USE_STATIC_RUNTIME  "Build with the MultiThreaded(Debug) runtime library." ON)
+include(${Math_SOURCE_DIR}/CMake/Globals.cmake)
 
 if (Math_USE_STATIC_RUNTIME)
     set_static_runtime()

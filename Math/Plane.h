@@ -27,11 +27,6 @@
 #include "Math/Vec3.h"
 namespace Rt2::Math
 {
-    /// <summary>
-    /// p*n = d
-    /// a*x + b*y + c*z = d
-    /// n = [a,b,c]
-    /// </summary>
     class Plane
     {
     public:

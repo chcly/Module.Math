@@ -24,8 +24,8 @@
 #include <algorithm>
 #include "Math/Math.h"
 #include "Math/Ray.h"
-#include "Math/Vec3.h"
 #include "Math/Vec2.h"
+#include "Math/Vec3.h"
 
 namespace Rt2::Math
 {
@@ -135,10 +135,10 @@ namespace Rt2::Math
 
     inline Vec3 Box3d::center() const
     {
-        return Vec3(
+        return {
             Real(0.5) * (bMax[0] + bMin[0]),
             Real(0.5) * (bMax[1] + bMin[1]),
-            Real(0.5) * (bMax[2] + bMin[2]));
+            Real(0.5) * (bMax[2] + bMin[2])};
     }
 
     inline Real Box3d::length() const
