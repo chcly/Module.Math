@@ -96,8 +96,8 @@ GTEST_TEST(Math, Rect_001)
     Rect r1;
     EXPECT_REAL_EQ(r1.x, 0);
     EXPECT_REAL_EQ(r1.y, 0);
-    EXPECT_REAL_EQ(r1.w, Epsilon);
-    EXPECT_REAL_EQ(r1.h, Epsilon);
+    EXPECT_REAL_EQ(r1.w, 0);
+    EXPECT_REAL_EQ(r1.h, 0);
     r1.print();
 
     Real n[4]{0, 0, 50, 50};

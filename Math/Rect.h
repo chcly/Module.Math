@@ -30,19 +30,19 @@ namespace Rt2::Math
     {
     public:
         Real x{}, y{};
-        Real w{Epsilon}, h{Epsilon};
+        Real w{}, h{};
 
     public:
         Rect() = default;
 
         Rect(const Real xco,
              const Real yco,
-             const Real widthValue,
-             const Real heightValue) :
+             const Real wco,
+             const Real hco) :
             x(xco),
             y(yco),
-            w(Max(widthValue, Epsilon)),
-            h(Max(heightValue, Epsilon))
+            w(wco),
+            h(hco)
         {
         }
 
@@ -235,6 +235,35 @@ namespace Rt2::Math
         }
 
         void print() const;
+
+        void adjust(const Real l, const Real t, const Real r, const Real b)
+        {
+            Real x0, y0, x1, y1;
+            corners(x0, y0, x1, y1);
+            x0 += l;
+            x1 -= r;
+            y0 += t;
+            y1 -= b;
+            setCorners(x0, y0, x1, y1);
+        }
+
+        void adjust(const Real a, const Real b)
+        {
+            adjust(a, b, a, b);
+        }
+
+        void adjust(const Real v)
+        {
+            adjust(v, v, v, v);
+        }
+
+        void scale(const Real a, const Real b)
+        {
+            x *= a;
+            y *= b;
+            w *= a;
+            h *= b;
+        }
     };
 
 }  // namespace Rt2::Math
