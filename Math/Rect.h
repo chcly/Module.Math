@@ -23,6 +23,7 @@
 
 #include "Math/Math.h"
 #include "Math/Vec2.h"
+#include "Utils/Definitions.h"
 
 namespace Rt2::Math
 {
@@ -263,6 +264,21 @@ namespace Rt2::Math
             y *= b;
             w *= a;
             h *= b;
+        }
+
+        void clamp(Real x0, Real y0, Real x1, Real y1)
+        {
+            Real l,t,r,b;
+            corners(l,t,r,b);
+            l = Clamp(l, x0, x1);
+            r = Clamp(r, x0, x1);
+            t = Clamp(t, y0, y1);
+            b = Clamp(b, y0, y1);
+
+            x = l;
+            y = t;
+            w = r - l;
+            h = b - t;
         }
     };
 
