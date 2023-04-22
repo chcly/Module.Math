@@ -3,8 +3,10 @@ set(TargetName Math)
 include(GroupSet)
 
 set_group(Math_SRC
+    Header/Bin:Bin/*.h
     Header:*.h
     Source:*.cpp
+    Source/Bin:Bin/*.cpp
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.h.in 

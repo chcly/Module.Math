@@ -22,11 +22,13 @@
 #pragma once
 
 #include "Math/Scalar.h"
-#include "Utils/StreamConverters/Float.h"
+#include "Utils/StackStream.h"
 #include "Utils/StreamConverters/Set.h"
 
 namespace Rt2::Math
 {
+    class Rect;
+    class Mat3;
     constexpr uint8_t OpenBracket      = '[';
     constexpr uint8_t CloseBracket     = ']';
     constexpr uint8_t BracketSeparator = ',';
@@ -56,5 +58,25 @@ namespace Rt2::Math
         RealWidth,
         1>;
 #endif
+
+    class Box2d;
+    class Vec2;
+
+    class Printer
+    {
+    public:
+        static U8       precision;
+        static U8       width;
+    private:
+        static OStream* _output;
+
+    public:
+        static void bind(OStream *stream);
+
+        static void setPrecision(U8 p);
+
+        static void print(const Box2d& v);
+        static void print(const Rect& v);
+    };
 
 }  // namespace Rt2::Math

@@ -23,16 +23,15 @@
 #include <cstdint>
 #include <cstdio>
 #include <cstdlib>
-
 #include "Math.h"
 #include "Math/Scalar.h"
 #include "Utils/Definitions.h"
 
 #if _WIN32
-#include <Windows.h>
-#include <limits>
+    #include <Windows.h>
+    #include <limits>
 #else
-#include <sys/time.h>
+    #include <sys/time.h>
 #endif
 #undef max
 
@@ -43,8 +42,8 @@ namespace Rt2::Math
         // If seed is set to 1, the generator is reinitialized to its initial
         // value and produces the same values as before any call to
 #if _WIN32
-        const uint64_t t64 = (ULONGLONG) GetTickCount64();
-        uint32_t seed = t64 % Npos32;
+        const uint64_t t64  = (ULONGLONG)GetTickCount64();
+        uint32_t       seed = t64 % Npos32;
         if (seed == 1)
             seed++;
 
@@ -70,11 +69,13 @@ namespace Rt2::Math
     {
         return U8(Real(255) * real());
     }
-    
 
     I32 Rand::range(const I32 rmi, const I32 rma)
     {
-        return I32((Real(rma) - Real(rmi)) * real() + Real(rmi));
+        const Real mi = Real(Min(rmi, rma));
+        const Real ma = Real(Max(rmi, rma));
+        return I32((ma - mi) * real() + mi);
     }
+
 
 }  // namespace Rt2::Math

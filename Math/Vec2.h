@@ -34,11 +34,11 @@ namespace Rt2::Math
         static const Vec2 Zero;
 
     public:
-        Vec2()              = default;
+        Vec2() = default;
 
         Vec2(const Vec2& v) = default;
 
-        Vec2(const Real nx, const Real ny) :
+        constexpr Vec2(const Real nx, const Real ny) :
             x(nx),
             y(ny)
         {
@@ -274,5 +274,15 @@ namespace Rt2::Math
         }
 
         void print() const;
+
+        Vec2 maxOf(const Vec2& v) const
+        {
+            return {Max(x, v.x), Max(y, v.y)};
+        }
+
+        Vec2 minOf(const Vec2& v) const
+        {
+            return {Min(x, v.x), Min(y, v.y)};
+        }
     };
 }  // namespace Rt2::Math

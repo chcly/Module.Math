@@ -47,6 +47,15 @@ namespace Rt2::Math
         {
         }
 
+        Rect(const Vec2& pos,
+             const Vec2& size) :
+            x(pos.x),
+            y(pos.y),
+            w(size.x),
+            h(size.y)
+        {
+        }
+
         explicit Rect(const Real* pointer)
         {
             if (pointer != nullptr)
@@ -135,22 +144,22 @@ namespace Rt2::Math
             y = py;
         }
 
-        Vec2 leftTop() const
+        Vec2 lt() const
         {
             return {x, y};
         }
 
-        Vec2 rightTop() const
+        Vec2 rt() const
         {
             return {x + w, y};
         }
 
-        Vec2 leftBottom() const
+        Vec2 lb() const
         {
             return {x, y + h};
         }
 
-        Vec2 rightBottom() const
+        Vec2 rb() const
         {
             return {x + w, y + h};
         }
@@ -161,12 +170,12 @@ namespace Rt2::Math
             cy = y + h * Half;
         }
 
-        void corners(Vec2& lt, Vec2& rt, Vec2& lb, Vec2& rb) const
+        void corners(Vec2& a, Vec2& b, Vec2& c, Vec2& d) const
         {
-            lt = leftTop();
-            rt = rightTop();
-            lb = leftBottom();
-            rb = rightBottom();
+            a = lt();
+            b = rt();
+            c = lb();
+            d = rb();
         }
 
         void offset(const Vec2& v)
@@ -235,6 +244,22 @@ namespace Rt2::Math
             return !(eq(x, rhs.x) && eq(y, rhs.y) && eq(w, rhs.w) && eq(h, rhs.h));
         }
 
+        Rect operator+(const Vec2& v) const
+        {
+            return {
+                lt() + v,
+                size(),
+            };
+        }
+
+        Rect operator*(const Vec2& v) const
+        {
+            return {
+                lt() * v,
+                size() * v,
+            };
+        }
+
         void print() const;
 
         void adjust(const Real l, const Real t, const Real r, const Real b)
@@ -268,8 +293,8 @@ namespace Rt2::Math
 
         void clamp(Real x0, Real y0, Real x1, Real y1)
         {
-            Real l,t,r,b;
-            corners(l,t,r,b);
+            Real l, t, r, b;
+            corners(l, t, r, b);
             l = Clamp(l, x0, x1);
             r = Clamp(r, x0, x1);
             t = Clamp(t, y0, y1);
@@ -279,6 +304,11 @@ namespace Rt2::Math
             y = t;
             w = r - l;
             h = b - t;
+        }
+
+        Real area() const
+        {
+            return w * h;
         }
     };
 

@@ -19,12 +19,13 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/Rect.h"
-#include "Math/Print.h"
+#include "Math/Box2d.h"
+
+#include "Print.h"
 
 namespace Rt2::Math
 {
-    void Rect::print() const
+    void Box2d::print() const
     {
         Printer::print(*this);
     }
