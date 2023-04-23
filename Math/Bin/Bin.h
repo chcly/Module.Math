@@ -20,9 +20,9 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
+#include "Math/Bin/Rect.h"
 #include "Math/Box2d.h"
 #include "Math/Math.h"
-#include "Math/Rect.h"
 #include "Math/Vec2.h"
 #include "Utils/Array.h"
 
@@ -31,8 +31,7 @@ namespace Rt2::Math::BinPack
     class Bin
     {
     public:
-        using RectList = SimpleArray<Rect>;
-        using Size     = RectList::SizeType;
+        using Size = RectList::SizeType;
 
         struct FreeRects
         {
@@ -45,12 +44,12 @@ namespace Rt2::Math::BinPack
         };
 
     private:
-        Vec2     _size;
-        RectList _sorted;
-        RectList _disjoint;
-        RectList _rejected;
-        Box2d    _bounds;
-        int      _opts{0};
+        Vec2      _size;
+        RectList  _sorted;
+        RectArray _disjoint;
+        RectList  _rejected;
+        Box2d     _bounds;
+        int       _opts{0};
 
     public:
         explicit Bin(const Vec2& size, int opts);
@@ -59,19 +58,19 @@ namespace Rt2::Math::BinPack
 
         void resort();
 
-        void insert(const Rect& rect);
+        void insert(const PackedRect& rect);
 
         const RectList& sorted() const;
 
         const Box2d& bounds() const;
 
     private:
-         void split(const Rect& pt, const Vec2& in, Rect& d0, Rect& d1) const;
+        void split(const Rect& pt, const Vec2& in, Rect& d0, Rect& d1) const;
 
-        void push(const Rect& rect);
+        void push(const PackedRect& rect);
     };
 
-    inline const Bin::RectList& Bin::sorted() const
+    inline const RectList& Bin::sorted() const
     {
         return _sorted;
     }

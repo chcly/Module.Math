@@ -17,7 +17,7 @@ namespace Rt2::Math::BinPack
     void Pack::push(const Rect& rect)
     {
         _bounds.merge(rect.w, rect.h);
-        _input.push_back(rect);
+        _input.push_back({_input.size(), rect});
     }
 
     void Pack::pack(const Vec2& size)
@@ -50,9 +50,13 @@ namespace Rt2::Math::BinPack
             Box2d bb;
             for (auto& r : b)
             {
-                bb.merge(r);
-                _output.push_back({r.x + step.x, r.y + step.y, r.w, r.h});
-                _bounds.merge(_output.back());
+                bb.merge(r.rect);
+                _output.push_back(
+                    {
+                        r.index,
+                        Rect(r.rect.x + step.x, r.rect.y + step.y, r.rect.w, r.rect.h),
+                    });
+                _bounds.merge(_output.back().rect);
             }
 
             step.x += bb.x1;
@@ -81,8 +85,8 @@ namespace Rt2::Math::BinPack
 
         for (auto& v : _output)
         {
-            v.scale(_bounds.x0, _bounds.y0);
-            v.scale(_bounds.x1, _bounds.y1);
+            v.rect.scale(_bounds.x0, _bounds.y0);
+            v.rect.scale(_bounds.x1, _bounds.y1);
         }
     }
 
@@ -102,7 +106,7 @@ namespace Rt2::Math::BinPack
 
     void Pack::sort()
     {
-        using SortFunction = std::function<bool(const Rect& a, const Rect& b)>;
+        using SortFunction = std::function<bool(const PackedRect& a, const PackedRect& b)>;
         SortFunction func;
 
         if (_options & SORT_X)
@@ -139,11 +143,11 @@ namespace Rt2::Math::BinPack
 
         std::sort(_input.begin(),
                   _input.end(),
-                  [mod, method, op](const Rect& a, const Rect& b)
+                  [mod, method, op](const PackedRect& a, const PackedRect& b)
                   {
                       if (op & SORT_MIN)
-                          return RtFmod(method(op, a), mod) < RtFmod(method(op, b), mod);
-                      return RtFmod(method(op, a), mod) > RtFmod(method(op, b), mod);
+                          return RtFmod(method(op, a.rect), mod) < RtFmod(method(op, b.rect), mod);
+                      return RtFmod(method(op, a.rect), mod) > RtFmod(method(op, b.rect), mod);
                   });
     }
 
@@ -160,33 +164,33 @@ namespace Rt2::Math::BinPack
         return {0, 0, r1, r1};
     }
 
-    bool PackUtils::sortAscX(const Rect& a, const Rect& b)
+    bool PackUtils::sortAscX(const PackedRect& a, const PackedRect& b)
     {
-        return a.w < b.w;
+        return a.rect.w < b.rect.w;
     }
 
-    bool PackUtils::sortDescX(const Rect& a, const Rect& b)
+    bool PackUtils::sortDescX(const PackedRect& a, const PackedRect& b)
     {
-        return a.w > b.w;
+        return a.rect.w > b.rect.w;
     }
 
-    bool PackUtils::sortAscY(const Rect& a, const Rect& b)
+    bool PackUtils::sortAscY(const PackedRect& a, const PackedRect& b)
     {
-        return a.h < b.h;
+        return a.rect.h < b.rect.h;
     }
 
-    bool PackUtils::sortDescY(const Rect& a, const Rect& b)
+    bool PackUtils::sortDescY(const PackedRect& a, const PackedRect& b)
     {
-        return a.h > b.h;
+        return a.rect.h > b.rect.h;
     }
 
-    bool PackUtils::sortAscA(const Rect& a, const Rect& b)
+    bool PackUtils::sortAscA(const PackedRect& a, const PackedRect& b)
     {
-        return a.area() < b.area();
+        return a.rect.area() < b.rect.area();
     }
 
-    bool PackUtils::sortDescA(const Rect& a, const Rect& b)
+    bool PackUtils::sortDescA(const PackedRect& a, const PackedRect& b)
     {
-        return a.area() > b.area();
+        return a.rect.area() > b.rect.area();
     }
 }  // namespace Rt2::Math::BinPack

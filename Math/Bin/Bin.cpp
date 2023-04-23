@@ -15,13 +15,16 @@ namespace Rt2::Math::BinPack
         return !_sorted.empty() || !_rejected.empty();
     }
 
-    void Bin::insert(const Rect& rect)
+    void Bin::insert(const PackedRect& rect)
     {
         if (_sorted.empty())
         {
             push(rect);
             Rect d0, d1;
-            split({0, 0, _size.x, _size.y}, rect.size(), d0, d1);
+            split({0, 0, _size.x, _size.y},
+                  rect.rect.size(),
+                  d0,
+                  d1);
 
             _disjoint.push_back(d0);
             _disjoint.push_back(d1);
@@ -35,8 +38,8 @@ namespace Rt2::Math::BinPack
             int i = 0;
             for (const auto& value : _disjoint)
             {
-                if (rect.w <= value.w &&
-                    rect.h <= value.h)
+                if (rect.rect.w <= value.w &&
+                    rect.rect.h <= value.h)
                 {
                     if (_opts & BEST_FIT_FIRST)
                     {
@@ -47,7 +50,7 @@ namespace Rt2::Math::BinPack
                         bf = i;
                     else
                     {
-                        const Real areaLeft = (value.w - rect.w) * (value.h - rect.h);
+                        const Real areaLeft = (value.w - rect.rect.w) * (value.h - rect.rect.h);
 
                         if (_opts & BEST_FIT_MAX)
                         {
@@ -78,10 +81,12 @@ namespace Rt2::Math::BinPack
 
                 Rect        d0, d1;
                 const Vec2& pt = cdj.lt();
-                const Vec2& sz = rect.size();
+                const Vec2& sz = rect.rect.size();
 
                 split(cdj, sz, d0, d1);
-                push({pt, sz});
+                push({
+                    rect.index, {pt, sz}
+                });
 
                 _disjoint.remove(bf);
 
@@ -153,10 +158,10 @@ namespace Rt2::Math::BinPack
         }
     }
 
-    void Bin::push(const Rect& rect)
+    void Bin::push(const PackedRect& rect)
     {
         _sorted.push_back(rect);
-        _bounds.merge(rect);
+        _bounds.merge(rect.rect);
     }
 
 }  // namespace Rt2::Math::BinPack

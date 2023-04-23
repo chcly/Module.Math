@@ -20,6 +20,7 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
+#include "Math/Bin/Rect.h"
 #include "Math/Box2d.h"
 #include "Math/Rand.h"
 #include "Math/Rect.h"
@@ -45,9 +46,7 @@ namespace Rt2::Math::BinPack
     class Pack
     {
     public:
-        using RectList   = SimpleArray<Rect>;
-        using SortedBins = SimpleArray<RectList>;
-        using Size       = RectList::SizeType;
+        using Size = RectList::SizeType;
 
     private:
         RectList   _input;
@@ -64,13 +63,15 @@ namespace Rt2::Math::BinPack
         void clear();
 
         void push(const Rect& rect);
-        void setOptions(int op) { _options = op; }
+
+        void setOptions(int op);
 
         void sort();
 
         void modSort(Real mod);
 
         const RectList& input();
+
         const RectList& output();
 
         Size size() const;
@@ -82,12 +83,12 @@ namespace Rt2::Math::BinPack
         Vec2 dimensions() const;
     };
 
-    inline const Pack::RectList& Pack::input()
+    inline const RectList& Pack::input()
     {
         return _input;
     }
 
-    inline const Pack::RectList& Pack::output()
+    inline const RectList& Pack::output()
     {
         return _output;
     }
@@ -102,6 +103,11 @@ namespace Rt2::Math::BinPack
         return _bounds;
     }
 
+    inline void Pack::setOptions(const int op)
+    {
+        _options = op;
+    }
+
     class PackUtils
     {
     public:
@@ -109,16 +115,16 @@ namespace Rt2::Math::BinPack
 
         static Rect randSquare(I32 min, I32 max);
 
-        static bool sortAscX(const Rect& a, const Rect& b);
+        static bool sortAscX(const PackedRect& a, const PackedRect& b);
 
-        static bool sortDescX(const Rect& a, const Rect& b);
+        static bool sortDescX(const PackedRect& a, const PackedRect& b);
 
-        static bool sortAscY(const Rect& a, const Rect& b);
+        static bool sortAscY(const PackedRect& a, const PackedRect& b);
 
-        static bool sortDescY(const Rect& a, const Rect& b);
+        static bool sortDescY(const PackedRect& a, const PackedRect& b);
 
-        static bool sortAscA(const Rect& a, const Rect& b);
+        static bool sortAscA(const PackedRect& a, const PackedRect& b);
 
-        static bool sortDescA(const Rect& a, const Rect& b);
+        static bool sortDescA(const PackedRect& a, const PackedRect& b);
     };
 }  // namespace Rt2::Math::BinPack
