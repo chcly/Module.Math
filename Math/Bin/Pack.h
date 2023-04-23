@@ -64,6 +64,8 @@ namespace Rt2::Math::BinPack
 
         void push(const Rect& rect);
 
+        void push(U32 index, const Rect& rect);
+
         void setOptions(int op);
 
         void sort();
@@ -115,16 +117,16 @@ namespace Rt2::Math::BinPack
 
         static Rect randSquare(I32 min, I32 max);
 
-        static bool sortAscX(const PackedRect& a, const PackedRect& b);
+        static bool sortAscX(const IndexRect& a, const IndexRect& b);
 
-        static bool sortDescX(const PackedRect& a, const PackedRect& b);
+        static bool sortDescX(const IndexRect& a, const IndexRect& b);
 
-        static bool sortAscY(const PackedRect& a, const PackedRect& b);
+        static bool sortAscY(const IndexRect& a, const IndexRect& b);
 
-        static bool sortDescY(const PackedRect& a, const PackedRect& b);
+        static bool sortDescY(const IndexRect& a, const IndexRect& b);
 
-        static bool sortAscA(const PackedRect& a, const PackedRect& b);
+        static bool sortAscA(const IndexRect& a, const IndexRect& b);
 
-        static bool sortDescA(const PackedRect& a, const PackedRect& b);
+        static bool sortDescA(const IndexRect& a, const IndexRect& b);
     };
 }  // namespace Rt2::Math::BinPack

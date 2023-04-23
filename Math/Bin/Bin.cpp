@@ -15,7 +15,7 @@ namespace Rt2::Math::BinPack
         return !_sorted.empty() || !_rejected.empty();
     }
 
-    void Bin::insert(const PackedRect& rect)
+    void Bin::insert(const IndexRect& rect)
     {
         if (_sorted.empty())
         {
@@ -158,7 +158,7 @@ namespace Rt2::Math::BinPack
         }
     }
 
-    void Bin::push(const PackedRect& rect)
+    void Bin::push(const IndexRect& rect)
     {
         _sorted.push_back(rect);
         _bounds.merge(rect.rect);

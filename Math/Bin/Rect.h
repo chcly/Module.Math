@@ -4,13 +4,14 @@
 
 namespace Rt2::Math::BinPack
 {
-    struct PackedRect
+    struct IndexRect
     {
-        size_t index{0};
-        Rect   rect{0, 0, 0, 0};
+        U32  index{0};
+        Rect rect{0, 0, 0, 0};
     };
 
-    using RectList   = SimpleArray<PackedRect>;
+    using RectList   = SimpleArray<IndexRect>;
     using RectArray  = SimpleArray<Rect>;
     using SortedBins = SimpleArray<RectList>;
+
 }  // namespace Rt2::Math::BinPack

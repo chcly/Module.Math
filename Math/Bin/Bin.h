@@ -58,7 +58,7 @@ namespace Rt2::Math::BinPack
 
         void resort();
 
-        void insert(const PackedRect& rect);
+        void insert(const IndexRect& rect);
 
         const RectList& sorted() const;
 
@@ -67,7 +67,7 @@ namespace Rt2::Math::BinPack
     private:
         void split(const Rect& pt, const Vec2& in, Rect& d0, Rect& d1) const;
 
-        void push(const PackedRect& rect);
+        void push(const IndexRect& rect);
     };
 
     inline const RectList& Bin::sorted() const

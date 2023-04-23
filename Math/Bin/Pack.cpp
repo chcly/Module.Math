@@ -20,6 +20,12 @@ namespace Rt2::Math::BinPack
         _input.push_back({_input.size(), rect});
     }
 
+    void Pack::push(const U32 index, const Rect& rect)
+    {
+        _bounds.merge(rect.w, rect.h);
+        _input.push_back({index, rect});
+    }
+
     void Pack::pack(const Vec2& size)
     {
         Bin bin = Bin(_bounds.maximum().maxOf(size), _options);
@@ -106,7 +112,7 @@ namespace Rt2::Math::BinPack
 
     void Pack::sort()
     {
-        using SortFunction = std::function<bool(const PackedRect& a, const PackedRect& b)>;
+        using SortFunction = std::function<bool(const IndexRect& a, const IndexRect& b)>;
         SortFunction func;
 
         if (_options & SORT_X)
@@ -143,7 +149,7 @@ namespace Rt2::Math::BinPack
 
         std::sort(_input.begin(),
                   _input.end(),
-                  [mod, method, op](const PackedRect& a, const PackedRect& b)
+                  [mod, method, op](const IndexRect& a, const IndexRect& b)
                   {
                       if (op & SORT_MIN)
                           return RtFmod(method(op, a.rect), mod) < RtFmod(method(op, b.rect), mod);
@@ -164,32 +170,32 @@ namespace Rt2::Math::BinPack
         return {0, 0, r1, r1};
     }
 
-    bool PackUtils::sortAscX(const PackedRect& a, const PackedRect& b)
+    bool PackUtils::sortAscX(const IndexRect& a, const IndexRect& b)
     {
         return a.rect.w < b.rect.w;
     }
 
-    bool PackUtils::sortDescX(const PackedRect& a, const PackedRect& b)
+    bool PackUtils::sortDescX(const IndexRect& a, const IndexRect& b)
     {
         return a.rect.w > b.rect.w;
     }
 
-    bool PackUtils::sortAscY(const PackedRect& a, const PackedRect& b)
+    bool PackUtils::sortAscY(const IndexRect& a, const IndexRect& b)
     {
         return a.rect.h < b.rect.h;
     }
 
-    bool PackUtils::sortDescY(const PackedRect& a, const PackedRect& b)
+    bool PackUtils::sortDescY(const IndexRect& a, const IndexRect& b)
     {
         return a.rect.h > b.rect.h;
     }
 
-    bool PackUtils::sortAscA(const PackedRect& a, const PackedRect& b)
+    bool PackUtils::sortAscA(const IndexRect& a, const IndexRect& b)
     {
         return a.rect.area() < b.rect.area();
     }
 
-    bool PackUtils::sortDescA(const PackedRect& a, const PackedRect& b)
+    bool PackUtils::sortDescA(const IndexRect& a, const IndexRect& b)
     {
         return a.rect.area() > b.rect.area();
     }
