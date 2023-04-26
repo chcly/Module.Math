@@ -28,23 +28,7 @@ namespace Rt2::Math
     class Quat;
     class Mat4;
 
-    /**
-     *     [1, 0, 0]
-     * I = [0, 1, 0]
-     *     [0, 0, 1]
-     *
-     *      [1,  0,    0 ]
-     * Rx = [0, cos, -sin]
-     *      [0, sin,  cos]
-     *
-     *      [cos,  0, sin]
-     * Ry = [0,    1, 0  ]
-     *      [-sin, 0, cos]
-     *
-     *      [cos, -sin, 0]
-     * Rz = [sin,  cos, 0]
-     *      [0,     0,  1]
-     */
+    
     class Mat3
     {
     public:
@@ -75,6 +59,7 @@ namespace Rt2::Math
                 Real m22);
 
         Mat3 operator*(const Mat3& lhs) const;
+
         Vec3 operator*(const Vec3& v) const;
 
         bool operator==(const Mat3& rhs) const;

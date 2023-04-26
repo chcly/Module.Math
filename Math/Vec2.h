@@ -30,9 +30,6 @@ namespace Rt2::Math
     public:
         Real x{}, y{};
 
-        static const Vec2 Unit;
-        static const Vec2 Zero;
-
     public:
         Vec2() = default;
 
@@ -165,7 +162,7 @@ namespace Rt2::Math
             return {x * v.x, y * v.y};
         }
 
-        Vec2& operator*=(Real v)
+        Vec2& operator*=(const Real v)
         {
             x *= v;
             y *= v;
@@ -273,8 +270,6 @@ namespace Rt2::Math
             return y * Half;
         }
 
-        void print() const;
-
         Vec2 maxOf(const Vec2& v) const
         {
             return {Max(x, v.x), Max(y, v.y)};
@@ -284,5 +279,7 @@ namespace Rt2::Math
         {
             return {Min(x, v.x), Min(y, v.y)};
         }
+
+        void print() const;
     };
 }  // namespace Rt2::Math

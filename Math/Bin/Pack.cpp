@@ -157,14 +157,14 @@ namespace Rt2::Math::BinPack
                   });
     }
 
-    Rect PackUtils::rand(I32 min, I32 max)
+    Rect PackUtils::rand(const I32 min, const I32 max)
     {
         Real r1 = Abs(Real(Rand::range(min, max)));
         Real r2 = Abs(Real(Rand::range(min, max)));
         return {0, 0, r1, r2};
     }
 
-    Rect PackUtils::randSquare(I32 min, I32 max)
+    Rect PackUtils::randSquare(const I32 min, const I32 max)
     {
         Real r1 = Abs(Real(Rand::range(min, max)));
         return {0, 0, r1, r1};

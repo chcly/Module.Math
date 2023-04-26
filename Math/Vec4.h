@@ -29,10 +29,7 @@ namespace Rt2::Math
     {
     public:
         Real x{}, y{}, z{}, w{};
-
-        static const Vec4 Unit;
-        static const Vec4 Zero;
-
+        
     public:
         Vec4()                 = default;
         Vec4(const Vec4& v) = default;

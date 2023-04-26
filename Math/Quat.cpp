@@ -22,6 +22,8 @@
 #include "Math/Quat.h"
 #include <cstdio>
 
+#include "Print.h"
+
 
 namespace Rt2::Math
 {
@@ -30,6 +32,6 @@ namespace Rt2::Math
 
     void Quat::print() const
     {
-        printf("[%3.3f, %3.3f, %3.3f, %3.3f]\n", (Real)w, (Real)x, (Real)y, (Real)z);
+        Printer::print(*this);
     }
 }  // namespace Rt2::Math

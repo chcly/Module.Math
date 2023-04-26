@@ -37,15 +37,11 @@ namespace Rt2::Math
 
         RayHitTest(const RayHitTest& rhs) = default;
 
-        Real  distance;
+        Real distance;
         Vec3 point;
         Vec3 normal;
     };
 
-
-    /**
-     * \brief R = tD + o
-      */
     class Ray
     {
     public:

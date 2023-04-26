@@ -21,6 +21,7 @@
 */
 #pragma once
 
+#include "Vec4.h"
 #include "Math/Vec3.h"
 
 namespace Rt2::Math
@@ -42,21 +43,21 @@ namespace Rt2::Math
         Mat4(const Mat4& v) = default;
 
         Mat4(Real m00,
-                Real m01,
-                Real m02,
-                Real m03,
-                Real m10,
-                Real m11,
-                Real m12,
-                Real m13,
-                Real m20,
-                Real m21,
-                Real m22,
-                Real m23,
-                Real m30,
-                Real m31,
-                Real m32,
-                Real m33);
+             Real m01,
+             Real m02,
+             Real m03,
+             Real m10,
+             Real m11,
+             Real m12,
+             Real m13,
+             Real m20,
+             Real m21,
+             Real m22,
+             Real m23,
+             Real m30,
+             Real m31,
+             Real m32,
+             Real m33);
 
         explicit Mat4(const Real* v);
 
@@ -95,6 +96,10 @@ namespace Rt2::Math
         void makeInverseTransform(const Vec3& loc, const Vec3& scale, const Mat3& rot);
 
         static void merge(Mat4& d, const Mat4& lhs, const Mat4& rhs);
+
+        Vec4 row(const int idx) const;
+
+        Vec4 col(const int idx) const;
 
         void print() const;
     };

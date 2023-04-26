@@ -25,12 +25,9 @@
 
 namespace Rt2::Math
 {
-    const Vec4 Vec4::Unit = Vec4(1, 1, 1, 1);
-    const Vec4 Vec4::Zero = Vec4(0, 0, 0, 0);
-
     void Vec4::print() const
     {
-        Console::println(SetR({x, y, z, w}));
+        Printer::print(*this);
     }
 
 }  // namespace Rt2::Math

@@ -27,8 +27,6 @@
 
 namespace Rt2::Math
 {
-    class Rect;
-    class Mat3;
     constexpr uint8_t OpenBracket      = '[';
     constexpr uint8_t CloseBracket     = ']';
     constexpr uint8_t BracketSeparator = ',';
@@ -61,20 +59,33 @@ namespace Rt2::Math
 
     class Box2d;
     class Vec2;
+    class Vec4;
+    class Vec3;
+    class Rect;
+    class Mat3;
+    class Quat;
+    class Mat4;
 
     class Printer
     {
     public:
-        static U8       precision;
-        static U8       width;
+        static U8 precision;
+        static U8 width;
+
     private:
         static OStream* _output;
 
     public:
-        static void bind(OStream *stream);
+        static void bind(OStream* stream);
 
         static void setPrecision(U8 p);
 
+        static void print(const Vec2& v);
+        static void print(const Vec3& v);
+        static void print(const Vec4& v);
+        static void print(const Quat& v);
+        static void print(const Mat3& v);
+        static void print(const Mat4& v);
         static void print(const Box2d& v);
         static void print(const Rect& v);
     };

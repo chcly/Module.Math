@@ -261,8 +261,6 @@ namespace Rt2::Math
 
     void Mat3::print() const
     {
-        Console::println(SetR({m[0][0], m[0][1], m[0][2]}));
-        Console::println(SetR({m[1][0], m[1][1], m[1][2]}));
-        Console::println(SetR({m[2][0], m[2][1], m[2][2]}));
+        Printer::print(*this);
     }
 }  // namespace Rt2::Math

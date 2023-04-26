@@ -90,7 +90,7 @@ namespace Rt2::Math
 
     Mat4 Mat4::operator*(const Mat4& lhs) const
     {
-        return Mat4(
+        return {
             m[0][0] * lhs.m[0][0] + m[0][1] * lhs.m[1][0] + m[0][2] * lhs.m[2][0] + m[0][3] * lhs.m[3][0],
             m[0][0] * lhs.m[0][1] + m[0][1] * lhs.m[1][1] + m[0][2] * lhs.m[2][1] + m[0][3] * lhs.m[3][1],
             m[0][0] * lhs.m[0][2] + m[0][1] * lhs.m[1][2] + m[0][2] * lhs.m[2][2] + m[0][3] * lhs.m[3][2],
@@ -109,7 +109,8 @@ namespace Rt2::Math
             m[3][0] * lhs.m[0][0] + m[3][1] * lhs.m[1][0] + m[3][2] * lhs.m[2][0] + m[3][3] * lhs.m[3][0],
             m[3][0] * lhs.m[0][1] + m[3][1] * lhs.m[1][1] + m[3][2] * lhs.m[2][1] + m[3][3] * lhs.m[3][1],
             m[3][0] * lhs.m[0][2] + m[3][1] * lhs.m[1][2] + m[3][2] * lhs.m[2][2] + m[3][3] * lhs.m[3][2],
-            m[3][0] * lhs.m[0][3] + m[3][1] * lhs.m[1][3] + m[3][2] * lhs.m[2][3] + m[3][3] * lhs.m[3][3]);
+            m[3][0] * lhs.m[0][3] + m[3][1] * lhs.m[1][3] + m[3][2] * lhs.m[2][3] + m[3][3] * lhs.m[3][3],
+        };
     }
 
     void Mat4::mulAssign(const Mat4& lhs, const Mat4& rhs)
@@ -158,6 +159,20 @@ namespace Rt2::Math
         d.m[3][3] = lhs.m[3][0] * rhs.m[0][3] + lhs.m[3][1] * rhs.m[1][3] + lhs.m[3][2] * rhs.m[2][3] + lhs.m[3][3] * rhs.m[3][3];
     }
 
+    Vec4 Mat4::row(const int idx) const
+    {
+        if (idx < 4 && idx >= 0)
+            return {m[0][idx], m[1][idx], m[2][idx], m[3][idx]};
+        return Vec4{};
+    }
+
+    Vec4 Mat4::col(const int idx) const
+    {
+        if (idx < 3 && idx >= 0)
+            return {m[idx][0], m[idx][1], m[idx][2], m[idx][3]};
+        return Vec4{};
+    }
+
     Mat4& Mat4::transpose()
     {
         *this = transposed();
@@ -166,7 +181,24 @@ namespace Rt2::Math
 
     Mat4 Mat4::transposed() const
     {
-        return Mat4(m[0][0], m[1][0], m[2][0], m[3][0], m[0][1], m[1][1], m[2][1], m[3][1], m[0][2], m[1][2], m[2][2], m[3][2], m[0][3], m[1][3], m[2][3], m[3][3]);
+        return {
+            m[0][0],
+            m[1][0],
+            m[2][0],
+            m[3][0],
+            m[0][1],
+            m[1][1],
+            m[2][1],
+            m[3][1],
+            m[0][2],
+            m[1][2],
+            m[2][2],
+            m[3][2],
+            m[0][3],
+            m[1][3],
+            m[2][3],
+            m[3][3],
+        };
     }
 
     void Mat4::setTrans(const Vec3& v)

@@ -32,7 +32,7 @@ namespace Rt2::Math
     {
     public:
         Vec3 center;
-        Real    radius;
+        Real radius;
 
     public:
         Sphere() :
@@ -42,11 +42,11 @@ namespace Rt2::Math
         }
 
         Sphere(const Vec3& newCenter,
-                       const Real&    newRadius);
+               const Real& newRadius);
 
-        bool hit(RayHitTest& dest, 
-            const Ray& ray, 
-            const Vec2& limit) const;
+        bool hit(RayHitTest& dest,
+                 const Ray&  ray,
+                 const Vec2& limit) const;
 
         bool hit(const Ray& ray, const Vec2& limit) const;
     };

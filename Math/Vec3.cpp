@@ -23,7 +23,6 @@
 #include "Math/Vec3.h"
 #include "Math/Color.h"
 #include "Math/Print.h"
-#include "Utils/Console.h"
 
 namespace Rt2::Math
 {
@@ -43,6 +42,6 @@ namespace Rt2::Math
 
     void Vec3::print() const
     {
-        Console::println(SetR({x, y, z}));
+        Printer::print(*this);
     }
 }  // namespace Rt2::Math

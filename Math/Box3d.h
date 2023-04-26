@@ -100,17 +100,17 @@ namespace Rt2::Math
 
     inline Vec3 Box3d::min() const
     {
-        return Vec3(bMin[0], bMin[1], bMin[2]);
+        return {bMin[0], bMin[1], bMin[2]};
     }
 
     inline Vec3 Box3d::max() const
     {
-        return Vec3(bMax[0], bMax[1], bMax[2]);
+        return {bMax[0], bMax[1], bMax[2]};
     }
 
     inline Vec3 Box3d::extent() const
     {
-        return Vec3(bMax[0] - bMin[0], bMax[1] - bMin[1], bMax[2] - bMin[2]);
+        return {bMax[0] - bMin[0], bMax[1] - bMin[1], bMax[2] - bMin[2]};
     }
 
     inline Real Box3d::halfLength2() const

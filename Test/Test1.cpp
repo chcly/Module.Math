@@ -27,6 +27,7 @@
 #include "Utils/Console.h"
 #include "Utils/StreamMethods.h"
 #include "gtest/gtest.h"
+#include "Math/Print.h"
 
 using namespace Rt2;
 using namespace Math;
@@ -52,9 +53,9 @@ GTEST_TEST(Math, Random_range)
         EXPECT_GE(v, -r);
         EXPECT_LE(v, r);
 
-        Console::print(Hex(v), ' ');
-        if (i % Lps == Lps - 1)
-            Console::nl();
+        //Console::print(Hex(v), ' ');
+        //if (i % Lps == Lps - 1)
+        //    Console::nl();
     }
 }
 
@@ -78,9 +79,9 @@ GTEST_TEST(Math, Random_u8)
         EXPECT_LE(x, 255);
         EXPECT_GE(x, 0);
 
-        Console::print(Hex(x), ' ');
-        if (i % Lps == Lps - 1)
-            Console::nl();
+        //Console::print(Hex(x), ' ');
+        //if (i % Lps == Lps - 1)
+        //    Console::nl();
     }
 }
 
@@ -271,25 +272,11 @@ GTEST_TEST(Math, Matrix3_transpose)
     EXPECT_EQ(r0.m[2][2], (Real)'i');
 }
 
-GTEST_TEST(Math, Vector2_001)
-{
-    Vec2 v2;
-    EXPECT_REAL_EQ(v2.x, 0);
-    EXPECT_REAL_EQ(v2.y, 0);
-    v2 = Vec2::Zero;
-    EXPECT_REAL_EQ(v2.x, 0);
-    EXPECT_REAL_EQ(v2.y, 0);
-    v2 = Vec2::Unit;
-    EXPECT_REAL_EQ(v2.x, 1);
-    EXPECT_REAL_EQ(v2.y, 1);
-}
-
-
 GTEST_TEST(Math, Vector2_002)
 {
-    const Vec2 v1(Pi, Pi4);
+    constexpr Vec2 v1(Pi, Pi4);
     v1.print();
-    const Vec2 v2(FLT_MAX, Pi4);
+    constexpr Vec2 v2(FLT_MAX, Pi4);
     v2.print();
 }
 

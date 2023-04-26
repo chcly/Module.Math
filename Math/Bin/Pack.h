@@ -31,16 +31,16 @@ namespace Rt2::Math::BinPack
 {
     enum Options
     {
-        SORT_MIN       = 0x001,  // default max
+        SORT_MIN       = 0x001,
         SORT_X         = 0x002,
         SORT_Y         = 0x004,
-        MIN_AREA_MIN   = 0x008,  // default max
-        MIN_AREA_MAX   = 0x010,  // default max
-        MAX_AREA_MIN   = 0x020,  // default max
-        MAX_AREA_MAX   = 0x040,  // default max
-        BEST_FIT_MAX   = 0x080,  // default min
-        BEST_FIT_FIRST = 0x100,  // default min
-        BEST_FIT_LAST  = 0x200,  // default min
+        MIN_AREA_MIN   = 0x008,
+        MIN_AREA_MAX   = 0x010,
+        MAX_AREA_MIN   = 0x020,
+        MAX_AREA_MAX   = 0x040,
+        BEST_FIT_MAX   = 0x080,
+        BEST_FIT_FIRST = 0x100,
+        BEST_FIT_LAST  = 0x200,
     };
 
     class Pack

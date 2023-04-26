@@ -34,7 +34,7 @@ namespace Rt2::Math
         Vec3 n;
 
     public:
-        Plane()                 = default;
+        Plane()               = default;
         Plane(const Plane& n) = default;
 
         explicit Plane(const Vec3& point, const Vec3& normal) :
@@ -42,7 +42,6 @@ namespace Rt2::Math
             n(normal)
         {
         }
-
 
         bool hit(Real& t, const Ray& ray, const Vec2& limit) const
         {

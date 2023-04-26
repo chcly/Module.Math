@@ -20,18 +20,13 @@
 -------------------------------------------------------------------------------
 */
 #include "Math/Vec2.h"
-#include <cstdio>
-#include "Utils/StreamConverters/Set.h"
 #include "Math/Print.h"
-
 
 namespace Rt2::Math
 {
-    const Vec2 Vec2::Unit = Vec2(1, 1);
-    const Vec2 Vec2::Zero = Vec2(0, 0);
 
     void Vec2::print() const
     {
-        Console::println(SetR({x, y}));
+        Printer::print(*this);
     }
 }  // namespace Rt2::Math
