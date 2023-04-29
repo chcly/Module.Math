@@ -206,6 +206,14 @@ namespace Rt2::Math
             h = y2 - y1;
         }
 
+        void setCorners(const Vec2& lt, const Vec2& rb)
+        {
+            x = lt.x;
+            y = lt.y;
+            w = rb.x - lt.x;
+            h = rb.y - lt.y;
+        }
+
         Real getAspect() const
         {
             if (RtAbs(h) > Epsilon)
@@ -309,6 +317,16 @@ namespace Rt2::Math
         Real area() const
         {
             return w * h;
+        }
+
+        Rect withOffset(const Vec2& o) const
+        {
+            return {
+                x + o.x,
+                y + o.y,
+                w,
+                h,
+            };
         }
     };
 

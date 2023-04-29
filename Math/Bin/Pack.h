@@ -59,6 +59,7 @@ namespace Rt2::Math::BinPack
 
     public:
         Pack();
+        ~Pack();
 
         void clear();
 

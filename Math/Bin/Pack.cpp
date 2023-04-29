@@ -7,6 +7,12 @@ namespace Rt2::Math::BinPack
 
     Pack::Pack() = default;
 
+    Pack::~Pack()
+    {
+        _input.clear();
+        _output.clear();
+    }
+
     void Pack::clear()
     {
         _output.resizeFast(0);
