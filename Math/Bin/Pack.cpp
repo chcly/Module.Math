@@ -205,4 +205,5 @@ namespace Rt2::Math::BinPack
     {
         return a.rect.area() > b.rect.area();
     }
+
 }  // namespace Rt2::Math::BinPack
