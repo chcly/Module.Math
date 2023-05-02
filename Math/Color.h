@@ -468,6 +468,17 @@ namespace Rt2::Math
             b = iT * b + t * rhs.b;
             return *this;
         }
+
+        static Color mix(const Color& lhs, const Color& rhs, const Real t)
+        {
+            Color c;
+            const Real iT = One - t;
+
+            c.r = iT * lhs.r + t * rhs.r;
+            c.g = iT * lhs.g + t * rhs.g;
+            c.b = iT * lhs.b + t * rhs.b;
+            return c;
+        }
     };
 
     inline Real* Color::ptr()
