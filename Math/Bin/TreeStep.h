@@ -20,20 +20,23 @@
 -------------------------------------------------------------------------------
 */
 #pragma once
-#include "Math/Rect.h"
-#include "Utils/Array.h"
+#include "Math/Math.h"
+#include "Math/Vec2.h"
+#include "Utils/Definitions.h"
 
 namespace Rt2::Math::BinPack
 {
-    struct IndexRect
+    class TreeStep
     {
-        U32    index{0};
-        size_t sortParam{0};
-        Rect   rect{0, 0, 0, 0};
-    };
+    private:
+        Real _scale{1.1};
+        size_t _n{0}, _i{0}, _r{4}, _c{1};
+        Vec2 _step{0,0};
 
-    using RectList   = SimpleArray<IndexRect>;
-    using RectArray  = SimpleArray<Rect>;
-    using SortedBins = SimpleArray<RectList>;
+    public:
+        explicit TreeStep(Real sc, size_t sz);
+
+        void step(Vec2& offs);
+    };
 
 }  // namespace Rt2::Math::BinPack

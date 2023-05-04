@@ -32,15 +32,14 @@ namespace Rt2::Math::BinPack
     enum Options
     {
         SORT_MIN       = 0x001,
-        SORT_X         = 0x002,
-        SORT_Y         = 0x004,
-        MIN_AREA_MIN   = 0x008,
-        MIN_AREA_MAX   = 0x010,
-        MAX_AREA_MIN   = 0x020,
-        MAX_AREA_MAX   = 0x040,
-        BEST_FIT_MAX   = 0x080,
-        BEST_FIT_FIRST = 0x100,
-        BEST_FIT_LAST  = 0x200,
+        USE_PARAM      = 0x002,
+        MIN_AREA_MIN   = 0x004,
+        MIN_AREA_MAX   = 0x008,
+        MAX_AREA_MIN   = 0x010,
+        MAX_AREA_MAX   = 0x020,
+        BEST_FIT_MAX   = 0x040,
+        BEST_FIT_FIRST = 0x080,
+        BEST_FIT_LAST  = 0x100,
     };
 
     class Pack
@@ -55,7 +54,7 @@ namespace Rt2::Math::BinPack
         SortedBins _bins;
         int        _options{0};
 
-        static Real param(int op, const Rect& r);
+        static Real param(int op, const IndexRect& r);
 
     public:
         Pack();
@@ -65,7 +64,7 @@ namespace Rt2::Math::BinPack
 
         void push(const Rect& rect);
 
-        void push(U32 index, const Rect& rect);
+        void push(U32 index, size_t param, const Rect& rect);
 
         void setOptions(int op);
 
@@ -118,13 +117,9 @@ namespace Rt2::Math::BinPack
 
         static Rect randSquare(I32 min, I32 max);
 
-        static bool sortAscX(const IndexRect& a, const IndexRect& b);
+        static bool sortAscP(const IndexRect& a, const IndexRect& b);
 
-        static bool sortDescX(const IndexRect& a, const IndexRect& b);
-
-        static bool sortAscY(const IndexRect& a, const IndexRect& b);
-
-        static bool sortDescY(const IndexRect& a, const IndexRect& b);
+        static bool sortDescP(const IndexRect& a, const IndexRect& b);
 
         static bool sortAscA(const IndexRect& a, const IndexRect& b);
 

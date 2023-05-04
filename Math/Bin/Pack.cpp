@@ -23,13 +23,13 @@ namespace Rt2::Math::BinPack
     void Pack::push(const Rect& rect)
     {
         _bounds.merge(rect.w, rect.h);
-        _input.push_back({_input.size(), rect});
+        _input.push_back({_input.size(), 0, rect});
     }
 
-    void Pack::push(const U32 index, const Rect& rect)
+    void Pack::push(const U32 index, const size_t param, const Rect& rect)
     {
         _bounds.merge(rect.w, rect.h);
-        _input.push_back({index, rect});
+        _input.push_back({index, param, rect});
     }
 
     void Pack::pack(const Vec2& size)
@@ -66,6 +66,7 @@ namespace Rt2::Math::BinPack
                 _output.push_back(
                     {
                         r.index,
+                        r.sortParam,
                         Rect(r.rect.x + step.x, r.rect.y + step.y, r.rect.w, r.rect.h),
                     });
                 _bounds.merge(_output.back().rect);
@@ -107,13 +108,11 @@ namespace Rt2::Math::BinPack
         return _bounds.maximum();
     }
 
-    Real Pack::param(const int op, const Rect& r)
+    Real Pack::param(const int op, const IndexRect& r)
     {
-        if (op & SORT_X)
-            return r.w;
-        if (op & SORT_Y)
-            return r.h;
-        return r.area();
+        if (op & USE_PARAM)
+            return Real(r.sortParam);
+        return r.rect.area();
     }
 
     void Pack::sort()
@@ -121,19 +120,12 @@ namespace Rt2::Math::BinPack
         using SortFunction = std::function<bool(const IndexRect& a, const IndexRect& b)>;
         SortFunction func;
 
-        if (_options & SORT_X)
+        if (_options & USE_PARAM)
         {
             if (_options & SORT_MIN)
-                func = PackUtils::sortAscX;
+                func = PackUtils::sortAscP;
             else
-                func = PackUtils::sortDescX;
-        }
-        else if (_options & SORT_Y)
-        {
-            if (_options & SORT_MIN)
-                func = PackUtils::sortAscY;
-            else
-                func = PackUtils::sortDescY;
+                func = PackUtils::sortDescP;
         }
         else
         {
@@ -148,7 +140,7 @@ namespace Rt2::Math::BinPack
 
     void Pack::modSort(Real mod)
     {
-        using Accessor = std::function<Real(int, const Rect&)>;
+        using Accessor = std::function<Real(int, const IndexRect&)>;
 
         Accessor method = param;
         int      op     = _options;
@@ -158,8 +150,8 @@ namespace Rt2::Math::BinPack
                   [mod, method, op](const IndexRect& a, const IndexRect& b)
                   {
                       if (op & SORT_MIN)
-                          return RtFmod(method(op, a.rect), mod) < RtFmod(method(op, b.rect), mod);
-                      return RtFmod(method(op, a.rect), mod) > RtFmod(method(op, b.rect), mod);
+                          return RtFmod(method(op, a), mod) < RtFmod(method(op, b), mod);
+                      return RtFmod(method(op, a), mod) > RtFmod(method(op, b), mod);
                   });
     }
 
@@ -176,24 +168,14 @@ namespace Rt2::Math::BinPack
         return {0, 0, r1, r1};
     }
 
-    bool PackUtils::sortAscX(const IndexRect& a, const IndexRect& b)
+    bool PackUtils::sortAscP(const IndexRect& a, const IndexRect& b)
     {
-        return a.rect.w < b.rect.w;
+        return a.sortParam < b.sortParam;
     }
 
-    bool PackUtils::sortDescX(const IndexRect& a, const IndexRect& b)
+    bool PackUtils::sortDescP(const IndexRect& a, const IndexRect& b)
     {
-        return a.rect.w > b.rect.w;
-    }
-
-    bool PackUtils::sortAscY(const IndexRect& a, const IndexRect& b)
-    {
-        return a.rect.h < b.rect.h;
-    }
-
-    bool PackUtils::sortDescY(const IndexRect& a, const IndexRect& b)
-    {
-        return a.rect.h > b.rect.h;
+        return a.sortParam > b.sortParam;
     }
 
     bool PackUtils::sortAscA(const IndexRect& a, const IndexRect& b)

@@ -105,9 +105,8 @@ namespace Rt2::Math::BinPack
 
                 split(cdj, sz, d0, d1);
                 push({
-                    rect.index, {pt, sz}
+                    rect.index, rect.sortParam, {pt, sz}
                 });
-
                 _disjoint.remove(bf);
 
                 _disjoint.push_back(d0);

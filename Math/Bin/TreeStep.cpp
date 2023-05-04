@@ -19,21 +19,31 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#pragma once
-#include "Math/Rect.h"
-#include "Utils/Array.h"
+#include "Math/Bin/TreeStep.h"
 
 namespace Rt2::Math::BinPack
 {
-    struct IndexRect
+    TreeStep::TreeStep(const Real sc, size_t sz)
     {
-        U32    index{0};
-        size_t sortParam{0};
-        Rect   rect{0, 0, 0, 0};
-    };
+        _n     = sz;
+        _scale = sc;
+    }
 
-    using RectList   = SimpleArray<IndexRect>;
-    using RectArray  = SimpleArray<Rect>;
-    using SortedBins = SimpleArray<RectList>;
+    void TreeStep::step(Vec2& offs)
+    {
+        if (_i != 0)
+        {
+            if (_i==1)
+            {
+                _step.y += _scale;
+                _step.x = (-Real(_n-1) * _scale) * Half;
+            }
+            _step.x += _scale;
+        }
 
+        offs.x = _step.x;
+        offs.y = _step.y;
+
+        ++_i;
+    }
 }  // namespace Rt2::Math::BinPack
