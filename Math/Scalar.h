@@ -31,10 +31,12 @@ namespace Rt2::Math
     using Real              = double;
     constexpr Real Epsilon  = DBL_EPSILON;
     constexpr Real Infinity = DBL_MAX;
+    constexpr Real E        = 2.7182818284590452353602874713527;
 #else
     using Real              = float;
     constexpr Real Epsilon  = FLT_EPSILON;
     constexpr Real Infinity = FLT_MAX;
+    constexpr Real E        = float(2.7182818284590452353602874713527);
 #endif
     constexpr Real Zero      = Real(0.0);
     constexpr Real One       = Real(1.0);
