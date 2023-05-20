@@ -19,12 +19,10 @@
   3. This notice may not be removed or altered from any source distribution.
 -------------------------------------------------------------------------------
 */
-#include "Math/Box3d.h"
 #include "Math/Color.h"
 #include "Math/Mat3.h"
 #include "Math/Rand.h"
 #include "Math/Rect.h"
-#include "Utils/Console.h"
 #include "Utils/StreamMethods.h"
 #include "gtest/gtest.h"
 #include "Math/Print.h"
