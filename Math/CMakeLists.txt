@@ -1,5 +1,4 @@
 set(TargetName Math)
-
 include(GroupSet)
 
 set_group(Math_SRC
