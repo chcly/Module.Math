@@ -33,6 +33,7 @@ if (Math_ExternalTarget)
 else()
     add_subdirectory(CMake)
     add_subdirectory(Internal/Utils)
+    include(${Utils_SOURCE_DIR}/CMake/Locals.cmake)
 
     set(TargetFolders TRUE)
     set(TargetName Math)
