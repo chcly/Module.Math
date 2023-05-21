@@ -15,7 +15,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/Config.h.in
 include_directories(
  ${Math_INCLUDE} 
  ${Utils_INCLUDE}
- ${CMAKE_CURRENT_BINARY_DIR}
+ ${CMAKE_CURRENT_BINARY_DIR}/../
 )
 
 add_library(
